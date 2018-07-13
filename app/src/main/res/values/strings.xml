@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FBUNewsApp</string>
+    <string name="liberal">Liberal</string>
+    <string name="conservative">Conservative</string>
 </resources>
