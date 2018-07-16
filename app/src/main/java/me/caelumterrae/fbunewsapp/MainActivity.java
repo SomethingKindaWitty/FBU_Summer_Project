@@ -27,11 +27,13 @@ public class MainActivity extends AppCompatActivity {
         p1.setBody("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidentokof faa STOP | everything beyond STOP should not be displayed inside the post quick blerb (STOP is at 100 chars)");
         p1.setImageUrl("https://pbs.twimg.com/profile_images/962170088941019136/lgpCD8X4_400x400.jpg");
         p1.setPoliticalBias(90);
+        p1.setDate("3 minutes ago");
         // p2 has no media
         Post p2 = new Post();
         p2.setTitle("L: HAS NO MEDIA, HAS 2 RELATED POSTS");
         p2.setBody("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidentokof faa STOP | everything beyond STOP should not be displayed inside the post quick blerb (STOP is at 100 chars)");
-        p1.setPoliticalBias(10);
+        p2.setPoliticalBias(10);
+        p2.setDate("7 minutes ago");
         // p2 has no media
         Post p3 = new Post();
         p3.setTitle("L: SUPER LONG TITLE & BODY. SUPER LONG TITLE. SUPER LONG TITLE. SUPER LONG TITLE. SUPER LONG TITLE. SUPER LONG TITLE. SUPER LONG TITLE STOP");
@@ -45,15 +47,17 @@ public class MainActivity extends AppCompatActivity {
                 "\n" +
                 "Morbi non arcu risus quis varius quam. Lectus magna fringilla urna porttitor rhoncus dolor purus non enim. Sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus. Ornare aenean euismod elementum nisi quis. Nibh ipsum consequat nisl vel pretium lectus quam id leo. Mauris commodo quis imperdiet massa tincidunt nunc. Nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet. Nisl purus in mollis nunc sed id semper risus in. Tempor nec feugiat nisl pretium fusce id velit ut. Sit amet volutpat consequat mauris. Feugiat vivamus at augue eget arcu dictum varius duis. Quam lacus suspendisse faucibus interdum posuere lorem ipsum dolor sit. Sed viverra ipsum nunc aliquet bibendum enim facilisis. Neque ornare aenean euismod elementum nisi quis eleifend quam. Ut morbi tincidunt augue interdum velit. Id velit ut tortor pretium viverra suspendisse.");
         p3.setImageUrl("https://i.pinimg.com/originals/66/12/7a/66127a9bdf5c5f62402331976c0d9f7e.jpg");
-        p1.setPoliticalBias(3);
+        p3.setPoliticalBias(3);
+        p3.setDate("4 hours ago");
 
         Post p4 = new Post();
         p4.setTitle("M: HAS NO MEDIA, HAS 4 RELATED POSTS");
         p4.setBody("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidentokof faa STOP | everything beyond STOP should not be displayed inside the post quick blerb (STOP is at 100 chars)");
-        p1.setPoliticalBias(50);
+        p4.setPoliticalBias(50);
+        p4.setDate("1 day ago");
 
         ArrayList<Post> related_p2 = new ArrayList<>();
-        related_p2.add(p2);
+        related_p2.add(p1);
         related_p2.add(p3);
         p2.setRelatedPosts(related_p2);
 
