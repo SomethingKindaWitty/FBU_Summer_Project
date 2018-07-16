@@ -32,7 +32,11 @@ public class Post {
     }
 
     public String getBody(int lim){
-        return body.substring(0, lim);
+        if (body.length() < lim){
+            return body;
+        }else {
+            return body.substring(0, lim);
+        }
     }
 
     public void setBody(String b){
