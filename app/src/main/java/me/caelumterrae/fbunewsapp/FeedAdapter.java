@@ -54,6 +54,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         Glide.with(context)
                 .load(post.getImageUrl())
                 .apply(new RequestOptions().transform(new RoundedCornersTransformation(10,10)))
+                .apply(RequestOptions.fitCenterTransform())
                 .into(viewHolder.ivImage);
     }
 

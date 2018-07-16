@@ -14,6 +14,7 @@ public class Post {
     List<Post> relatedPosts;
     int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
     String date;
+    String url;
   
     //for Parceler if used
     public Post(){
@@ -44,8 +45,13 @@ public class Post {
         imageUrl = url;
     }
 
-    public String getBody() {
-        return body;
+    public String getBody(int lim)
+    {
+        if (body.length() < lim){
+            return body;
+        }else {
+            return body.substring(0, lim);
+        }
     }
 
     public void setBody(String b){
