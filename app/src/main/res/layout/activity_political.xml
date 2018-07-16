@@ -18,7 +18,7 @@
         android:textSize="24sp" />
 
     <SeekBar
-        android:id="@+id/tvSeekBar"
+        android:id="@+id/sbSeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -31,32 +31,33 @@
         android:id="@+id/tvLiberal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvSeekBar"
-        android:layout_below="@+id/tvSeekBar"
+        android:layout_alignStart="@+id/sbSeekBar"
+        android:layout_below="@+id/sbSeekBar"
         android:text="@string/liberal" />
 
     <TextView
         android:id="@+id/tvConservative"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvSeekBar"
-        android:layout_below="@+id/tvSeekBar"
+        android:layout_alignEnd="@+id/sbSeekBar"
+        android:layout_below="@+id/sbSeekBar"
         android:text="@string/conservative" />
 
     <Button
-        android:id="@+id/tvSubmit"
+        android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
+        android:onClick="onSubmit"
         android:text="Submit" />
 
     <TextView
         android:id="@+id/tvModerate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvSeekBar"
+        android:layout_below="@+id/sbSeekBar"
         android:layout_centerHorizontal="true"
         android:text="Moderate" />
 
