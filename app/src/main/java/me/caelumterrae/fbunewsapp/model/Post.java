@@ -6,21 +6,30 @@ import java.util.List;
 
 @Parcel
 public class Post {
-    private String title;
-    private String url;
-    private String imageUrl;
-    private String body;
-    private String summary;
-    private List<Post> relatedPosts;
-    private int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
+  
+    String title;
+    String imageUrl;
+    String body;
+    String summary;
+    List<Post> relatedPosts;
+    int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
     String date;
+  
     //for Parceler if used
     public Post(){
         
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
+    }
+
+    public String getTitle(int lim){
+        if (title.length() < lim){
+            return title;
+        }else {
+            return title.substring(0, lim);
+        }
     }
 
     public void setTitle(String t){

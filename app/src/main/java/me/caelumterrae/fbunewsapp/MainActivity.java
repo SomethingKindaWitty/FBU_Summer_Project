@@ -3,6 +3,8 @@ package me.caelumterrae.fbunewsapp;
 import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +14,25 @@ import me.caelumterrae.fbunewsapp.model.Post;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Post> posts;
+    RecyclerView rvPosts;
+    FeedAdapter feedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //find the RecyclerView
+        rvPosts = (RecyclerView) findViewById(R.id.rvPost);
+        //init the ArrayList (data source)
+        posts = new ArrayList<>();
+        //construct adapter from data source
+        feedAdapter = new FeedAdapter(posts);
+        //RecyclerView setup (layout manager, use adapter)
+        rvPosts.setLayoutManager(new LinearLayoutManager(this));
+        //set adapter
+        rvPosts.setAdapter(feedAdapter);
+
         populateMockData();
     }
 

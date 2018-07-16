@@ -48,8 +48,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         Post post = mPosts.get(index);
 
         //populate the views
-        viewHolder.tvTitle.setText(post.getTitle());
-        viewHolder.tvBody.setText(post.getBody(20));
+        viewHolder.tvTitle.setText(post.getTitle(25));
+        viewHolder.tvBody.setText(post.getBody(100));
 
         Glide.with(context)
                 .load(post.getImageUrl())
