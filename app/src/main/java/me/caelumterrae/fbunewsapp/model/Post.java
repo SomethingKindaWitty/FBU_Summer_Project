@@ -13,6 +13,7 @@ public class Post {
     private String body;
     private List<Post> relatedPosts;
     private int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
+    String date;
     //for Parceler if used
     public Post(){
         
@@ -60,5 +61,13 @@ public class Post {
 
     public void setPoliticalBias(int politicalBias) {
         this.politicalBias = politicalBias;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
