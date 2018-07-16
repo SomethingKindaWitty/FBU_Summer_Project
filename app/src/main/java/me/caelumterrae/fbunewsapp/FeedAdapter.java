@@ -49,7 +49,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
 
         //populate the views
         viewHolder.tvTitle.setText(post.getTitle(25));
-        viewHolder.tvBody.setText(post.getBody(100));
+        viewHolder.tvBody.setText(post.getSummary(100));
+        viewHolder.tvDate.setText(post.getDate());
 
         Glide.with(context)
                 .load(post.getImageUrl())
@@ -81,6 +82,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         public ImageView ivImage;
         public TextView tvBody;
         public TextView tvTitle;
+        public TextView tvDate;
 
         public ViewHolder(View itemView){
 
@@ -89,6 +91,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
             ivImage = (ImageView) itemView.findViewById(R.id.image);
             tvBody = (TextView) itemView.findViewById(R.id.body);
             tvTitle = (TextView) itemView.findViewById(R.id.title);
+            tvDate = (TextView) itemView.findViewById(R.id.timestamp);
 
             itemView.setOnClickListener(this);
         }
