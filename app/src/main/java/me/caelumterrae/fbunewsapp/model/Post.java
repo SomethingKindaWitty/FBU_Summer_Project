@@ -2,8 +2,11 @@ package me.caelumterrae.fbunewsapp.model;
 
 import android.widget.ProgressBar;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 
+@Parcel
 public class Post {
     private String title;
     private String imageUrl;
