@@ -1,7 +1,5 @@
 package me.caelumterrae.fbunewsapp.model;
 
-import android.widget.ProgressBar;
-
 import org.parceler.Parcel;
 
 import java.util.List;
@@ -36,7 +34,7 @@ public class Post {
     }
 
     public String getBody(int lim){
-        if (body.length() < lim){
+        if (body.length() < lim  || lim == -1){
             return body;
         }else {
             return body.substring(0, lim);
