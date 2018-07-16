@@ -8,6 +8,7 @@ import java.util.List;
 
 @Parcel
 public class Post {
+
   
     String title;
     String imageUrl;
@@ -26,15 +27,17 @@ public class Post {
     public static Post fromJSON(JSONObject jsonObject) throws JSONException{
         Post post = new Post();
 
-        post.setBody(null);
         post.setDate(jsonObject.getString("publishedAt"));
         post.setImageUrl(jsonObject.getString("urlToImage"));
         post.setSummary(jsonObject.getString("description"));
-        post.setRelatedPosts(null);
         post.setTitle(jsonObject.getString("title"));
         post.setUrl(jsonObject.getString("url"));
         post.setPoliticalBias(0);
-
+        if (jsonObject.getString("description").equals("null")) {
+            post.setSummary("");
+        } else {
+            post.setSummary(jsonObject.getString("description"));
+        }
         return post;
     }
 
