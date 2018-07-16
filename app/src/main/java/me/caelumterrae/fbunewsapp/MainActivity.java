@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.model.Post;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
         //set adapter
         rvPosts.setAdapter(feedAdapter);
 
-        populateMockData();
+        // populateMockData();
+
+        TopNewsClient client = new TopNewsClient();
+        client.getTopNews(feedAdapter, posts);
     }
 
     private void populateMockData() {

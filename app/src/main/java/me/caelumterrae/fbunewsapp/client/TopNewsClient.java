@@ -25,8 +25,9 @@ public class TopNewsClient extends AppCompatActivity {
     public static final String API_KEY = "403530691b5d4a39bcc661496af91ce8";
     public final static String API_KEY_PARAM = "apiKey";
     public final static String API_BASE_URL = "https://newsapi.org/v2"; // base API url
+    public final static String COUNTRY_KEY_PARAM = "country";
+    public final static String COUNTRY = "us";
     public final static String ROOT_NODE = "articles";
-    ArrayList<Post> posts;
     AsyncHttpClient client;
 
     // Instantiates new Top News Client that extracts hottest news posts from NewsApi.org
@@ -37,9 +38,10 @@ public class TopNewsClient extends AppCompatActivity {
 
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
-    public void getTopNews(final FeedAdapter feedAdapter) {
-        String url = API_BASE_URL + "/sources"; // create url -- endpoint is /sources
+    public void getTopNews(final FeedAdapter feedAdapter, final ArrayList<Post> posts) {
+        String url = API_BASE_URL + "/top-headlines"; // create url -- endpoint is /sources
         RequestParams params = new RequestParams();
+        params.put(COUNTRY_KEY_PARAM, COUNTRY);
         params.put(API_KEY_PARAM, API_KEY); // TODO: Make Api Key Secret
 
         client.get(url, params, new JsonHttpResponseHandler() {

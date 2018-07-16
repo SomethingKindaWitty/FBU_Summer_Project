@@ -33,7 +33,11 @@ public class Post {
         post.setTitle(jsonObject.getString("title"));
         post.setUrl(jsonObject.getString("url"));
         post.setPoliticalBias(0);
-
+        if (jsonObject.getString("description").equals("null")) {
+            post.setSummary("");
+        } else {
+            post.setSummary(jsonObject.getString("description"));
+        }
         return post;
     }
 
