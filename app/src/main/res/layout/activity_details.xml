@@ -36,6 +36,14 @@
         android:layout_below="@+id/ivMedia"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus arcu dolor, porttitor non velit eget, suscipit pellentesque nisl. Phasellus et nisi commodo, ullamcorper justo et."
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus arcu dolor, porttitor non velit eget, suscipit pellentesque nisl."
         android:textSize="20sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvRelated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvBody"
+        android:orientation="horizontal" />
 </RelativeLayout>
