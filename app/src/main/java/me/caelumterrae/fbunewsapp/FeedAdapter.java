@@ -48,7 +48,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         Post post = mPosts.get(index);
 
         //populate the views
-        viewHolder.tvTitle.setText(post.getTitle(25));
+        viewHolder.tvTitle.setText(post.getTitle());
         viewHolder.tvBody.setText(post.getSummary(100));
         viewHolder.tvDate.setText(post.getDate());
 
