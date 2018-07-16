@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -19,7 +22,7 @@ import me.caelumterrae.fbunewsapp.model.Post;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
 
-    private List<Post> mPosts;
+    List<Post> mPosts;
     Context context;
 
     //constructor for posts array
@@ -72,7 +75,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
     }
 
     //create the ViewHolder class
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public ImageView tvImage;
         public TextView tvBody;
@@ -85,8 +88,26 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
             tvImage = (ImageView) itemView.findViewById(R.id.image);
             tvBody = (TextView) itemView.findViewById(R.id.body);
             tvTitle = (TextView) itemView.findViewById(R.id.title);
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            //item position
+            int position = getAdapterPosition();
+            //make sure position exists in view
+            if (position != RecyclerView.NO_POSITION){
+                //get post
+                Post post = mPosts.get(position);
+                //create intent
+                Intent intent = new Intent(context, DetailsActivity.class);
+                // serialize the movie using parceler, use its short name as a key
+                intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+                // show the activity
+                context.startActivity(intent);
+            }
+        }
     }
 
 }
