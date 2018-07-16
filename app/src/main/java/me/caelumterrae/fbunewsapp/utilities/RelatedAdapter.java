@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -37,7 +39,7 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
         View relatedView = inflater.inflate(R.layout.item_related_post, viewGroup, false);
 
         ViewHolder viewHolder = new ViewHolder(relatedView);
-        return null;
+        return viewHolder;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
         Post post = relatedPosts.get(position);
 
         // Initialize the fields of all the required parts
-        holder.tvTitle.setText(post.getTitle());
+        holder.tvTitle.setText(post.getTitle(25));
         Glide.with(context)
                 .load(post.getImageUrl())
                 .apply(new RequestOptions().transform(new RoundedCornersTransformation(10,10)))
@@ -70,8 +72,10 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-            //TODO: pass the post using Parcels to the Details Activity class
+            int position = getAdapterPosition();
+            Post post = relatedPosts.get(position);
             Intent i = new Intent(context, DetailsActivity.class);
+            i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
             context.startActivity(i);
         }
     }

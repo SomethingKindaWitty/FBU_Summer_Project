@@ -26,7 +26,7 @@ public class Post {
     }
 
     public String getTitle(int lim){
-        if (title.length() < lim){
+        if (title.length() < lim || lim == -1){
             return title;
         }else {
             return title.substring(0, lim);
@@ -52,6 +52,10 @@ public class Post {
         }else {
             return body.substring(0, lim);
         }
+    }
+
+    public String getBody() {
+        return body;
     }
 
     public void setBody(String b){
