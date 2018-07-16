@@ -1,9 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:fontFamily="serif"
+        android:gravity="center_horizontal"
+        android:text="Title"
+        android:textSize="36sp"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <ImageView
+        android:id="@+id/ivMedia"
+        android:layout_width="208dp"
+        android:layout_height="208dp"
+        android:layout_below="@+id/tvTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <TextView
+        android:id="@+id/tvBody"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivMedia"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus arcu dolor, porttitor non velit eget, suscipit pellentesque nisl. Phasellus et nisi commodo, ullamcorper justo et."
+        android:textSize="20sp" />
+</RelativeLayout>
