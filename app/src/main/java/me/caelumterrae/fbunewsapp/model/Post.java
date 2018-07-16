@@ -1,5 +1,7 @@
 package me.caelumterrae.fbunewsapp.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import java.util.List;
@@ -13,10 +15,17 @@ public class Post {
     private String summary;
     private List<Post> relatedPosts;
     private int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
-    String date;
+    private String date;
     //for Parceler if used
-    public Post(){
-        
+    public Post(JSONObject object) throws JSONException {
+        title = object.getString("title");
+        url = object.getString("url");
+        imageUrl = object.getString("urlToImage");
+        summary = object.getString("description");
+        date = object.getString("publishedAt");
+    }
+    public Post() {
+
     }
 
     public String getTitle(){
