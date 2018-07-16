@@ -15,7 +15,7 @@ import java.io.IOException;
 public class PoliticalActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
-    String affiliationNum;
+    private String affiliationNum;
     private static final String FILE_NAME = "political_affiliation.txt";
 
     @Override
