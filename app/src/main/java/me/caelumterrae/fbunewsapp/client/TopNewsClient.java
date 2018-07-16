@@ -50,7 +50,7 @@ public class TopNewsClient extends AppCompatActivity {
                 try {
                     JSONArray results = response.getJSONArray(ROOT_NODE);
                     for (int i = 0; i < results.length(); i++) {
-                        Post post = new Post(results.getJSONObject(i));
+                        Post post = Post.fromJSON(results.getJSONObject(i));
                         posts.add(post);
                         // notify adapter that a row was added
                         feedAdapter.notifyItemInserted(posts.size()-1); // latest item

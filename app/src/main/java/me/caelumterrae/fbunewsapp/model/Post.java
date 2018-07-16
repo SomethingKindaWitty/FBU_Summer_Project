@@ -8,28 +8,45 @@ import java.util.List;
 
 @Parcel
 public class Post {
-    private String title;
-    private String url;
-    private String imageUrl;
-    private String body;
-    private String summary;
-    private List<Post> relatedPosts;
-    private int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
-    private String date;
+
+  
+    String title;
+    String imageUrl;
+    String body;
+    String summary;
+    List<Post> relatedPosts;
+    int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
+    String date;
+    String url;
+  
     //for Parceler if used
-    public Post(JSONObject object) throws JSONException {
-        title = object.getString("title");
-        url = object.getString("url");
-        imageUrl = object.getString("urlToImage");
-        summary = object.getString("description");
-        date = object.getString("publishedAt");
-    }
-    public Post() {
+    public Post(){
 
     }
 
-    public String getTitle(){
+    public static Post fromJSON(JSONObject jsonObject) throws JSONException{
+        Post post = new Post();
+
+        post.setDate(jsonObject.getString("publishedAt"));
+        post.setImageUrl(jsonObject.getString("urlToImage"));
+        post.setSummary(jsonObject.getString("description"));
+        post.setTitle(jsonObject.getString("title"));
+        post.setUrl(jsonObject.getString("url"));
+        post.setPoliticalBias(0);
+
+        return post;
+    }
+
+    public String getTitle() {
         return title;
+    }
+
+    public String getTitle(int lim){
+        if (title.length() < lim || lim == -1){
+            return title;
+        }else {
+            return title.substring(0, lim);
+        }
     }
 
     public void setTitle(String t){
@@ -42,6 +59,15 @@ public class Post {
 
     public void setImageUrl(String url){
         imageUrl = url;
+    }
+
+    public String getBody(int lim)
+    {
+        if (body.length() < lim){
+            return body;
+        }else {
+            return body.substring(0, lim);
+        }
     }
 
     public String getBody() {
@@ -76,8 +102,12 @@ public class Post {
         this.date = date;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getSummary(int lim) {
+        if (summary.length() < lim){
+            return summary;
+        }else {
+            return summary.substring(0, lim);
+        }
     }
 
     public void setSummary(String summary) {

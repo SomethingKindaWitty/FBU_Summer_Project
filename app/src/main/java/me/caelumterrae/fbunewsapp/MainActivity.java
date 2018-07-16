@@ -1,22 +1,36 @@
 package me.caelumterrae.fbunewsapp;
 
-import android.graphics.Movie;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.caelumterrae.fbunewsapp.model.Post;
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Post> posts;
+    RecyclerView rvPosts;
+    FeedAdapter feedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //find the RecyclerView
+        rvPosts = (RecyclerView) findViewById(R.id.rvPost);
+        //init the ArrayList (data source)
+        posts = new ArrayList<>();
+        //construct adapter from data source
+        feedAdapter = new FeedAdapter(posts);
+        //RecyclerView setup (layout manager, use adapter)
+        rvPosts.setLayoutManager(new LinearLayoutManager(this));
+        //set adapter
+        rvPosts.setAdapter(feedAdapter);
+
         populateMockData();
     }
 
@@ -35,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         p2.setTitle("L: HAS NO MEDIA, No summary, HAS 2 RELATED POSTS");
         p2.setBody("NEW YORK (AP) — Major U.S. indexes closed mostly lower Monday as investors bought banks but sold most other types of stocks, including health care and technology companies. Energy stocks sank along with oil prices. Oil prices fell more than 4 percent after U.S. officials suggested the U.S. will take a softer stance on countries that import oil from Iran after sanctions on Iran's energy sector go back into effect in November. Banks rose along with interest rates as well as a solid second-quarter report from Bank of America. A strong forecast gave Deutsche Bank its biggest gain in more than a year. Amazon jumped in midday trading as investors expected strong sales during the company's annual Prime Day promotion, one of its largest sales days of the year, but the stock gave up much of that gain following problems with the company's website. Most other groups of stocks lost ground, and about two-thirds of the companies on the New York Stock Exchange finished lower. Stocks finished at five-month highs Friday as investors remained optimistic about the U.S. economy even as they worried about the trade war between the U.S. and China. We're coming off of a very strong week last week where the market finally started to focus on the expectation of a very strong earnings season, said Sunitha Thomas, a portfolio advisor for Northern Trust Wealth Management. She said companies are likely to report big increases in profit and revenue, and while investors are looking for hints the trade war is affecting company forecasts and supply chains, there were no signs of that on Monday. The S&P 500 index lost 2.88 points, or 0.1 percent, to 2,798.43. The Dow Jones Industrial Average rose 44.95 points, or 0.2 percent, to 25,064.36 as Goldman Sachs, JPMorgan Chase, and Boeing climbed. The Nasdaq composite fell 20.26 points, or 0.3 percent, to 7,805.72. The Russell 2000 index of smaller-company stocks declined 8.54 points, or 0.5 percent, to 1,678.54. Bank of America's second-quarter profits jumped, as like other big banks, it got a big boost from the corporate tax cut at the end of 2017 and from higher interest rates. Unlike Wells Fargo and Citigroup, which disclosed their results Friday, Bank of America did better than Wall Street expected. Its stock rose 4.3 percent to $29.78. Deutsche Bank jumped 8 percent to $12.14 after it said its earnings will be considerably higher than analysts expected. Deutsche Bank stock has tumbled as the company has taken three years of losses based on high costs and big fines and penalties linked to past misconduct. Benchmark U.S. crude fell 4.2 percent to $68.06 in New York. Brent crude, used to price international oils, fell 4.6 percent to $71.84 a barrel in London.");
         p2.setPoliticalBias(10);
+        p2.setSummary("As Prime Day catches on — and brings in billions — workers are finding ways to hit Amazon where it hurts.");
         p2.setDate("2018-07-16T20:42:52Z");
         p2.setUrl("https://www.usnews.com/news/business/articles/2018-07-16/asian-shares-drift-lower-as-china-data-trade-cast-shadows");
         // p2 has no media
@@ -67,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         related_p2.add(p1);
         related_p2.add(p3);
         p2.setRelatedPosts(related_p2);
+        p1.setRelatedPosts(related_p2);
 
         ArrayList<Post> related_p4 = new ArrayList<>();
         related_p4.add(p1);
@@ -74,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         related_p4.add(p3);
         related_p4.add(p4);
         p4.setRelatedPosts(related_p4);
+        p3.setRelatedPosts(related_p4);
 
         posts.add(p1);
         posts.add(p2);
