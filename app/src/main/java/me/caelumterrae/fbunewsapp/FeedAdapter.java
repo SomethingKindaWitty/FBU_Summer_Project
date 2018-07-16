@@ -51,7 +51,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         Glide.with(context)
                 .load(post.getImageUrl())
                 .apply(new RequestOptions().transform(new RoundedCornersTransformation(10,10)))
-                .into(viewHolder.tvImage);
+                .into(viewHolder.ivImage);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
     //create the ViewHolder class
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView tvImage;
+        public ImageView ivImage;
         public TextView tvBody;
         public TextView tvTitle;
 
@@ -82,7 +82,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
 
             super(itemView);
 
-            tvImage = (ImageView) itemView.findViewById(R.id.image);
+            ivImage = (ImageView) itemView.findViewById(R.id.image);
             tvBody = (TextView) itemView.findViewById(R.id.body);
             tvTitle = (TextView) itemView.findViewById(R.id.title);
         }
