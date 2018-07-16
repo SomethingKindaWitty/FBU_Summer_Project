@@ -1,19 +1,20 @@
 package me.caelumterrae.fbunewsapp.model;
 
-import android.widget.ProgressBar;
-
 import org.parceler.Parcel;
 
 import java.util.List;
 
 @Parcel
 public class Post {
+  
     String title;
     String imageUrl;
     String body;
+    String summary;
     List<Post> relatedPosts;
     int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
     String date;
+  
     //for Parceler if used
     public Post(){
         
@@ -43,12 +44,8 @@ public class Post {
         imageUrl = url;
     }
 
-    public String getBody(int lim){
-        if (body.length() < lim){
-            return body;
-        }else {
-            return body.substring(0, lim);
-        }
+    public String getBody() {
+        return body;
     }
 
     public void setBody(String b){
@@ -77,5 +74,21 @@ public class Post {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
