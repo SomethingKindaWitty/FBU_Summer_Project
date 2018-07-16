@@ -1,5 +1,7 @@
 package me.caelumterrae.fbunewsapp.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import java.util.List;
@@ -18,7 +20,22 @@ public class Post {
   
     //for Parceler if used
     public Post(){
-        
+
+    }
+
+    public static Post fromJSON(JSONObject jsonObject) throws JSONException{
+        Post post = new Post();
+
+        post.setBody(null);
+        post.setDate(jsonObject.getString("publishedAt"));
+        post.setImageUrl(jsonObject.getString("urlToImage"));
+        post.setSummary(jsonObject.getString("description"));
+        post.setRelatedPosts(null);
+        post.setTitle(jsonObject.getString("title"));
+        post.setUrl(jsonObject.getString("url"));
+        post.setPoliticalBias(0);
+
+        return post;
     }
 
     public String getTitle() {
@@ -82,8 +99,12 @@ public class Post {
         this.date = date;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getSummary(int lim) {
+        if (summary.length() < lim){
+            return summary;
+        }else {
+            return summary.substring(0, lim);
+        }
     }
 
     public void setSummary(String summary) {
