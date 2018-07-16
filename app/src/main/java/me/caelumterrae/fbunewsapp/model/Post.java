@@ -9,7 +9,7 @@ public class Post {
     private String imageUrl;
     private String body;
     private List<Post> relatedPosts;
-
+    private int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
     //for Parceler if used
     public Post(){
         
@@ -51,5 +51,11 @@ public class Post {
         relatedPosts = posts;
     }
 
+    public int getPoliticalBias() {
+        return politicalBias;
+    }
 
+    public void setPoliticalBias(int politicalBias) {
+        this.politicalBias = politicalBias;
+    }
 }
