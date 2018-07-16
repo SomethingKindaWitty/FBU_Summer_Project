@@ -12,6 +12,9 @@ import com.bumptech.glide.request.RequestOptions;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
@@ -36,12 +39,16 @@ public class DetailsActivity extends AppCompatActivity {
         ivMedia = findViewById(R.id.ivMedia);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        RelatedAdapter relatedAdapter = new RelatedAdapter(post.getRelatedPosts());
+        List<Post> posts = post.getRelatedPosts();
+        if (posts == null){
+            posts = new ArrayList<Post>();
+        }
+        RelatedAdapter relatedAdapter = new RelatedAdapter(posts);
         rvRelated.setLayoutManager(layoutManager);
         rvRelated.setAdapter(relatedAdapter);
 
         tvTitle.setText(post.getTitle());
-        tvBody.setText(post.getBody(-1));
+        tvBody.setText(post.getBody());
         Glide.with(this)
                 .load(post.getImageUrl())
                 .apply(new RequestOptions().transform(new RoundedCornersTransformation(10,10)))

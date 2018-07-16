@@ -1,13 +1,11 @@
 package me.caelumterrae.fbunewsapp;
 
-import android.graphics.Movie;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.caelumterrae.fbunewsapp.model.Post;
 
@@ -83,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         related_p2.add(p1);
         related_p2.add(p3);
         p2.setRelatedPosts(related_p2);
+        p1.setRelatedPosts(related_p2);
 
         ArrayList<Post> related_p4 = new ArrayList<>();
         related_p4.add(p1);
@@ -90,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         related_p4.add(p3);
         related_p4.add(p4);
         p4.setRelatedPosts(related_p4);
+        p3.setRelatedPosts(related_p4);
 
         posts.add(p1);
         posts.add(p2);
