@@ -146,4 +146,5 @@ public class TopNewsClient extends AppCompatActivity {
             }
         });
     }
+
 }
