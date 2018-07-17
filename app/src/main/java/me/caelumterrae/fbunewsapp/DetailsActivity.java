@@ -1,9 +1,13 @@
 package me.caelumterrae.fbunewsapp;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -40,9 +44,12 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvBody;
     ImageView ivMedia;
     Button upVote;
-    Button downVote;
     Post post;
+    Drawable main;
+    Drawable drawable;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +64,6 @@ public class DetailsActivity extends AppCompatActivity {
         tvBody = findViewById(R.id.tvBody);
         ivMedia = findViewById(R.id.ivMedia);
         upVote = findViewById(R.id.btnLike);
-        downVote = findViewById(R.id.btnLike);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         List<Post> posts = post.getRelatedPosts();
@@ -114,16 +120,20 @@ public class DetailsActivity extends AppCompatActivity {
                 .into(ivMedia);
 
 
-        // TODO put the right icon (if it was upvoted before) on page load
+        main = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
+        drawable = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
+        DrawableCompat.setTint(drawable, Color.GREEN);
 
     }
     //  Upvote Button Handler - Saves data from button and brings user to activity main
     public void onUpvote(View v) {
         if (post.isUpvoted()){
             post.setUpvoted(false);
+            upVote.setBackground(main);
         } else {
             // change tint color!
             post.setUpvoted(true);
+            upVote.setBackground(drawable);
         }
     }
 }
