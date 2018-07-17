@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class DetailsActivity extends AppCompatActivity {
     Post post;
     Drawable main;
     Drawable drawable;
+    ProgressBar pb;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -63,6 +65,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvBody = findViewById(R.id.tvBody);
         ivMedia = findViewById(R.id.ivMedia);
         upVote = findViewById(R.id.btnLike);
+        pb = findViewById(R.id.progressBar);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         List<Post> posts = post.getRelatedPosts();
@@ -83,6 +86,7 @@ public class DetailsActivity extends AppCompatActivity {
             parseNewsClient.getData(test, new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    pb.setVisibility(ProgressBar.VISIBLE);
                     try {
                         JSONArray keywords = response.getJSONArray("keywords");
                         String keyword = keywords.getString(0);
@@ -116,9 +120,11 @@ public class DetailsActivity extends AppCompatActivity {
                                 Log.e("TopNewsClient", "Failed to get data from now playing endpoint", throwable);
                             }
                         });
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    pb.setVisibility(ProgressBar.INVISIBLE);
 
                 }
 

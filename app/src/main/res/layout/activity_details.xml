@@ -73,6 +73,14 @@
                 android:onClick="onUpvote"
                 android:background="@android:drawable/ic_menu_more" />
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tvBody"
+                android:layout_centerHorizontal="true" />
+
         </RelativeLayout>
     </ScrollView>
 
