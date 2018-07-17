@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,15 +13,19 @@ import me.caelumterrae.fbunewsapp.model.Post;
 
 public class MainActivity extends AppCompatActivity {
 
+    TopNewsClient client;
     ArrayList<Post> posts;
     RecyclerView rvPosts;
     FeedAdapter feedAdapter;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //set client
+        client = new TopNewsClient();
         //find the RecyclerView
         rvPosts = (RecyclerView) findViewById(R.id.rvPost);
         //init the ArrayList (data source)
@@ -31,10 +36,27 @@ public class MainActivity extends AppCompatActivity {
         rvPosts.setLayoutManager(new LinearLayoutManager(this));
         //set adapter
         rvPosts.setAdapter(feedAdapter);
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                feedAdapter.clear();
+                posts.clear();
+                client.getTopNews(feedAdapter, posts);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_purple);
 
         //populateMockData();
-
-        TopNewsClient client = new TopNewsClient();
         client.getTopNews(feedAdapter, posts);
     }
 
