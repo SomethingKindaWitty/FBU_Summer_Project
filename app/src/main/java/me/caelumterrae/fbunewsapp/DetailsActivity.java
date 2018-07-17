@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +78,8 @@ public class DetailsActivity extends AppCompatActivity {
                     Log.i("TopNewsClient", String.format("Loaded %s posts", results.length()));
                 } catch (JSONException e) {
                     Log.e("TopNewsClient", "Failed to parse top posts", e);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
 
