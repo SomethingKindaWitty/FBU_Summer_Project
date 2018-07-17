@@ -1,7 +1,5 @@
 package me.caelumterrae.fbunewsapp.client;
 
-import android.content.Context;
-import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -17,7 +15,6 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.FeedAdapter;
-import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.model.Post;
 
 public class TopNewsClient extends AppCompatActivity {
@@ -26,6 +23,7 @@ public class TopNewsClient extends AppCompatActivity {
     public final static String API_KEY_PARAM = "apiKey";
     public final static String API_BASE_URL = "https://newsapi.org/v2"; // base API url
     public final static String COUNTRY_KEY_PARAM = "country";
+    public final static String KEYWORD_KEY_PARAM = "q";
     public final static String COUNTRY = "us";
     public final static String ROOT_NODE = "articles";
     AsyncHttpClient client;
@@ -68,6 +66,16 @@ public class TopNewsClient extends AppCompatActivity {
                 Log.e("TopNewsClient", "Failed to get data from now playing endpoint", throwable);
             }
         });
+    }
 
+    // Retrieves ArrayList of Posts given the related keywords from an API
+    public void getRelatedNews(String keyword, JsonHttpResponseHandler jsonHttpResponseHandler){
+        String url = API_BASE_URL + "/top-headlines";
+        RequestParams params = new RequestParams();
+        params.put(COUNTRY_KEY_PARAM, COUNTRY);
+        params.put(API_KEY_PARAM, API_KEY);
+        params.put(KEYWORD_KEY_PARAM, keyword);
+
+        client.get(url, params, jsonHttpResponseHandler);
     }
 }
