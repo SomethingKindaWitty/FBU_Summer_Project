@@ -47,11 +47,15 @@ public class DetailsActivity extends AppCompatActivity {
         rvRelated.setLayoutManager(layoutManager);
         rvRelated.setAdapter(relatedAdapter);
 
+        RequestOptions cropOptions = new RequestOptions().centerCrop();
+        RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10,10));
+        RequestOptions fitCenter = new RequestOptions().fitCenter();
+
         tvTitle.setText(post.getTitle());
         tvBody.setText(post.getBody());
         Glide.with(this)
                 .load(post.getImageUrl())
-                .apply(new RequestOptions().transform(new RoundedCornersTransformation(10,10)))
+                .apply(fitCenter)
                 .into(ivMedia);
     }
 }
