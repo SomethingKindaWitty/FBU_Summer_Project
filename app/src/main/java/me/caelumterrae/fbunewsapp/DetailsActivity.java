@@ -1,14 +1,10 @@
 package me.caelumterrae.fbunewsapp;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,10 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
-
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +106,8 @@ public class DetailsActivity extends AppCompatActivity {
                                     Log.i("TopNewsClient", String.format("Loaded %s posts", results.length()));
                                 } catch (JSONException e) {
                                     Log.e("TopNewsClient", "Failed to parse top posts", e);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
                                 }
                             }
 
