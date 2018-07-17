@@ -64,19 +64,22 @@
 
             <Button
                 android:id="@+id/btnLike"
-                android:layout_width="wrap_content"
+                android:layout_width="51dp"
                 android:layout_height="wrap_content"
+                android:rotationX="180"
                 android:layout_alignStart="@+id/tvTitle"
                 android:layout_below="@+id/tvBody"
-                android:text="Like" />
+                android:background="@android:drawable/ic_menu_more" />
 
             <Button
                 android:id="@+id/btnDislike"
-                android:layout_width="wrap_content"
+                android:layout_width="51dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/tvBody"
-                android:layout_toEndOf="@+id/btnLike"
-                android:text="DIslike" />
+                android:layout_marginStart="88dp"
+                android:background="@android:drawable/ic_menu_more" />
+
         </RelativeLayout>
     </ScrollView>
 

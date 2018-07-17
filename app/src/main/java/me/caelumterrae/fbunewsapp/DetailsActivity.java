@@ -1,10 +1,16 @@
 package me.caelumterrae.fbunewsapp;
 
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +38,11 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvTitle;
     TextView tvBody;
     ImageView ivMedia;
+    Button upVote;
+    Button downVote;
+    Boolean upClicked = false;
+    Boolean downClicked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +56,8 @@ public class DetailsActivity extends AppCompatActivity {
         rvRelated = findViewById(R.id.rvRelated);
         tvBody = findViewById(R.id.tvBody);
         ivMedia = findViewById(R.id.ivMedia);
+        upVote = findViewById(R.id.btnLike);
+        downVote = findViewById(R.id.btnLike);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         List<Post> posts = post.getRelatedPosts();
@@ -99,5 +112,33 @@ public class DetailsActivity extends AppCompatActivity {
                 .load(post.getImageUrl())
                 .apply(fitCenter)
                 .into(ivMedia);
+
+        upVote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (upClicked){
+
+                    upClicked = false;
+                }else{
+                    //upVote.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor()));
+                    upClicked = true;
+                    downClicked = false;
+                }
+
+            }
+        });
+
+        downVote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (downClicked){
+
+                }else{
+                    downClicked = true;
+                    upClicked = false;
+                }
+
+            }
+        });
     }
 }
