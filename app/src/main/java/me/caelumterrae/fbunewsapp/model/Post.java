@@ -1,10 +1,16 @@
 package me.caelumterrae.fbunewsapp.model;
 
+import android.text.format.DateUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Parcel
 public class Post {
@@ -26,8 +32,11 @@ public class Post {
 
     public static Post fromJSON(JSONObject jsonObject) throws JSONException{
         Post post = new Post();
+        
+        String tempTime = jsonObject.getString("publishedAt");
+        int index = tempTime.indexOf("T");
+        post.setDate(tempTime.substring(0,index));
 
-        post.setDate(jsonObject.getString("publishedAt"));
         post.setImageUrl(jsonObject.getString("urlToImage"));
         post.setSummary(jsonObject.getString("description"));
         post.setTitle(jsonObject.getString("title"));
@@ -125,4 +134,5 @@ public class Post {
     public void setUrl(String url) {
         this.url = url;
     }
+
 }
