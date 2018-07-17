@@ -69,6 +69,7 @@
                 android:rotationX="180"
                 android:layout_alignStart="@+id/tvTitle"
                 android:layout_below="@+id/tvBody"
+                android:onClick="onUpvote"
                 android:background="@android:drawable/ic_menu_more" />
 
             <Button
