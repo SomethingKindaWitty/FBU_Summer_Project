@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -40,8 +41,7 @@ public class DetailsActivity extends AppCompatActivity {
     ImageView ivMedia;
     Button upVote;
     Button downVote;
-    Boolean upClicked = false;
-    Boolean downClicked = false;
+    Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
 
 
         // populate the fields using an intent
-        Post post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
+        post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
 
         tvTitle = findViewById(R.id.tvTitle);
         rvRelated = findViewById(R.id.rvRelated);
@@ -62,20 +62,20 @@ public class DetailsActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         List<Post> posts = post.getRelatedPosts();
         // Getting the related posts here.
-        if (posts == null){
+        if (posts == null) {
             posts = new ArrayList<Post>();
         }
 
         final RelatedAdapter relatedAdapter = new RelatedAdapter(posts);
         rvRelated.setLayoutManager(layoutManager);
         rvRelated.setAdapter(relatedAdapter);
-      
+
         TopNewsClient topNewsClient = new TopNewsClient();
 
         final List<Post> finalPosts = posts;
 
         //TODO: update the trump keyword to be the keyword received from the call to our backend
-        topNewsClient.getRelatedNews("trump", new JsonHttpResponseHandler(){
+        topNewsClient.getRelatedNews("trump", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // parse the response to Post object
@@ -86,7 +86,7 @@ public class DetailsActivity extends AppCompatActivity {
                         Post post = Post.fromJSON(results.getJSONObject(i));
                         finalPosts.add(post);
                         // notify adapter that a row was added
-                        relatedAdapter.notifyItemInserted(finalPosts.size()-1); // latest item
+                        relatedAdapter.notifyItemInserted(finalPosts.size() - 1); // latest item
                     }
                     Log.i("TopNewsClient", String.format("Loaded %s posts", results.length()));
                 } catch (JSONException e) {
@@ -103,7 +103,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         RequestOptions cropOptions = new RequestOptions().centerCrop();
-        RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10,10));
+        RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10, 10));
         RequestOptions fitCenter = new RequestOptions().fitCenter();
 
         tvTitle.setText(post.getTitle());
@@ -113,32 +113,17 @@ public class DetailsActivity extends AppCompatActivity {
                 .apply(fitCenter)
                 .into(ivMedia);
 
-        upVote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (upClicked){
 
-                    upClicked = false;
-                }else{
-                    //upVote.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor()));
-                    upClicked = true;
-                    downClicked = false;
-                }
+        // TODO put the right icon (if it was upvoted before) on page load
 
-            }
-        });
-
-        downVote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (downClicked){
-
-                }else{
-                    downClicked = true;
-                    upClicked = false;
-                }
-
-            }
-        });
+    }
+    //  Upvote Button Handler - Saves data from button and brings user to activity main
+    public void onUpvote(View v) {
+        if (post.isUpvoted()){
+            post.setUpvoted(false);
+        } else {
+            // change tint color!
+            post.setUpvoted(true);
+        }
     }
 }

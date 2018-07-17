@@ -23,6 +23,7 @@ public class Post {
     int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
     Date date;
     String url;
+    boolean isUpvoted;
   
     //for Parceler if used
     public Post(){
@@ -144,4 +145,11 @@ public class Post {
         return p.format(date);
     }
 
+    public boolean isUpvoted() {
+        return isUpvoted;
+    }
+
+    public void setUpvoted(boolean upvoted) {
+        isUpvoted = upvoted;
+    }
 }
