@@ -57,7 +57,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         RequestOptions cropOptions = new RequestOptions().centerCrop();
         RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10,10));
 
-        if (post.getImageUrl().equals("null")){
+        if (post.getImageUrl() == null || post.getImageUrl().equals("null")){
             Log.e("ImageURL", " is null");
             viewHolder.ivImage.setVisibility(View.GONE);
         }else{
