@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -90,6 +91,24 @@ public class TopNewsClient extends AppCompatActivity {
         return trimmedUrl.substring(0, endIndex);
     }
 
+    // converts bias string to political affiliation number
+    private int biasToNum(String bias) {
+        if (bias == null) return 50;
+        switch (bias) {
+            case "right":
+                return 100;
+            case "right-center":
+                return 75;
+            case "center":
+                return 50;
+            case "leftcenter":
+                return 25;
+            case "left":
+                return 0;
+            default:
+                return 50;
+        }
+    }
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
     public void getTopNews(final FeedAdapter feedAdapter, final ArrayList<Post> posts) {
@@ -107,12 +126,12 @@ public class TopNewsClient extends AppCompatActivity {
                     JSONArray results = response.getJSONArray(ROOT_NODE);
                     for (int i = 0; i < results.length(); i++) {
                         Post post = Post.fromJSON(results.getJSONObject(i));
-                        String trimmedUrl = trimUrl(post.getUrl());
                         // Sets the political bias of a source like "cnbc.com" to 0(left)-100(right)
-                        // post.setPoliticalBias(BiasToNum(sourceBias.get(trimmedUrl)));
-                        Log.i(TAG, trimmedUrl);
+                        String bias = sourceBias.get(trimUrl(post.getUrl()));
+                        post.setPoliticalBias(biasToNum(bias));
+                        // Log.i(TAG, trimUrl(post.getUrl()) + " " + Integer.toString(biasToNum(bias)) + " " + bias);
+                        // add post and notify adapter that a row was added
                         posts.add(post);
-                        // notify adapter that a row was added
                         feedAdapter.notifyItemInserted(posts.size()-1); // latest item
                     }
                     Log.i(TAG, String.format("Loaded %s posts", results.length()));
