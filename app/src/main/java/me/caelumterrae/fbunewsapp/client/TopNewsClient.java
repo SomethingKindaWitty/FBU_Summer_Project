@@ -2,7 +2,6 @@ package me.caelumterrae.fbunewsapp.client;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -12,10 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.FeedAdapter;
@@ -135,6 +134,8 @@ public class TopNewsClient extends AppCompatActivity {
                     Log.i(TAG, String.format("Loaded %s posts", results.length()));
                 } catch (JSONException e) {
                     Log.e(TAG, "Failed to parse top posts", e);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -152,9 +153,6 @@ public class TopNewsClient extends AppCompatActivity {
         params.put(COUNTRY_KEY_PARAM, COUNTRY);
         params.put(API_KEY_PARAM, API_KEY);
         params.put(KEYWORD_KEY_PARAM, keyword);
-
         client.get(url, params, jsonHttpResponseHandler);
-
     }
-
 }

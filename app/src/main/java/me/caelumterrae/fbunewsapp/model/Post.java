@@ -1,16 +1,15 @@
 package me.caelumterrae.fbunewsapp.model;
 
-import android.text.format.DateUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.parceler.Parcel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.TimeZone;
 
 @Parcel
 public class Post {
@@ -22,7 +21,7 @@ public class Post {
     String summary;
     List<Post> relatedPosts;
     int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
-    String date;
+    Date date;
     String url;
   
     //for Parceler if used
@@ -30,12 +29,17 @@ public class Post {
 
     }
 
-    public static Post fromJSON(JSONObject jsonObject) throws JSONException{
+    public static Post fromJSON(JSONObject jsonObject) throws JSONException, ParseException {
         Post post = new Post();
         
         String tempTime = jsonObject.getString("publishedAt");
-        int index = tempTime.indexOf("T");
-        post.setDate(tempTime.substring(0,index));
+        String example = "\"2018-07-17T17:35:01Z\"";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        int index = tempTime.indexOf("T");
+//        post.setDate(tempTime.substring(0,index));
+        Date date = format.parse(tempTime);
+        post.setDate(date);
 
         post.setImageUrl(jsonObject.getString("urlToImage"));
         post.setSummary(jsonObject.getString("description"));
@@ -107,11 +111,11 @@ public class Post {
         this.politicalBias = politicalBias;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -133,6 +137,11 @@ public class Post {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getRelativeTime() {
+        PrettyTime p = new PrettyTime();
+        return p.format(date);
     }
 
 }
