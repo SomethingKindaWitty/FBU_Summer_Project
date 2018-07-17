@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.parceler.Parcels;
@@ -53,13 +54,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         viewHolder.tvBody.setText(post.getSummary(100));
         viewHolder.tvDate.setText(post.getDate());
 
+        RequestOptions cropOptions = new RequestOptions().centerCrop();
+        RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10,10));
+
         if (post.getImageUrl().equals("null")){
             Log.e("ImageURL", " is null");
             viewHolder.ivImage.setVisibility(View.GONE);
         }else{
             Glide.with(context)
                     .load(post.getImageUrl())
-                    .apply(new RequestOptions().transform(new RoundedCornersTransformation(10,10)))
+                    .apply(cropOptions)
                     .into(viewHolder.ivImage);
         }
 
