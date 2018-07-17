@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.FeedAdapter;
@@ -37,14 +38,16 @@ public class TopNewsClient extends AppCompatActivity {
     // Instantiates new Top News Client that extracts hottest news posts from NewsApi.org
     public TopNewsClient() {
         client = new AsyncHttpClient(); // TODO: close
+        sourceBias = new HashMap<>();
         populateBiasHashMap();
     }
 
     /* Populates sourceBias hashmap with key=URL and value=bias.
-     * Example output {
+     * Example output { `
      *  nytimes.com : leftcenter
      *  democracynow.org : left
-    */ }
+     *  }
+     */
     private void populateBiasHashMap() {
         client.get(MEDIA_BIAS_URL, new JsonHttpResponseHandler() {
             @Override
@@ -57,7 +60,7 @@ public class TopNewsClient extends AppCompatActivity {
                         String value = valueObject.getString("bias");
                         if (response.get(key) instanceof JSONObject ) {
                             sourceBias.put(key, value);
-                            // Log.i(TAG, key + " : " + value);
+                            Log.i(TAG, key + " : " + value);
                         }
                     }
                 } catch (JSONException e) {
@@ -72,6 +75,20 @@ public class TopNewsClient extends AppCompatActivity {
         });
     }
 
+    // Convert "https://www.cnbc.com/2018/3/2..." to "cnbc.com"
+    private String trimUrl (String url) {
+        final String http = "http://";
+        final String https = "https://";
+        final String www = "www.";
+
+        int httpIndex = url.indexOf(http) + http.length();
+        int httpsIndex = url.indexOf(https) + https.length();
+        int wwwIndex = url.indexOf(www) + www.length();
+        int beginIndex = Math.max(Math.max(httpIndex, httpsIndex), wwwIndex);
+        String trimmedUrl = url.substring(beginIndex);
+        int endIndex = trimmedUrl.indexOf("/");
+        return trimmedUrl.substring(0, endIndex);
+    }
 
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
@@ -90,6 +107,10 @@ public class TopNewsClient extends AppCompatActivity {
                     JSONArray results = response.getJSONArray(ROOT_NODE);
                     for (int i = 0; i < results.length(); i++) {
                         Post post = Post.fromJSON(results.getJSONObject(i));
+                        String trimmedUrl = trimUrl(post.getUrl());
+                        // Sets the political bias of a source like "cnbc.com" to 0(left)-100(right)
+                        // post.setPoliticalBias(BiasToNum(sourceBias.get(trimmedUrl)));
+                        Log.i(TAG, trimmedUrl);
                         posts.add(post);
                         // notify adapter that a row was added
                         feedAdapter.notifyItemInserted(posts.size()-1); // latest item
