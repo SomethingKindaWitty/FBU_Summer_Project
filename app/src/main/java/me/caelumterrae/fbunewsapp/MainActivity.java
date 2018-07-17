@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         //set adapter
         rvPosts.setAdapter(feedAdapter);
 
-        // populateMockData();
+        //populateMockData();
 
         TopNewsClient client = new TopNewsClient();
         client.getTopNews(feedAdapter, posts);
