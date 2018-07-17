@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 // once the network request has completed successfully.
                 feedAdapter.clear();
                 posts.clear();
-                client.getTopNews(feedAdapter, posts);
+                //client.getTopNews(feedAdapter, posts);
+                populateMockData();
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -56,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 android.R.color.holo_blue_dark,
                 android.R.color.holo_purple);
 
-        //populateMockData();
-        client.getTopNews(feedAdapter, posts);
+        populateMockData();
+        //client.getTopNews(feedAdapter, posts);
     }
 
     private void populateMockData() {

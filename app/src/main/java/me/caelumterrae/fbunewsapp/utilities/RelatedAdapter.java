@@ -46,11 +46,14 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Post post = relatedPosts.get(position);
 
+        RequestOptions cropOptions = new RequestOptions().centerCrop();
+        RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10,10));
+
         // Initialize the fields of all the required parts
         holder.tvTitle.setText(post.getTitle(25));
         Glide.with(context)
                 .load(post.getImageUrl())
-                .apply(new RequestOptions().transform(new RoundedCornersTransformation(10,10)))
+                .apply(cropOptions)
                 .into(holder.ivPreview);
     }
 
