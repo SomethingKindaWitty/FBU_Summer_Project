@@ -122,12 +122,18 @@ public class DetailsActivity extends AppCompatActivity {
 
         main = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
         drawable = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
-        DrawableCompat.setTint(drawable, Color.GREEN);
+        DrawableCompat.setTint(drawable, getResources().getColor(R.color.green));
+
+        if (post.getUpvoted()){
+            upVote.setBackground(drawable);
+        }else{
+            upVote.setBackground(main);
+        }
 
     }
     //  Upvote Button Handler - Saves data from button and brings user to activity main
     public void onUpvote(View v) {
-        if (post.isUpvoted()){
+        if (post.getUpvoted()){
             post.setUpvoted(false);
             upVote.setBackground(main);
         } else {
