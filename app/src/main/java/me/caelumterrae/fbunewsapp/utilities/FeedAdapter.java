@@ -1,4 +1,4 @@
-package me.caelumterrae.fbunewsapp;
+package me.caelumterrae.fbunewsapp.utilities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import org.parceler.Parcels;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+import me.caelumterrae.fbunewsapp.DetailsActivity;
+import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.model.Post;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
