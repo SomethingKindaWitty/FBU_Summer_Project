@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.FeedAdapter;
+import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 import me.caelumterrae.fbunewsapp.model.Post;
 
 public class TopNewsClient extends AppCompatActivity {
