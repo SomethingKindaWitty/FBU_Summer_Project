@@ -30,6 +30,7 @@ public class Probability {
         BetaDistribution betaDis = new BetaDistribution(alpha, beta);
         // returns a number 1, 2, 3, 4, 5
         // corresponds to: [left (1), left-center (2), moderate (3), right-center (4), right (5)]
+        Log.i("Beta", Integer.toString((int)(betaDis.sample()*5+1)));
         return (int)(betaDis.sample()*5+1);
 
 
