@@ -21,7 +21,8 @@ public class SwipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_swipe);
 
         // Create the placeholder fragments to be passed to the ViewPager
-        //TODO-add fragments to fragments
+        fragments.add(new PoliticalFragment());
+        fragments.add(new FeedFragment());
 
         // Grab a reference to view pager.
         viewPager = findViewById(R.id.viewPager);
