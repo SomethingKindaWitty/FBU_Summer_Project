@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
+import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 
@@ -59,6 +60,7 @@ public class FeedFragment extends Fragment{
                 posts.clear();
                 client.getTopNews(feedAdapter, posts);
                 swipeContainer.setRefreshing(false);
+
             }
         });
         // Configure the refreshing colors

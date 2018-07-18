@@ -9,6 +9,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -107,9 +108,9 @@ public class DetailsActivity extends AppCompatActivity {
         drawable = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
         DrawableCompat.setTint(drawable, getResources().getColor(R.color.green));
 
-        if (post.getUpvoted()){
+        if (post.getUpvoted()) {
             upVote.setBackground(drawable);
-        }else{
+        } else {
             upVote.setBackground(main);
         }
 
@@ -160,7 +161,7 @@ public class DetailsActivity extends AppCompatActivity {
     // Updates file_data by recording vote total and averagre
     private void updateFile(boolean isUpvoting) {
         loadFileData(); // populates file_data with current info
-        // Log.i("before", file_data.get(0) + " " + file_data.get(1) + " post: " + post.getPoliticalBias());
+        Log.i("Voting: before:", file_data.get(0) + ", " + file_data.get(1) + " post: " + post.getPoliticalBias());
         try {
             int numVotes = Integer.parseInt(file_data.get(0));
             double voteAvg = Double.parseDouble(file_data.get(1));
@@ -173,7 +174,7 @@ public class DetailsActivity extends AppCompatActivity {
                 file_data.set(0, Integer.toString(numVotes-1));
                 file_data.set(1, Double.toString((numVotes*voteAvg-post.getPoliticalBias())/(numVotes-1)));
             }
-            // Log.i("after", file_data.get(0) + " " + file_data.get(1));
+            Log.i("Voting: after:", file_data.get(0) + ", " + file_data.get(1));
             FileUtils.writeLines(getDataFile(), file_data); // puts file_data into upvote_data.txt
         } catch (IOException e) {
             e.printStackTrace();
