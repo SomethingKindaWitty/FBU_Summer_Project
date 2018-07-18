@@ -11,6 +11,7 @@ import java.util.Date;
 
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

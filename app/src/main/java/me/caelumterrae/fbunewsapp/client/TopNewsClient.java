@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.FeedAdapter;
+import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
 
@@ -59,7 +59,7 @@ public class TopNewsClient extends AppCompatActivity {
                         String value = valueObject.getString("bias");
                         if (response.get(key) instanceof JSONObject ) {
                             sourceBias.put(key, value);
-                            Log.i(TAG, key + " : " + value);
+                            // Log.i(TAG, key + " : " + value);
                         }
                     }
                 } catch (JSONException e) {
@@ -127,7 +127,7 @@ public class TopNewsClient extends AppCompatActivity {
                         // Sets the political bias of a source like "cnbc.com" to 0(left)-100(right)
                         String bias = sourceBias.get(trimUrl(post.getUrl()));
                         post.setPoliticalBias(biasToNum(bias));
-                        // Log.i(TAG, trimUrl(post.getUrl()) + " " + Integer.toString(biasToNum(bias)) + " " + bias);
+                         Log.i(TAG, trimUrl(post.getUrl()) + " " + Integer.toString(biasToNum(bias)) + " " + bias);
                         // add post and notify adapter that a row was added
                         posts.add(post);
                         feedAdapter.notifyItemInserted(posts.size()-1); // latest item
