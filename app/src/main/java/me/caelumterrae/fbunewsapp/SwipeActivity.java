@@ -26,7 +26,6 @@ public class SwipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_swipe);
 
         try {
-
             Bundle bundle = getIntent().getExtras();
             categories = bundle.getStringArrayList("Categories");
 
@@ -38,8 +37,9 @@ public class SwipeActivity extends AppCompatActivity {
         }
 
         // Create the placeholder fragments to be passed to the ViewPager
-        fragments.add(new PoliticalFragment());
         fragments.add(new FeedFragment());
+        fragments.add(new UserFragment());
+
 
         // Grab a reference to view pager.
         viewPager = findViewById(R.id.viewPager);
