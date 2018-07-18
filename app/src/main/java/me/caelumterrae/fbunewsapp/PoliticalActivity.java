@@ -30,9 +30,10 @@ public class PoliticalActivity extends AppCompatActivity {
     public void onSubmit(View v) {
         affiliationNum = Integer.toString(seekBar.getProgress());
         writeItems(affiliationNum); // store political affiliation number in political_affiliation.txt
-        Intent intent = new Intent(PoliticalActivity.this, MainActivity.class);
+        Intent intent = new Intent(PoliticalActivity.this, CreateActivity.class);
         // prepare intent to pass back to MainActivity
         startActivity(intent);
+        finish();
     }
 
     // Save the political affiliation number in text file
