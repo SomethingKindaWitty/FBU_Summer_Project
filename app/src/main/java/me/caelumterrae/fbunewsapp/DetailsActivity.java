@@ -18,20 +18,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-
 import org.apache.commons.io.FileUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-
 import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-
 import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -88,8 +81,7 @@ public class DetailsActivity extends AppCompatActivity {
         String test = post.getUrl();
         final ArrayList<Post> finalPosts = posts;
         try {
-            parseNewsClient.getData(test, tvBody, relatedAdapter, finalPosts, topNewsClient);
-
+            parseNewsClient.getData(test, tvBody, relatedAdapter, finalPosts, topNewsClient, pb);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {

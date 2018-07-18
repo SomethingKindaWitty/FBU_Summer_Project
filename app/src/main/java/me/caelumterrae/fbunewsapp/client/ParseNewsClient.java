@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp.client;
 
 import android.content.Context;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +33,13 @@ public class ParseNewsClient {
         this.context = context;
     }
 
-    public void getData(String articleUrl, final TextView tvBody, final RelatedAdapter relatedAdapter, final ArrayList<Post> finalPosts, final TopNewsClient topNewsClient) throws UnsupportedEncodingException, JSONException {
+    public void getData(String articleUrl, final TextView tvBody, final RelatedAdapter relatedAdapter, final ArrayList<Post> finalPosts, final TopNewsClient topNewsClient, final ProgressBar pb) throws UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/getArticle";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
         jsonObject.put("url", articleUrl);
         entity = new StringEntity(jsonObject.toString());
+        pb.setVisibility(ProgressBar.VISIBLE);
 
         client.post(context, url, entity, "application/json", new JsonHttpResponseHandler(){
             @Override
@@ -47,6 +49,7 @@ public class ParseNewsClient {
                     String keyword = keywords.getString(0);
                     String text = response.getString("text");
                     tvBody.setText(text);
+                    pb.setVisibility(ProgressBar.INVISIBLE);
 
                     //TODO: update the trump keyword to be the keyword received from the call to our backend
                     topNewsClient.getRelatedNews(keyword,relatedAdapter, finalPosts);
