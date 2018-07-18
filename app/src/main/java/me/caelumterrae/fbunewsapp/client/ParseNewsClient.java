@@ -33,7 +33,7 @@ public class ParseNewsClient {
         this.context = context;
     }
 
-    public void getData(String articleUrl, final TextView tvBody, final RelatedAdapter relatedAdapter, final ArrayList<Post> finalPosts, final TopNewsClient topNewsClient, final ProgressBar pb) throws UnsupportedEncodingException, JSONException {
+    public void getData(final String articleUrl, final TextView tvBody, final RelatedAdapter relatedAdapter, final ArrayList<Post> finalPosts, final TopNewsClient topNewsClient, final ProgressBar pb) throws UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/getArticle";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
@@ -46,13 +46,12 @@ public class ParseNewsClient {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     JSONArray keywords = response.getJSONArray("keywords");
-                    String keyword = keywords.getString(0);
                     String text = response.getString("text");
                     tvBody.setText(text);
                     pb.setVisibility(ProgressBar.INVISIBLE);
 
                     //TODO: update the trump keyword to be the keyword received from the call to our backend
-                    topNewsClient.getRelatedNews(keyword,relatedAdapter, finalPosts);
+                    topNewsClient.getRelatedNews(keywords,articleUrl,relatedAdapter, finalPosts);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
