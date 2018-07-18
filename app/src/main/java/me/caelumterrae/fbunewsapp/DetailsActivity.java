@@ -169,9 +169,9 @@ public class DetailsActivity extends AppCompatActivity {
         drawable = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
         DrawableCompat.setTint(drawable, getResources().getColor(R.color.green));
 
-        if (post.getUpvoted()){
+        if (post.getUpvoted()) {
             upVote.setBackground(drawable);
-        }else{
+        } else {
             upVote.setBackground(main);
         }
 

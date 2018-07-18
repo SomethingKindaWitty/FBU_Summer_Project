@@ -30,6 +30,8 @@ public class TopNewsClient extends AppCompatActivity {
     public final static String KEYWORD_KEY_PARAM = "q";
     public final static String COUNTRY = "us";
     public final static String ROOT_NODE = "articles";
+    public final static String NUM_RESPONSES_KEY = "pageSize";
+    public final static int NUM_RESPONSES = 100;
     AsyncHttpClient client;
     HashMap<String, String> sourceBias;
 
@@ -112,6 +114,7 @@ public class TopNewsClient extends AppCompatActivity {
         String url = API_BASE_URL + "/top-headlines"; // create url -- endpoint is /sources
         RequestParams params = new RequestParams();
         params.put(COUNTRY_KEY_PARAM, COUNTRY);
+        params.put(NUM_RESPONSES_KEY, NUM_RESPONSES);
         params.put(API_KEY_PARAM, API_KEY); // TODO: Make Api Key Secret
 
         client.get(url, params, new JsonHttpResponseHandler() {
