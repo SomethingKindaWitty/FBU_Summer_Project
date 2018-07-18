@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateActivity">
+
+    <CheckBox
+        android:id="@+id/business"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="75dp"
+        android:onClick="onCheckBoxClicked"
+        android:text="Business" />
+
+    <CheckBox
+        android:id="@+id/entertainment"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/business"
+        android:layout_below="@+id/business"
+        android:onClick="onCheckBoxClicked"
+        android:text="Entertainment" />
+
+    <CheckBox
+        android:id="@+id/general"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/business"
+        android:layout_below="@+id/entertainment"
+        android:onClick="onCheckBoxClicked"
+        android:text="General" />
+
+    <CheckBox
+        android:id="@+id/health"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/business"
+        android:layout_below="@+id/general"
+        android:onClick="onCheckBoxClicked"
+        android:text="Health" />
+
+    <CheckBox
+        android:id="@+id/science"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/business"
+        android:layout_toEndOf="@+id/business"
+        android:onClick="onCheckBoxClicked"
+        android:text="Science" />
+
+    <CheckBox
+        android:id="@+id/sports"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/business"
+        android:layout_toEndOf="@+id/business"
+        android:onClick="onCheckBoxClicked"
+        android:text="Sports" />
+
+    <CheckBox
+        android:id="@+id/technology"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/entertainment"
+        android:layout_toEndOf="@+id/business"
+        android:onClick="onCheckBoxClicked"
+        android:text="Technology" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="274dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/business"
+        android:layout_marginTop="26dp"
+        android:fontFamily="sans-serif"
+        android:text="Choose up to 3 different categories"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/science"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/login_background"
+        android:text="Submit"
+        android:textColor="@color/blue_0"
+        android:textSize="16sp" />
+</RelativeLayout>

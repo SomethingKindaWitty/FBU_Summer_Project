@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PoliticalActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,9 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".DetailsActivity" />
-        <activity android:name=".SwipeActivity"></activity>
+        <activity android:name=".PoliticalActivity" />
+        <activity android:name=".SwipeActivity" />
+        <activity android:name=".CreateActivity"></activity>
     </application>
 
 </manifest>

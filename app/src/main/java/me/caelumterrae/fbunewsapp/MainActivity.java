@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
+import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 

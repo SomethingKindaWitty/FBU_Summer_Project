@@ -9,10 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -46,7 +49,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int index) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int index) {
         //grab post based on location
         Post post = mPosts.get(index);
 
@@ -55,17 +58,30 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         viewHolder.tvBody.setText(post.getSummary(100));
         viewHolder.tvDate.setText(post.getRelativeTime());
 
+        viewHolder.pb.setVisibility(View.VISIBLE);
+
         RequestOptions cropOptions = new RequestOptions().centerCrop();
         RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10,10));
 
         if (post.getImageUrl() == null || post.getImageUrl().equals("null")){
             Log.e("ImageURL", " is null");
             viewHolder.ivImage.setVisibility(View.GONE);
+            viewHolder.pb.setVisibility(View.GONE);
         }else{
-            Glide.with(context)
+            Picasso.with(context)
                     .load(post.getImageUrl())
-                    .apply(cropOptions)
-                    .into(viewHolder.ivImage);
+                    .fit().centerCrop()
+                    .into(viewHolder.ivImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            viewHolder.pb.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            viewHolder.pb.setVisibility(View.GONE);
+                        }
+                    });
         }
 
         if (post.getSummary(100).equals("")){
@@ -100,6 +116,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         public TextView tvBody;
         public TextView tvTitle;
         public TextView tvDate;
+        public ProgressBar pb;
 
         public ViewHolder(View itemView){
 
@@ -109,6 +126,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
             tvBody = (TextView) itemView.findViewById(R.id.body);
             tvTitle = (TextView) itemView.findViewById(R.id.title);
             tvDate = (TextView) itemView.findViewById(R.id.timestamp);
+            pb = (ProgressBar) itemView.findViewById(R.id.pb);
 
             itemView.setOnClickListener(this);
         }

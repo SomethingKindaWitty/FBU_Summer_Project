@@ -7,8 +7,8 @@ import org.parceler.Parcel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 @Parcel
@@ -19,7 +19,7 @@ public class Post {
     String imageUrl;
     String body;
     String summary;
-    List<Post> relatedPosts;
+    ArrayList<Post> relatedPosts;
     int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
     Date date;
     String url;
@@ -96,11 +96,11 @@ public class Post {
         body = b;
     }
 
-    public List<Post> getRelatedPosts(){
+    public ArrayList<Post> getRelatedPosts(){
         return relatedPosts;
     }
 
-    public void setRelatedPosts(List<Post> posts){
+    public void setRelatedPosts(ArrayList<Post> posts){
         relatedPosts = posts;
     }
 
