@@ -16,7 +16,7 @@ public class PoliticalActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
     private String affiliationNum;
-    private static final String FILE_NAME = "political_affiliation.txt";
+    public static final String FILE_NAME = "political_affiliation.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
