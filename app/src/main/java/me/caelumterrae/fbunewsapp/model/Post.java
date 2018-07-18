@@ -145,7 +145,7 @@ public class Post {
         return p.format(date);
     }
 
-    public boolean isUpvoted() {
+    public boolean getUpvoted() {
         return isUpvoted;
     }
 
