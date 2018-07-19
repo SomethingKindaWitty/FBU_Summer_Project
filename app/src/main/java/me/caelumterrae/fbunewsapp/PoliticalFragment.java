@@ -15,13 +15,16 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 
 public class PoliticalFragment extends Fragment {
 
     private SeekBar seekBar;
     private Button seekButton;
     private String affiliationNum;
-    public static final String FILE_NAME = "political_affiliation.txt";
+    PoliticalAffData data;
 
     @Nullable
     @Override
@@ -36,48 +39,21 @@ public class PoliticalFragment extends Fragment {
         seekBar = view.findViewById(R.id.sbSeekBar); // ranges from 0 (liberal) to 100 (conservative)
         seekButton = view.findViewById(R.id.btnSubmit); //submit button
 
-        readItems(); // loads last saved affiliation number (persistence)
+        // loads last saved affiliation number (persistence)
+        data = new PoliticalAffData(getContext());
+        seekBar.setProgress((int)data.getAffiliationNum());
 
         seekButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                // Save the political affiliation number in text file, display it on seekbar
                 affiliationNum = Integer.toString(seekBar.getProgress());
-                writeItems(affiliationNum);
+                data.resetAffiliationNum(affiliationNum);
+                seekBar.setProgress(Integer.parseInt(affiliationNum));
+
             }
         });
 
     }
 
-//    // Submit Button Handler - Saves data from button and brings user to activity main
-//    public void onSubmit(View v) {
-//        affiliationNum = Integer.toString(seekBar.getProgress());
-//        writeItems(affiliationNum); // store political affiliation number in political_affiliation.txt
-////        Intent intent = new Intent(getActivity(), MainActivity.class);
-////        // prepare intent to pass back to MainActivity
-////        startActivity(intent);
-//    }
-
-    // Save the political affiliation number in text file
-    private void writeItems(String text) {
-        try {
-            FileUtils.writeStringToFile(getDataFile(), text);  // writes line to FILE_NAME
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Return file which the data is stored in
-    private File getDataFile() {
-        return new File(getContext().getFilesDir(), FILE_NAME);
-    }
-
-    // Read last saved (if any) affiliation number from the file system and display it on seekbar
-    private void readItems() {
-        try {
-            affiliationNum = FileUtils.readFileToString(getDataFile());
-            seekBar.setProgress(Integer.parseInt(affiliationNum));
-        }  catch (IOException e) {
-            e.printStackTrace(); // print error to console
-        }
-    }
 }

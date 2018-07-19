@@ -32,7 +32,6 @@ public class SwipeActivity extends AppCompatActivity {
         Bundle user = new Bundle();
         user.putInt("uid", uid);
 
-
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());
         fragments.add(new UserFragment());

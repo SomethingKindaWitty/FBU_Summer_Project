@@ -1,6 +1,6 @@
 package me.caelumterrae.fbunewsapp;
 
-import android.arch.persistence.room.Room;
+//import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,17 +53,20 @@ public class LoginActivity extends AppCompatActivity {
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
 
-                result = dataSource.getUser(username, password);
-
-                if (result != null) {
-                    int uid = result.getUid();
-                    final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
-                    intent.putExtra("uid", uid);
-                    startActivity(intent);
-                    finish();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Invalid login", Toast.LENGTH_LONG).show();
-                }
+                final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
+                startActivity(intent);
+                finish();
+//                result = dataSource.getUser(username, password);
+//
+//                if (result != null) {
+//                    int uid = result.getUid();
+//                    // final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
+//                    intent.putExtra("uid", uid);
+//                    startActivity(intent);
+//                    finish();
+//                }else{
+//                    Toast.makeText(getApplicationContext(), "Invalid login", Toast.LENGTH_LONG).show();
+//                }
             }
         });
 
