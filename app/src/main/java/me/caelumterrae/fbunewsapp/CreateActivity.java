@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
+import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.model.User;
 
 public class CreateActivity extends AppCompatActivity {
@@ -29,9 +30,10 @@ public class CreateActivity extends AppCompatActivity {
     public CheckBox technology;
     public int numberChecked = 0;
     public ArrayList<String> categories;
-    public String categoryString;
+    public String categoryString = "";
     private User user;
     private LocalUserDataSource dataSource;
+    private UserDatabase database;
 
 
     @Override
@@ -40,6 +42,15 @@ public class CreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create);
 
         user = (User) Parcels.unwrap(getIntent().getParcelableExtra("newUser"));
+        database = UserDatabase.getInstance(getApplicationContext());
+
+       // dataSource = LocalUserDataSource.getInstance(getApplicationContext());
+
+//        try {
+//            dataSource.initDb();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         business = findViewById(R.id.business);
         entertainment = findViewById(R.id.entertainment);
@@ -67,8 +78,14 @@ public class CreateActivity extends AppCompatActivity {
                     }
                     user.setCategories(categoryString);
                     Intent i = new Intent(CreateActivity.this, SwipeActivity.class);
-                    //dataSource.addUser(user);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            database.userDao().insertUser(user);
+                        }
+                    }).start();
                     i.putExtra("uid", user.getUid());
+                    //i.putExtra("Data Source", Parcels.wrap(dataSource));
                     startActivity(i);
                     finish();
                 }
