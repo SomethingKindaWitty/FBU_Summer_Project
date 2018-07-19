@@ -137,8 +137,8 @@ public class TopNewsClient extends AppCompatActivity {
                         // add post and notify adapter that a row was added
                         rawPosts.add(post);
                     }
-                    double affiliation = getAffiliationNum();
-                    Probability.getCategory();
+                    // double affiliation = getAffiliationNum();
+                    // Probability.getCategory();
                     // feedAdapter.notifyItemInserted(posts.size()-1); // latest item
 
                     Log.i(TAG, String.format("Loaded %s posts", results.length()));
