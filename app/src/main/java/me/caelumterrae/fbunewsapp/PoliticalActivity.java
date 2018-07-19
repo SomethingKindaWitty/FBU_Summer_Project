@@ -24,6 +24,7 @@ public class PoliticalActivity extends AppCompatActivity {
     public static final String FILE_NAME = "political_affiliation.txt";
     private User user;
     PoliticalAffData data;
+    //private LocalUserDataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,14 @@ public class PoliticalActivity extends AppCompatActivity {
        // data = new PoliticalAffData(this);
 
         user = (User) Parcels.unwrap(getIntent().getParcelableExtra("User"));
+        //dataSource = new LocalUserDataSource();
+
+//        try {
+//            dataSource.initDb();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
         //readItems(); // loads last saved affiliation number (persistence)
 
         // loads last saved affiliation number (persistence)
@@ -50,6 +59,7 @@ public class PoliticalActivity extends AppCompatActivity {
         //writeItems(affiliationNum); // store political affiliation number in political_affiliation.txt
         Intent intent = new Intent(PoliticalActivity.this, CreateActivity.class);
         intent.putExtra("newUser", Parcels.wrap(user));
+        //intent.putExtra("Data Source", Parcels.wrap(dataSource));
       
         data.resetAffiliationNum(affiliationNum);
         seekBar.setProgress(Integer.parseInt(affiliationNum));

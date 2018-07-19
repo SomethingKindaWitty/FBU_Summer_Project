@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp;
 
+import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.FragmentAdapter;
 
@@ -20,6 +22,7 @@ public class SwipeActivity extends AppCompatActivity {
     private FragmentAdapter adapter;
     private List<String> categories = new ArrayList<String>();
     private int uid;
+    private LocalUserDataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +32,15 @@ public class SwipeActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         uid = bundle.getInt("uid");
 
+//        try {
+//            dataSource.initDb();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
         Bundle user = new Bundle();
         user.putInt("uid", uid);
+        //user.putParcelable("Data Source", Parcels.wrap(dataSource));
 
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());

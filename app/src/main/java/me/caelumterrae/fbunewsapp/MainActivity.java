@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Bundle bundle = getIntent().getExtras();
-        Bundle userInfo = new Bundle();
-        userID = bundle.getInt("uid");
-        userInfo.putInt("uid", userID);
+        //Bundle userInfo = new Bundle();
+        userID = bundle.getInt("uid", 0);
+       // userInfo.putInt("uid", userID);
 
         //set client
         client = new TopNewsClient(this);
