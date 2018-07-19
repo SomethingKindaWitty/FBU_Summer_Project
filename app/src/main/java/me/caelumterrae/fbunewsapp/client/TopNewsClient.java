@@ -18,6 +18,7 @@ import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
 
+import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
@@ -135,9 +136,12 @@ public class TopNewsClient extends AppCompatActivity {
                         post.setPoliticalBias(biasToNum(bias));
                          Log.i(TAG, trimUrl(post.getUrl()) + " " + Integer.toString(biasToNum(bias)) + " " + bias);
                         // add post and notify adapter that a row was added
+                        posts.add(post);
+                        feedAdapter.notifyItemInserted(posts.size()-1);
                         rawPosts.add(post);
                     }
-                    // double affiliation = getAffiliationNum();
+                    PoliticalAffData data = new PoliticalAffData(getApplicationContext());
+                    double affiliation = data.getAffiliationNum();
                     // Probability.getCategory();
                     // feedAdapter.notifyItemInserted(posts.size()-1); // latest item
 
