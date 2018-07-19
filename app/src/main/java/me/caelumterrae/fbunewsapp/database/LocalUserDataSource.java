@@ -48,5 +48,13 @@ public class LocalUserDataSource {
         }
     }
 
+    public void addUser(User user){
+        userDao.insert(user);
+    }
+
+    public User getUser(int id){
+        return userDao.findByID(id);
+    }
+
 
 }

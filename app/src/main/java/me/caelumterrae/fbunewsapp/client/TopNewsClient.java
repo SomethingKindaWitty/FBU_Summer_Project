@@ -142,6 +142,7 @@ public class TopNewsClient extends AppCompatActivity {
                     }
                     populateTimeline(rawPosts, feedAdapter, posts);
 
+
                     Log.i(TAG, String.format("Loaded %s posts", results.length()));
                 } catch (JSONException e) {
                     Log.e(TAG, "Failed to parse top posts", e);
