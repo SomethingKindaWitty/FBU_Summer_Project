@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
-import me.caelumterrae.fbunewsapp.math.Probability;
+import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 // once the network request has completed successfully.
                 feedAdapter.clear();
                 posts.clear();
-                client.getTopNews(feedAdapter, posts);
+                client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, getApplicationContext()));
                 //populateMockData();
                 swipeContainer.setRefreshing(false);
             }
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 android.R.color.holo_purple);
 
         //populateMockData();
-        client.getTopNews(feedAdapter, posts);
+        client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, this));
     }
 
     private void populateMockData() {

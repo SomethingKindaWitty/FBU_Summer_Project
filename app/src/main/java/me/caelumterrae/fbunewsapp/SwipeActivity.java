@@ -1,13 +1,10 @@
 package me.caelumterrae.fbunewsapp;
 
 import android.os.Parcel;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +28,10 @@ public class SwipeActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         uid = bundle.getInt("uid");
-
-//        try {
-//            dataSource.initDb();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
+      
         Bundle user = new Bundle();
         user.putInt("uid", uid);
-        //user.putParcelable("Data Source", Parcels.wrap(dataSource));
+
 
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());
