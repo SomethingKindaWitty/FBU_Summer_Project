@@ -18,10 +18,16 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
+import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
+import me.caelumterrae.fbunewsapp.model.User;
+
 public class UserFragment extends Fragment{
 
     public TextView username;
     public ImageView profileImage;
+    private LocalUserDataSource dataSource;
+    private int userID;
+    private User user;
 
     @Nullable
     @Override
@@ -31,11 +37,15 @@ public class UserFragment extends Fragment{
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        //userID = getArguments().getInt("uid");
+        //user = dataSource.getUser(userID);
+
         super.onViewCreated(view, savedInstanceState);
 
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
 
+        //username.setText(user.getUsername());
         username.setText("Fake Name");
 
         Glide.with(getContext())

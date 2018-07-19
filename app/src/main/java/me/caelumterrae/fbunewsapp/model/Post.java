@@ -104,6 +104,8 @@ public class Post {
         relatedPosts = posts;
     }
 
+    // returns a number 0, 25, 50, 75, 100
+    // corresponds to: [left (0), left-center (25), moderate (50), right-center (75), right (100)]
     public int getPoliticalBias() {
         return politicalBias;
     }

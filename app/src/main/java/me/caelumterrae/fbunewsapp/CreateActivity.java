@@ -9,8 +9,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
+import me.caelumterrae.fbunewsapp.model.User;
 
 public class CreateActivity extends AppCompatActivity {
 
@@ -24,12 +29,17 @@ public class CreateActivity extends AppCompatActivity {
     public CheckBox technology;
     public int numberChecked = 0;
     public ArrayList<String> categories;
+    public String categoryString;
+    private User user;
+    private LocalUserDataSource dataSource;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+
+        user = (User) Parcels.unwrap(getIntent().getParcelableExtra("newUser"));
 
         business = findViewById(R.id.business);
         entertainment = findViewById(R.id.entertainment);
@@ -52,8 +62,13 @@ public class CreateActivity extends AppCompatActivity {
                 }else if (numberChecked > 3){
                     Toast.makeText(getBaseContext(), "Please select up to three categories", Toast.LENGTH_LONG).show();
                 }else{
+                    for (int i =0; i < categories.size(); i++){
+                        categoryString += categories.get(i) + " ";
+                    }
+                    user.setCategories(categoryString);
                     Intent i = new Intent(CreateActivity.this, SwipeActivity.class);
-                    i.putExtra("Categories", categories);
+                    //dataSource.addUser(user);
+                    i.putExtra("uid", user.getUid());
                     startActivity(i);
                     finish();
                 }

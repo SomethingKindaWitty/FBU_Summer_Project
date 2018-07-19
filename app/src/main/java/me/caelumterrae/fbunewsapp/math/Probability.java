@@ -28,9 +28,9 @@ public class Probability {
         double beta = getGaussianValue(affiliation, BETA_CONST);
 
         BetaDistribution betaDis = new BetaDistribution(alpha, beta);
-        // returns a number 1, 2, 3, 4, 5
-        // corresponds to: [left (1), left-center (2), moderate (3), right-center (4), right (5)]
-        Log.i("Beta", Integer.toString((int)(betaDis.sample()*5+1)));
+        // returns a number 0, 25, 50, 75, 100
+        // corresponds to: [left (0), left-center (25), moderate (50), right-center (75), right (100)]
+        Log.i("Beta", Integer.toString(25*(int)(betaDis.sample()*5)));
         return (int)(betaDis.sample()*5+1);
 
 

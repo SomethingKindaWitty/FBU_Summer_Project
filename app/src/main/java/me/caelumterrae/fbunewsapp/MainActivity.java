@@ -12,6 +12,7 @@ import java.util.Date;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Post> posts;
     RecyclerView rvPosts;
     FeedAdapter feedAdapter;
+    int userID;
+    private User user;
     private SwipeRefreshLayout swipeContainer;
 
     @Override
@@ -27,8 +30,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Bundle bundle = getIntent().getExtras();
+        Bundle userInfo = new Bundle();
+        userID = bundle.getInt("uid");
+        userInfo.putInt("uid", userID);
+
         //set client
-        client = new TopNewsClient();
+        client = new TopNewsClient(this);
         //find the RecyclerView
         rvPosts = (RecyclerView) findViewById(R.id.rvPost);
         //init the ArrayList (data source)

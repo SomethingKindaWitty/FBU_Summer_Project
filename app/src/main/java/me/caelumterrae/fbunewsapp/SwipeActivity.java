@@ -19,22 +19,18 @@ public class SwipeActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private FragmentAdapter adapter;
     private List<String> categories = new ArrayList<String>();
+    private int uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
-        try {
-            Bundle bundle = getIntent().getExtras();
-            categories = bundle.getStringArrayList("Categories");
+        Bundle bundle = getIntent().getExtras();
+        uid = bundle.getInt("uid");
 
-            for (int i = 0; i < categories.size(); i++) {
-                Log.i("Category: ", categories.get(i));
-            }
-        }catch (Exception e){
-            //
-        }
+        Bundle user = new Bundle();
+        user.putInt("uid", uid);
 
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());
