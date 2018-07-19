@@ -25,16 +25,16 @@ public class SwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
-        try {
-            Bundle bundle = getIntent().getExtras();
-            categories = bundle.getStringArrayList("Categories");
-
-            for (int i = 0; i < categories.size(); i++) {
-                Log.i("Category: ", categories.get(i));
-            }
-        }catch (Exception e){
-            //
-        }
+//        try {
+//            Bundle bundle = getIntent().getExtras();
+//            categories = bundle.getStringArrayList("Categories");
+//
+//            for (int i = 0; i < categories.size(); i++) {
+//                Log.i("Category: ", categories.get(i));
+//            }
+//        }catch (Exception e){
+//            //
+//        }
 
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());
