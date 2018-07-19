@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * and update the file.
  */
 public class PoliticalAffData {
-    public static final String FILE_NAME = "political_affiliation.txt";
+    public static final String FILE_NAME = "political_affiliations.txt";
     Context context;
     private ArrayList<String> file_data; // line 1 = # upvotes. line 2 = current weighted average.
 
@@ -39,8 +39,8 @@ public class PoliticalAffData {
             file_data = new ArrayList<>();
             // We initialize file_data with our Subjective priors:
             // we say we've seen 10 articles with default 50 affiliation
-            file_data.set(0, "10");
-            file_data.set(1, "50");
+            file_data.add("10");
+            file_data.add("50");
         }
     }
 

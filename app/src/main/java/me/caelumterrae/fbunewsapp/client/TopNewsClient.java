@@ -140,8 +140,8 @@ public class TopNewsClient extends AppCompatActivity {
                         feedAdapter.notifyItemInserted(posts.size()-1);
                         rawPosts.add(post);
                     }
-                    PoliticalAffData data = new PoliticalAffData(getApplicationContext());
-                    double affiliation = data.getAffiliationNum();
+                    //PoliticalAffData data = new PoliticalAffData(getApplicationContext());
+                    //double affiliation = data.getAffiliationNum();
                     // Probability.getCategory();
                     // feedAdapter.notifyItemInserted(posts.size()-1); // latest item
 
