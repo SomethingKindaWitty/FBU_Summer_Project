@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import me.caelumterrae.fbunewsapp.handlers.RelatedHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
 
@@ -52,7 +53,7 @@ public class ParseNewsClient {
                     pb.setVisibility(ProgressBar.INVISIBLE);
 
                     //TODO: update the trump keyword to be the keyword received from the call to our backend
-                    topNewsClient.getRelatedNews(category, keywords,articleUrl,relatedAdapter, finalPosts);
+                    topNewsClient.getRelatedNews(category, new RelatedHandler(articleUrl,relatedAdapter, finalPosts));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
