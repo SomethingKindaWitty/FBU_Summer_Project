@@ -17,8 +17,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
 
 public class TopNewsClient extends AppCompatActivity {
@@ -151,11 +151,11 @@ public class TopNewsClient extends AppCompatActivity {
     }
 
     // Retrieves ArrayList of Posts given the related keywords from an API
+    // TODO: NARROW SCOPE OF RELATED NEWS TO GET THE BEST RELATED NEWS
     public void getRelatedNews(String category, JSONArray keywords, final String originalurl, final RelatedAdapter relatedAdapter, final ArrayList<Post> posts) throws JSONException {
         String url = API_BASE_URL + "/everything";
 
         RequestParams categoryParams = new RequestParams();
-        categoryParams.put(COUNTRY_KEY_PARAM, COUNTRY);
         categoryParams.put(API_KEY_PARAM, API_KEY);
         categoryParams.put(KEYWORD_KEY_PARAM, category);
         client.get(url, categoryParams, new JsonHttpResponseHandler() {
@@ -187,7 +187,7 @@ public class TopNewsClient extends AppCompatActivity {
             }
         });
 
-        for (int i = 0; i < keywords.length() && i < 1; i++) {
+        for (int i = 0; i < keywords.length(); i++) {
             RequestParams params = new RequestParams();
             params.put(COUNTRY_KEY_PARAM, COUNTRY);
             params.put(API_KEY_PARAM, API_KEY);
@@ -210,9 +210,9 @@ public class TopNewsClient extends AppCompatActivity {
                                 }
                                 if (!postExists) {
                                     posts.add(post);
+                                    // notify adapter that a row was added
+                                    relatedAdapter.notifyItemInserted(posts.size() - 1); // latest item
                                 }
-                                // notify adapter that a row was added
-                                relatedAdapter.notifyItemInserted(posts.size() - 1); // latest item
                             }
                         }
                         Log.i("TopNewsClient", String.format("Loaded %s posts", results.length()));
