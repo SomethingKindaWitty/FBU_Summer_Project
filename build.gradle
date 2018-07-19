@@ -21,6 +21,10 @@ allprojects {
     }
 }
 
+ext {
+    roomVersion = '1.0.0-alpha4'
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

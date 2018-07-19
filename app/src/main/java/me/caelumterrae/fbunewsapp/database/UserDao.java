@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Room;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ import me.caelumterrae.fbunewsapp.model.User;
 
 @Dao
 public interface UserDao {
+
+
     @Query("SELECT * FROM user")
     List<User> getAll();
 
