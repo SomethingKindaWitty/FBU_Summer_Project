@@ -1,17 +1,13 @@
 package me.caelumterrae.fbunewsapp;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.FragmentAdapter;
 
 public class SwipeActivity extends AppCompatActivity {
@@ -26,11 +22,11 @@ public class SwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
-        Bundle bundle = getIntent().getExtras();
-        uid = bundle.getInt("uid");
-
-        Bundle user = new Bundle();
-        user.putInt("uid", uid);
+//        Bundle bundle = getIntent().getExtras();
+//        uid = bundle.getInt("uid");
+//
+//        Bundle user = new Bundle();
+//        user.putInt("uid", uid);
 
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());

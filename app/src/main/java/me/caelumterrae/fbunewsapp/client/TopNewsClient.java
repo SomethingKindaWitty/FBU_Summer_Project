@@ -22,6 +22,7 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
 
 public class TopNewsClient extends AppCompatActivity {
