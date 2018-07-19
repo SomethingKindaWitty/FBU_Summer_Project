@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 // once the network request has completed successfully.
                 feedAdapter.clear();
                 posts.clear();
-                client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter));
+                client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, getApplicationContext()));
                 //populateMockData();
                 swipeContainer.setRefreshing(false);
             }
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 android.R.color.holo_purple);
 
         //populateMockData();
-        client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter));
+        client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, this));
     }
 
     private void populateMockData() {

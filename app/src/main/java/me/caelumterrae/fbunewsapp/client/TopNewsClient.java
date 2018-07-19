@@ -122,35 +122,10 @@ public class TopNewsClient extends AppCompatActivity {
         params.put(COUNTRY_KEY_PARAM, COUNTRY);
         params.put(NUM_RESPONSES_KEY, NUM_RESPONSES);
         params.put(API_KEY_PARAM, API_KEY); // TODO: Make Api Key Secret
-        final ArrayList<Post> rawPosts = new ArrayList<>();
         client.get(url, params, jsonHttpResponseHandler);
     }
 
-    private void populateTimeline(final ArrayList<Post> rawPosts, final FeedAdapter feedAdapter, final ArrayList<Post> posts) {
-        PoliticalAffData data = new PoliticalAffData(context);
-        double affiliation = data.getAffiliationNum();
-        int size = rawPosts.size();
-        for (int i = 0; i < size; i++) {
-            int category = Probability.getCategory(affiliation);
-            Post p = findPostWithCategory(rawPosts, category);
-            posts.add(p);
-            feedAdapter.notifyItemInserted(posts.size()-1);
-        }
-    }
 
-    private Post findPostWithCategory(ArrayList<Post> rawPosts, int category) {
-        for (int i = 0; i < rawPosts.size(); i++) {
-            Post p = rawPosts.get(i);
-            if (p.getPoliticalBias() == category) {
-                rawPosts.remove(i);
-                return p;
-            }
-        }
-        // otherwise we didn't find a post with the category, so return the first one in the list
-        Post p = rawPosts.get(0);
-        rawPosts.remove(0);
-        return p;
-    }
 
     // Retrieves ArrayList of Posts given the related keywords from an API
     // TODO: NARROW SCOPE OF RELATED NEWS TO GET THE BEST RELATED NEWS
