@@ -16,9 +16,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.io.File;
 
 import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
+import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.model.User;
 
 public class UserFragment extends Fragment{
@@ -28,6 +31,7 @@ public class UserFragment extends Fragment{
     private LocalUserDataSource dataSource;
     private int userID;
     private User user;
+    private UserDatabase database;
 
     @Nullable
     @Override
@@ -37,10 +41,17 @@ public class UserFragment extends Fragment{
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        //userID = getArguments().getInt("uid");
-        //user = dataSource.getUser(userID);
-
         super.onViewCreated(view, savedInstanceState);
+
+        //userID = getArguments().getInt("uid");
+        database = UserDatabase.getInstance(getContext());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                user = database.userDao().findByID(0);
+            }
+        }).start();
 
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
