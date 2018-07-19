@@ -8,29 +8,37 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.IOException;
+
+import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
+import me.caelumterrae.fbunewsapp.model.User;
 
 public class PoliticalActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
     private String affiliationNum;
     public static final String FILE_NAME = "political_affiliation.txt";
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_political);
         seekBar = findViewById(R.id.sbSeekBar); // ranges from 0 (liberal) to 100 (conservative)
+        user = (User) Parcels.unwrap(getIntent().getParcelableExtra("User"));
         readItems(); // loads last saved affiliation number (persistence)
     }
 
     // Submit Button Handler - Saves data from button and brings user to activity main
     public void onSubmit(View v) {
         affiliationNum = Integer.toString(seekBar.getProgress());
+        user.setPoliticalPreference(seekBar.getProgress());
         writeItems(affiliationNum); // store political affiliation number in political_affiliation.txt
         Intent intent = new Intent(PoliticalActivity.this, CreateActivity.class);
+        intent.putExtra("newUser", Parcels.wrap(user));
         // prepare intent to pass back to MainActivity
         startActivity(intent);
         finish();
