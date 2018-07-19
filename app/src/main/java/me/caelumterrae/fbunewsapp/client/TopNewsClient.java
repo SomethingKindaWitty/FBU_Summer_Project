@@ -22,7 +22,6 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
 
 public class TopNewsClient extends AppCompatActivity {
@@ -37,14 +36,16 @@ public class TopNewsClient extends AppCompatActivity {
     public final static String ROOT_NODE = "articles";
     public final static String NUM_RESPONSES_KEY = "pageSize";
     public final static int NUM_RESPONSES = 100;
+  
     AsyncHttpClient client;
-    HashMap<String, String> sourceBias;
+    public HashMap<String, String> sourceBias;
     Context context;
+
 
     // Instantiates new Top News Client that extracts hottest news posts from NewsApi.org
     public TopNewsClient(Context c) {
         client = new AsyncHttpClient(); // TODO: close
-        sourceBias = new HashMap<>();
+        sourceBias = new HashMap<>(); //TODO: this hashmap should be moved to its own utility class as well
         populateBiasHashMap();
         context = c;
     }
@@ -83,7 +84,7 @@ public class TopNewsClient extends AppCompatActivity {
     }
 
     // Convert "https://www.cnbc.com/2018/3/2..." to "cnbc.com"
-    private String trimUrl (String url) {
+    static public String trimUrl (String url) {
         final String http = "http://";
         final String https = "https://";
         final String www = "www.";
@@ -98,7 +99,8 @@ public class TopNewsClient extends AppCompatActivity {
     }
 
     // converts bias string to political affiliation number
-    private int biasToNum(String bias) {
+    // TODO: refactor to not be in this class. Not necessary for the Client. Either put in handler or in its own utilities class.
+    public static int biasToNum(String bias) {
         if (bias == null) return 50;
         switch (bias) {
             case "right":
@@ -117,48 +119,14 @@ public class TopNewsClient extends AppCompatActivity {
     }
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
-    public void getTopNews(final FeedAdapter feedAdapter, final ArrayList<Post> posts) {
+    public void getTopNews(JsonHttpResponseHandler jsonHttpResponseHandler) {
         String url = API_BASE_URL + "/top-headlines"; // create url -- endpoint is /sources
         RequestParams params = new RequestParams();
         params.put(COUNTRY_KEY_PARAM, COUNTRY);
         params.put(NUM_RESPONSES_KEY, NUM_RESPONSES);
         params.put(API_KEY_PARAM, API_KEY); // TODO: Make Api Key Secret
         final ArrayList<Post> rawPosts = new ArrayList<>();
-
-        client.get(url, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // parse the response to Post object
-                // add the Post object to the arraylist
-                try {
-                    JSONArray results = response.getJSONArray(ROOT_NODE);
-                    for (int i = 0; i < results.length(); i++) {
-                        Post post = Post.fromJSON(results.getJSONObject(i));
-                        // Sets the political bias of a source like "cnbc.com" to 0(left)-100(right)
-                        String bias = sourceBias.get(trimUrl(post.getUrl()));
-                        post.setPoliticalBias(biasToNum(bias));
-                         Log.i(TAG, trimUrl(post.getUrl()) + " " + Integer.toString(biasToNum(bias)) + " " + bias);
-                        // add post and notify adapter that a row was added
-                        // posts.add(post);
-                        // feedAdapter.notifyItemInserted(posts.size()-1);
-                        rawPosts.add(post);
-                    }
-                    populateTimeline(rawPosts, feedAdapter, posts);
-
-
-                    Log.i(TAG, String.format("Loaded %s posts", results.length()));
-                } catch (JSONException e) {
-                    Log.e(TAG, "Failed to parse top posts", e);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG, "Failed to get data from now playing endpoint", throwable);
-            }
-        });
+        client.get(url, params, jsonHttpResponseHandler);
     }
 
     private void populateTimeline(final ArrayList<Post> rawPosts, final FeedAdapter feedAdapter, final ArrayList<Post> posts) {
