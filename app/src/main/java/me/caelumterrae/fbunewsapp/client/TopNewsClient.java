@@ -24,13 +24,15 @@ import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
 public class TopNewsClient extends AppCompatActivity {
     public final static String TAG = "TopNewClient";
     public final static String MEDIA_BIAS_URL = "https://raw.githubusercontent.com/drmikecrowe/mbfcext/master/docs/sources.json";
-    public static final String API_KEY = "403530691b5d4a39bcc661496af91ce8";
+    public static final String API_KEY = "843120ac9e79440e81573a57dc13ce4f";
     public final static String API_KEY_PARAM = "apiKey";
     public final static String API_BASE_URL = "https://newsapi.org/v2"; // base API url
     public final static String COUNTRY_KEY_PARAM = "country";
     public final static String KEYWORD_KEY_PARAM = "q";
     public final static String COUNTRY = "us";
     public final static String ROOT_NODE = "articles";
+    public final static String NUM_RESPONSES_KEY = "pageSize";
+    public final static int NUM_RESPONSES = 100;
     AsyncHttpClient client;
     HashMap<String, String> sourceBias;
 
@@ -113,6 +115,7 @@ public class TopNewsClient extends AppCompatActivity {
         String url = API_BASE_URL + "/top-headlines"; // create url -- endpoint is /sources
         RequestParams params = new RequestParams();
         params.put(COUNTRY_KEY_PARAM, COUNTRY);
+        params.put(NUM_RESPONSES_KEY, NUM_RESPONSES);
         params.put(API_KEY_PARAM, API_KEY); // TODO: Make Api Key Secret
 
         client.get(url, params, new JsonHttpResponseHandler() {
@@ -149,7 +152,8 @@ public class TopNewsClient extends AppCompatActivity {
 
     // Retrieves ArrayList of Posts given the related keywords from an API
     public void getRelatedNews(String category, JSONArray keywords, final String originalurl, final RelatedAdapter relatedAdapter, final ArrayList<Post> posts) throws JSONException {
-        String url = API_BASE_URL + "/top-headlines";
+        String url = API_BASE_URL + "/everything";
+
         RequestParams categoryParams = new RequestParams();
         categoryParams.put(COUNTRY_KEY_PARAM, COUNTRY);
         categoryParams.put(API_KEY_PARAM, API_KEY);

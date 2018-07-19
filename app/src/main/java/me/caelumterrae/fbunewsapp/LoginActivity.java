@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import me.caelumterrae.fbunewsapp.math.Probability;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText usernameInput;
