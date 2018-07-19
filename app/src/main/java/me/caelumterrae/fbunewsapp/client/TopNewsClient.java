@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp.client;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -38,12 +39,14 @@ public class TopNewsClient extends AppCompatActivity {
     public final static int NUM_RESPONSES = 100;
     AsyncHttpClient client;
     HashMap<String, String> sourceBias;
+    Context context;
 
     // Instantiates new Top News Client that extracts hottest news posts from NewsApi.org
-    public TopNewsClient() {
+    public TopNewsClient(Context c) {
         client = new AsyncHttpClient(); // TODO: close
         sourceBias = new HashMap<>();
         populateBiasHashMap();
+        context = c;
     }
 
     /* Populates sourceBias hashmap with key=URL and value=bias.
@@ -159,7 +162,7 @@ public class TopNewsClient extends AppCompatActivity {
     }
 
     private void populateTimeline(final ArrayList<Post> rawPosts, final FeedAdapter feedAdapter, final ArrayList<Post> posts) {
-        PoliticalAffData data = new PoliticalAffData(this);
+        PoliticalAffData data = new PoliticalAffData(context);
         double affiliation = data.getAffiliationNum();
         int size = rawPosts.size();
         for (int i = 0; i < size; i++) {

@@ -37,7 +37,7 @@ public class FeedFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         //set client
-        client = new TopNewsClient();
+        client = new TopNewsClient(getContext());
         //find the RecyclerView
         rvPosts = (RecyclerView) view.findViewById(R.id.rvPost);
         //init the ArrayList (data source)
