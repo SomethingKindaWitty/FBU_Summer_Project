@@ -148,9 +148,42 @@ public class TopNewsClient extends AppCompatActivity {
     }
 
     // Retrieves ArrayList of Posts given the related keywords from an API
-    public void getRelatedNews(JSONArray keywords, final String originalurl, final RelatedAdapter relatedAdapter, final ArrayList<Post> posts) throws JSONException {
+    public void getRelatedNews(String category, JSONArray keywords, final String originalurl, final RelatedAdapter relatedAdapter, final ArrayList<Post> posts) throws JSONException {
         String url = API_BASE_URL + "/top-headlines";
-        for (int i = 0; i < keywords.length(); i++) {
+        RequestParams categoryParams = new RequestParams();
+        categoryParams.put(COUNTRY_KEY_PARAM, COUNTRY);
+        categoryParams.put(API_KEY_PARAM, API_KEY);
+        categoryParams.put(KEYWORD_KEY_PARAM, category);
+        client.get(url, categoryParams, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // parse the response to Post object
+                // add the Post object to the arraylist
+                try {
+                    JSONArray results = response.getJSONArray(TopNewsClient.ROOT_NODE);
+                    for (int i = 0; i < results.length(); i++) {
+                        Post post = Post.fromJSON(results.getJSONObject(i));
+                        if (!post.getUrl().equals(originalurl)) {
+                            posts.add(post);
+                            // notify adapter that a row was added
+                            relatedAdapter.notifyItemInserted(posts.size() - 1); // latest item
+                        }
+                    }
+                    Log.i("TopNewsClient", String.format("Loaded %s posts", results.length()));
+                } catch (JSONException e) {
+                    Log.e("TopNewsClient", "Failed to parse top posts", e);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("TopNewsClient", "Failed to get data from now playing endpoint", throwable);
+            }
+        });
+
+        for (int i = 0; i < keywords.length() && i < 1; i++) {
             RequestParams params = new RequestParams();
             params.put(COUNTRY_KEY_PARAM, COUNTRY);
             params.put(API_KEY_PARAM, API_KEY);
@@ -165,7 +198,15 @@ public class TopNewsClient extends AppCompatActivity {
                         for (int i = 0; i < results.length(); i++) {
                             Post post = Post.fromJSON(results.getJSONObject(i));
                             if (!post.getUrl().equals(originalurl)) {
-                                posts.add(post);
+                                Boolean postExists = false;
+                                for(int j = 0; j < posts.size(); j++){
+                                    if(post.getUrl().equals(posts.get(j).getUrl())){
+                                        postExists = true;
+                                    }
+                                }
+                                if (!postExists) {
+                                    posts.add(post);
+                                }
                                 // notify adapter that a row was added
                                 relatedAdapter.notifyItemInserted(posts.size() - 1); // latest item
                             }
