@@ -14,22 +14,22 @@ public class User {
 
     }
     @PrimaryKey
-    private int uid;
+    int uid;
 
     @ColumnInfo(name = "username")
-    private String username;
+    String username;
 
     @ColumnInfo(name = "password")
-    private String password;
+    String password;
 
     @ColumnInfo(name = "profileImage")
-    private String profileUrl;
+    String profileUrl;
 
     @ColumnInfo(name = "categories")
-    private String categories;
+    String categories;
 
     @ColumnInfo(name = "politicalPreference")
-    private int politicalPreference;
+    int politicalPreference;
 
     public int getUid() {
         return uid;
