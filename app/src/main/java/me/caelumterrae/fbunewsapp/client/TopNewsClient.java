@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
+import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
@@ -117,6 +118,7 @@ public class TopNewsClient extends AppCompatActivity {
         params.put(COUNTRY_KEY_PARAM, COUNTRY);
         params.put(NUM_RESPONSES_KEY, NUM_RESPONSES);
         params.put(API_KEY_PARAM, API_KEY); // TODO: Make Api Key Secret
+        final ArrayList<Post> rawPosts = new ArrayList<>();
 
         client.get(url, params, new JsonHttpResponseHandler() {
             @Override
@@ -132,9 +134,12 @@ public class TopNewsClient extends AppCompatActivity {
                         post.setPoliticalBias(biasToNum(bias));
                          Log.i(TAG, trimUrl(post.getUrl()) + " " + Integer.toString(biasToNum(bias)) + " " + bias);
                         // add post and notify adapter that a row was added
-                        posts.add(post);
-                        feedAdapter.notifyItemInserted(posts.size()-1); // latest item
+                        rawPosts.add(post);
                     }
+                    double affiliation = getAffiliationNum();
+                    Probability.getCategory();
+                    // feedAdapter.notifyItemInserted(posts.size()-1); // latest item
+
                     Log.i(TAG, String.format("Loaded %s posts", results.length()));
                 } catch (JSONException e) {
                     Log.e(TAG, "Failed to parse top posts", e);
