@@ -77,7 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
         rvRelated.setLayoutManager(layoutManager);
         rvRelated.setAdapter(relatedAdapter);
 
-        final TopNewsClient topNewsClient = new TopNewsClient();
+        final TopNewsClient topNewsClient = new TopNewsClient(this);
         ParseNewsClient parseNewsClient = new ParseNewsClient(this);
         String test = post.getUrl();
         final ArrayList<Post> finalPosts = posts;
