@@ -11,7 +11,12 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -27,6 +32,11 @@ public class TopNewsClient extends AppCompatActivity {
     public static final String API_KEY = "843120ac9e79440e81573a57dc13ce4f";
     public final static String API_KEY_PARAM = "apiKey";
     public final static String API_BASE_URL = "https://newsapi.org/v2"; // base API url
+    public final static String LANGUAGE_PARAM = "language";
+    public final static String LANGUAGE = "en";
+    public final static String SOURCES_PARAM = "sources";
+    public final static String SOURCES = "cnn,the-new-york-times,the-huffington-post,fox-news,usa-today,reuters,politico,time,nbc-news,cnbc,cbs-news,abc-news,breitbart-news,independent,associated-press,bbc-news";
+    public final static String FROM_PARAM = "from";
     public final static String COUNTRY_KEY_PARAM = "country";
     public final static String KEYWORD_KEY_PARAM = "q";
     public final static String COUNTRY = "us";
@@ -116,15 +126,32 @@ public class TopNewsClient extends AppCompatActivity {
     }
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
+//    public void getTopNews_OLD(JsonHttpResponseHandler jsonHttpResponseHandler) {
+//        String url = API_BASE_URL + "/top-headlines"; // create url -- endpoint is /sources
+//        RequestParams params = new RequestParams();
+//        params.put(COUNTRY_KEY_PARAM, COUNTRY);
+//        params.put(NUM_RESPONSES_KEY, NUM_RESPONSES);
+//        params.put(API_KEY_PARAM, API_KEY);
+//        client.get(url, params, jsonHttpResponseHandler);
+//    }
+
+    // Retrieves ArrayList of posts of top news from newsapi.org APi
+    // Pass in feedAdapter and this function will populate it with top news articles
     public void getTopNews(JsonHttpResponseHandler jsonHttpResponseHandler) {
-        String url = API_BASE_URL + "/top-headlines"; // create url -- endpoint is /sources
+        String url = API_BASE_URL + "/everything"; // create url -- endpoint is /sources
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String todaysDate = dateFormat.format(cal.getTime());
+
         RequestParams params = new RequestParams();
-        params.put(COUNTRY_KEY_PARAM, COUNTRY);
+        params.put(LANGUAGE_PARAM, LANGUAGE);
+        params.put(SOURCES_PARAM, SOURCES);
+        params.put(LANGUAGE_PARAM, LANGUAGE);
+        params.put(FROM_PARAM, todaysDate);
         params.put(NUM_RESPONSES_KEY, NUM_RESPONSES);
         params.put(API_KEY_PARAM, API_KEY); // TODO: Make Api Key Secret
         client.get(url, params, jsonHttpResponseHandler);
     }
-
 
 
     // Retrieves ArrayList of Posts given the related keywords from an API
