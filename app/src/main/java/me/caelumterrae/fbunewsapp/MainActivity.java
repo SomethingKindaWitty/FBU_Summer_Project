@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         userInfo.putInt("uid", userID);
 
         //set client
-        client = new TopNewsClient();
+        client = new TopNewsClient(this);
         //find the RecyclerView
         rvPosts = (RecyclerView) findViewById(R.id.rvPost);
         //init the ArrayList (data source)

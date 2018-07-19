@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp.client;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -38,12 +39,14 @@ public class TopNewsClient extends AppCompatActivity {
     public final static int NUM_RESPONSES = 100;
     AsyncHttpClient client;
     HashMap<String, String> sourceBias;
+    Context context;
 
     // Instantiates new Top News Client that extracts hottest news posts from NewsApi.org
-    public TopNewsClient() {
+    public TopNewsClient(Context c) {
         client = new AsyncHttpClient(); // TODO: close
         sourceBias = new HashMap<>();
         populateBiasHashMap();
+        context = c;
     }
 
     /* Populates sourceBias hashmap with key=URL and value=bias.
@@ -136,14 +139,12 @@ public class TopNewsClient extends AppCompatActivity {
                         post.setPoliticalBias(biasToNum(bias));
                          Log.i(TAG, trimUrl(post.getUrl()) + " " + Integer.toString(biasToNum(bias)) + " " + bias);
                         // add post and notify adapter that a row was added
-                        posts.add(post);
-                        feedAdapter.notifyItemInserted(posts.size()-1);
+                        // posts.add(post);
+                        // feedAdapter.notifyItemInserted(posts.size()-1);
                         rawPosts.add(post);
                     }
-                    //PoliticalAffData data = new PoliticalAffData(getApplicationContext());
-                    //double affiliation = data.getAffiliationNum();
-                    // Probability.getCategory();
-                    // feedAdapter.notifyItemInserted(posts.size()-1); // latest item
+                    populateTimeline(rawPosts, feedAdapter, posts);
+
 
                     Log.i(TAG, String.format("Loaded %s posts", results.length()));
                 } catch (JSONException e) {
@@ -158,6 +159,32 @@ public class TopNewsClient extends AppCompatActivity {
                 Log.e(TAG, "Failed to get data from now playing endpoint", throwable);
             }
         });
+    }
+
+    private void populateTimeline(final ArrayList<Post> rawPosts, final FeedAdapter feedAdapter, final ArrayList<Post> posts) {
+        PoliticalAffData data = new PoliticalAffData(context);
+        double affiliation = data.getAffiliationNum();
+        int size = rawPosts.size();
+        for (int i = 0; i < size; i++) {
+            int category = Probability.getCategory(affiliation);
+            Post p = findPostWithCategory(rawPosts, category);
+            posts.add(p);
+            feedAdapter.notifyItemInserted(posts.size()-1);
+        }
+    }
+
+    private Post findPostWithCategory(ArrayList<Post> rawPosts, int category) {
+        for (int i = 0; i < rawPosts.size(); i++) {
+            Post p = rawPosts.get(i);
+            if (p.getPoliticalBias() == category) {
+                rawPosts.remove(i);
+                return p;
+            }
+        }
+        // otherwise we didn't find a post with the category, so return the first one in the list
+        Post p = rawPosts.get(0);
+        rawPosts.remove(0);
+        return p;
     }
 
     // Retrieves ArrayList of Posts given the related keywords from an API
