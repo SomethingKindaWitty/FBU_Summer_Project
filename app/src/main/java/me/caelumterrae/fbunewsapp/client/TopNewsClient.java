@@ -24,7 +24,7 @@ import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
 public class TopNewsClient extends AppCompatActivity {
     public final static String TAG = "TopNewClient";
     public final static String MEDIA_BIAS_URL = "https://raw.githubusercontent.com/drmikecrowe/mbfcext/master/docs/sources.json";
-    public static final String API_KEY = "403530691b5d4a39bcc661496af91ce8";
+    public static final String API_KEY = "843120ac9e79440e81573a57dc13ce4f";
     public final static String API_KEY_PARAM = "apiKey";
     public final static String API_BASE_URL = "https://newsapi.org/v2"; // base API url
     public final static String COUNTRY_KEY_PARAM = "country";
