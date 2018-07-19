@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
-import me.caelumterrae.fbunewsapp.math.Probability;
+import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 
@@ -58,7 +58,7 @@ public class FeedFragment extends Fragment{
                 // once the network request has completed successfully.
                 feedAdapter.clear();
                 posts.clear();
-                client.getTopNews(feedAdapter, posts);
+                client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter));
                 swipeContainer.setRefreshing(false);
 
             }
@@ -69,7 +69,7 @@ public class FeedFragment extends Fragment{
                 android.R.color.holo_blue_dark,
                 android.R.color.holo_purple);
 
-        client.getTopNews(feedAdapter, posts);
+        client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter));
     }
 
 }

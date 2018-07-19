@@ -46,7 +46,7 @@ public class Post {
         post.setSummary(jsonObject.getString("description"));
         post.setTitle(jsonObject.getString("title"));
         post.setUrl(jsonObject.getString("url"));
-        post.setPoliticalBias(0);
+        post.setPoliticalBias(50);
         if (jsonObject.getString("description").equals("null")) {
             post.setSummary("");
         } else {
