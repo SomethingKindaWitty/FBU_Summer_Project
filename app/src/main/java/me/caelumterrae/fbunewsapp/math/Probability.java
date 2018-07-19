@@ -10,28 +10,30 @@ import java.util.ArrayList;
 public class Probability {
 
     /* Takes in the user's political affiliation number to gives us the political category we should
-     * draw from (1 through 5 inclusive)
+     * draw from
      */
 
     private static final double ALPHA_CONST = 62.00051;
     private static final double BETA_CONST = 37.99949;
+    private BetaDistribution betaDis;
 
-    public static int getCategory(double affiliation) {
-
-        /* First use user's 'affiliation' to calculate the Alpha and Beta values for our beta dist.
-         * (Alpha & beta values determine the shape & skew of the distribution -- peak will be @
-         * user's affiliation value). The beta distribution (bell-curve shape) is used to describe
-         * the probabilities of each of the 5 political categories
-         */
-
+    /* Use user's 'affiliation' to calculate the Alpha and Beta values for our beta dist.
+     * (Alpha & beta values determine the shape & skew of the distribution -- peak will be @
+     * user's affiliation value). The beta distribution (bell-curve shape) is used to describe
+     * the probabilities of each of the 5 political categories
+     */
+    public Probability(double affiliation) {
         double alpha = getGaussianValue(affiliation, ALPHA_CONST);
         double beta = getGaussianValue(affiliation, BETA_CONST);
 
-        BetaDistribution betaDis = new BetaDistribution(alpha, beta);
-        // returns a number 0, 25, 50, 75, 100
-        // corresponds to: [left (0), left-center (25), moderate (50), right-center (75), right (100)]
-        Log.i("Beta", Integer.toString(25*(int)(betaDis.sample()*5)));
-        return (int)(betaDis.sample()*5+1);
+        betaDis = new BetaDistribution(alpha, beta);
+
+    }
+
+    // returns a number 0, 25, 50, 75, 100 = which category to pick a news article from
+    // corresponds to: [left (0), left-center (25), moderate (50), right-center (75), right (100)]
+    public int getCategory() {
+        return 25*(int)(betaDis.sample()*5);
 
 
         // FOR DEBUGGING

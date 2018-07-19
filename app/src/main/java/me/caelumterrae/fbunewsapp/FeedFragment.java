@@ -48,7 +48,7 @@ public class FeedFragment extends Fragment{
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         //set adapter
         rvPosts.setAdapter(feedAdapter);
-        // Lookup the swipe container view
+        // Lookup the swipe contadfgsdiner view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -58,7 +58,7 @@ public class FeedFragment extends Fragment{
                 // once the network request has completed successfully.
                 feedAdapter.clear();
                 posts.clear();
-                client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter));
+                client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, getContext()));
                 swipeContainer.setRefreshing(false);
 
             }
@@ -69,7 +69,7 @@ public class FeedFragment extends Fragment{
                 android.R.color.holo_blue_dark,
                 android.R.color.holo_purple);
 
-        client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter));
+        client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, getContext()));
     }
 
 }
