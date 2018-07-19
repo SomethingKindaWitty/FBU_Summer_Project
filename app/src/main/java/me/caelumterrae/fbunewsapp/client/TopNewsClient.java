@@ -151,9 +151,9 @@ public class TopNewsClient extends AppCompatActivity {
     }
 
     // Retrieves ArrayList of Posts given the related keywords from an API
-
     public void getRelatedNews(String category, JSONArray keywords, final String originalurl, final RelatedAdapter relatedAdapter, final ArrayList<Post> posts) throws JSONException {
         String url = API_BASE_URL + "/everything";
+
         RequestParams categoryParams = new RequestParams();
         categoryParams.put(COUNTRY_KEY_PARAM, COUNTRY);
         categoryParams.put(API_KEY_PARAM, API_KEY);
@@ -202,7 +202,15 @@ public class TopNewsClient extends AppCompatActivity {
                         for (int i = 0; i < results.length(); i++) {
                             Post post = Post.fromJSON(results.getJSONObject(i));
                             if (!post.getUrl().equals(originalurl)) {
-                                posts.add(post);
+                                Boolean postExists = false;
+                                for(int j = 0; j < posts.size(); j++){
+                                    if(post.getUrl().equals(posts.get(j).getUrl())){
+                                        postExists = true;
+                                    }
+                                }
+                                if (!postExists) {
+                                    posts.add(post);
+                                }
                                 // notify adapter that a row was added
                                 relatedAdapter.notifyItemInserted(posts.size() - 1); // latest item
                             }

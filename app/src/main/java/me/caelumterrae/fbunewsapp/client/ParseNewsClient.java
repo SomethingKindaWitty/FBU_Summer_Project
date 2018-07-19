@@ -46,12 +46,13 @@ public class ParseNewsClient {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     JSONArray keywords = response.getJSONArray("keywords");
+                    String category = response.getString("category");
                     String text = response.getString("text");
                     tvBody.setText(text);
                     pb.setVisibility(ProgressBar.INVISIBLE);
 
                     //TODO: update the trump keyword to be the keyword received from the call to our backend
-                    topNewsClient.getRelatedNews(keywords,articleUrl,relatedAdapter, finalPosts);
+                    topNewsClient.getRelatedNews(category, keywords,articleUrl,relatedAdapter, finalPosts);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
