@@ -22,6 +22,7 @@ public class UserFragment extends Fragment {
 
     public TextView username;
     public ImageView profileImage;
+    public TextView politicalAffiliation;
     private int userID;
     private User user;
     private UserDatabase database;
@@ -82,12 +83,16 @@ public class UserFragment extends Fragment {
     public void createUser(View view) {
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
+        politicalAffiliation = view.findViewById(R.id.politicalNum);
 
         if (user.getUsername() == null) {
             username.setText(R.string.app_name);
         } else {
             username.setText(user.getUsername());
         }
+
+        //TODO - get political affiliation
+        politicalAffiliation.setText("human");
 
         Glide.with(getContext())
                 .load(R.drawable.red_footed_tortoise)
