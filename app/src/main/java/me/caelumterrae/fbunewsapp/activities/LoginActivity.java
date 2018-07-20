@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                     user.setUid(0);
                 }
                 user.setPoliticalPreference(0);
+                user.setNumUpvoted(0);
                 user.setCategories(null);
                 user.setProfileUrl(null);
 

@@ -9,6 +9,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,9 +19,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
@@ -31,6 +34,7 @@ import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
+import me.caelumterrae.fbunewsapp.model.User;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -43,7 +47,7 @@ public class DetailsActivity extends AppCompatActivity {
     Drawable main;
     Drawable drawable;
     ProgressBar pb;
-    PoliticalAffData data;
+    User user;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -55,6 +59,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         // populate the fields using an intent
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
+        user = Parcels.unwrap(getIntent().getParcelableExtra(User.class.getSimpleName()));
 
         tvTitle = findViewById(R.id.tvTitle);
         rvRelated = findViewById(R.id.rvRelated);
@@ -111,21 +116,35 @@ public class DetailsActivity extends AppCompatActivity {
             upVote.setBackground(main);
         }
 
-        data = new PoliticalAffData(this);
-
     }
     //  Upvote Button Handler - Saves data from button and brings user to activity main
     public void onUpvote(View v) {
         if (post.getUpvoted()){
             post.setUpvoted(false);
-            data.updateFile(false, post.getPoliticalBias());
+            updateFile(false, post.getPoliticalBias());
             upVote.setBackground(main);
         } else {
             // change tint color!
             post.setUpvoted(true);
-            data.updateFile(true, post.getPoliticalBias());
+            updateFile(true, post.getPoliticalBias());
             upVote.setBackground(drawable);
         }
+    }
+
+    public void updateFile(boolean isUpvoting, int politicalBias) {
+        int numVotes = user.getNumUpvoted();
+        double voteAvg = user.getPoliticalPreference();
+        Log.i("this", Integer.toString(numVotes) + " " + Double.toString(voteAvg));
+        if (isUpvoting) {
+            // increase num votes and calculate new average
+            user.setNumUpvoted(numVotes+1);
+            user.setPoliticalPreference((numVotes*voteAvg+politicalBias)/(numVotes+1));
+        }
+        else { // decrease num votes and calculate new average
+            user.setNumUpvoted(numVotes-1);
+            user.setPoliticalPreference((numVotes*voteAvg-politicalBias)/(numVotes-1));
+        }
+        Log.i("this", Integer.toString(user.getNumUpvoted()) + " " + Double.toString(user.getPoliticalPreference()));
     }
 
 }
