@@ -9,7 +9,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,12 +18,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
@@ -32,6 +28,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
+import me.caelumterrae.fbunewsapp.handlers.NewsDataHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
 
@@ -82,7 +79,7 @@ public class DetailsActivity extends AppCompatActivity {
         String test = post.getUrl();
         final ArrayList<Post> finalPosts = posts;
         try {
-            parseNewsClient.getData(test, tvBody, relatedAdapter, finalPosts, topNewsClient, pb);
+            parseNewsClient.getData(test, new NewsDataHandler(test, tvBody, relatedAdapter, posts, topNewsClient, pb));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {
