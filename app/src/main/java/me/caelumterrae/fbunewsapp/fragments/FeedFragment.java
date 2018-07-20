@@ -1,4 +1,4 @@
-package me.caelumterrae.fbunewsapp;
+package me.caelumterrae.fbunewsapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
+import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 
 public class FeedFragment extends Fragment{
 

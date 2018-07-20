@@ -12,19 +12,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
-import me.caelumterrae.fbunewsapp.math.Probability;
-import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
 
 public class TopNewsClient extends AppCompatActivity {
     public final static String TAG = "TopNewClient";

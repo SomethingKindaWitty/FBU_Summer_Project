@@ -19,7 +19,7 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import me.caelumterrae.fbunewsapp.handlers.RelatedHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
+import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 
 public class ParseNewsClient {
     public final static String TAG = "ParseNewsClient";

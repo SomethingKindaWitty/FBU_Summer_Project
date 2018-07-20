@@ -1,4 +1,4 @@
-package me.caelumterrae.fbunewsapp;
+package me.caelumterrae.fbunewsapp.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.SeekBar;
 
 import org.parceler.Parcels;
 
+import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 

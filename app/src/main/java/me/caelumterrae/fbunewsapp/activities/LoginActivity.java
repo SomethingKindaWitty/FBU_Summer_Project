@@ -1,4 +1,4 @@
-package me.caelumterrae.fbunewsapp;
+package me.caelumterrae.fbunewsapp.activities;
 
 //import android.arch.persistence.room.Room;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.model.User;
 

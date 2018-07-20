@@ -1,4 +1,4 @@
-package me.caelumterrae.fbunewsapp;
+package me.caelumterrae.fbunewsapp.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.caelumterrae.fbunewsapp.utilities.FragmentAdapter;
+import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.adapters.FragmentAdapter;
+import me.caelumterrae.fbunewsapp.fragments.FeedFragment;
+import me.caelumterrae.fbunewsapp.fragments.UserFragment;
 
 public class SwipeActivity extends AppCompatActivity {
     private final List<Fragment> fragments = new ArrayList<>();

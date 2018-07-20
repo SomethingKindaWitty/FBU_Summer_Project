@@ -9,11 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
@@ -21,7 +18,7 @@ import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.utilities.FeedAdapter;
+import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 
 public class TimelineHandler extends JsonHttpResponseHandler{
     HashMap<String, String> sourceBias;
