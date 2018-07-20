@@ -36,6 +36,10 @@ public class UserFragment extends Fragment {
     private boolean isDone = false;
     private final Object object = "hello";
 
+    public UserFragment(){
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //userID = getArguments().getInt("uid");
+        userID = getArguments().getInt("uid");
         database = UserDatabase.getInstance(getContext());
         if (database == null) {
             Log.e("Database", "failed to create");
@@ -57,7 +61,7 @@ public class UserFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                user = database.userDao().findByID(0);
+                user = database.userDao().findByID(userID);
                 if (user == null) {
                     Log.e("Usernew", "not found");
                 } else {

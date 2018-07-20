@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         //Bundle userInfo = new Bundle();
         userID = bundle.getInt("uid", 0);
-       // userInfo.putInt("uid", userID);
+        //userInfo.setArguments("uid", userID);
 
         //set client
         client = new TopNewsClient(this);
