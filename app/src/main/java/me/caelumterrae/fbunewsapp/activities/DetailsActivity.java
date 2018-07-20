@@ -29,6 +29,7 @@ import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
+import me.caelumterrae.fbunewsapp.handlers.NewsDataHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 
@@ -79,7 +80,7 @@ public class DetailsActivity extends AppCompatActivity {
         String test = post.getUrl();
         final ArrayList<Post> finalPosts = posts;
         try {
-            parseNewsClient.getData(test, tvBody, relatedAdapter, finalPosts, topNewsClient, pb);
+            parseNewsClient.getData(test, new NewsDataHandler(test, tvBody, relatedAdapter, posts, topNewsClient, pb));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {
