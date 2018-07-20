@@ -1,6 +1,5 @@
 package me.caelumterrae.fbunewsapp.utility;
 
-
 import android.content.Context;
 import android.util.Log;
 
@@ -15,14 +14,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
+import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
 
-// All functions relating to populating the timeline
-public class Timeline {
+public class Related {
 
 
     public static HashMap<String, String> sourceBias;
@@ -30,7 +28,7 @@ public class Timeline {
     // Orders posts based on user's political affiliation. Takes in rawPosts (list of all raw posts)
     // and context. Updates post & adapter with the curated posts
     public static void populateTimeline(ArrayList<Post> rawPosts, Context context,
-                                        ArrayList<Post> posts, FeedAdapter feedAdapter) {
+                                        ArrayList<Post> posts, RelatedAdapter relatedAdapter) {
         // Creates Beta distribution based on on users affiliation number.
         PoliticalAffData data = new PoliticalAffData(context);
         double affiliation = data.getAffiliationNum();
@@ -41,7 +39,7 @@ public class Timeline {
             int category = betaDis.getCategory();
             Post p = findPostWithCategory(rawPosts, category);
             posts.add(p);
-            feedAdapter.notifyItemInserted(posts.size()-1);
+            relatedAdapter.notifyItemInserted(posts.size()-1);
         }
     }
     // Finds a post within rawPosts with a given category [0, 25, 50, 75, 100].
@@ -86,7 +84,7 @@ public class Timeline {
                         String value = valueObject.getString("bias");
                         if (response.get(key) instanceof JSONObject ) {
                             sourceBias.put(key, value);
-                             // Log.i("BOOP", key + " : " + value);
+                            // Log.i("BOOP", key + " : " + value);
                         }
                     }
                 } catch (JSONException e) {

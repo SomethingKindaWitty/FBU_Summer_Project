@@ -2,23 +2,15 @@ package me.caelumterrae.fbunewsapp.client;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 
-import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 import me.caelumterrae.fbunewsapp.utility.Timeline;
 
@@ -61,7 +53,6 @@ public class TopNewsClient extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put(LANGUAGE_PARAM, LANGUAGE);
         params.put(SOURCES_PARAM, SOURCES);
-        params.put(LANGUAGE_PARAM, LANGUAGE);
         params.put(FROM_PARAM, todaysDate);
         params.put(NUM_RESPONSES_KEY, NUM_RESPONSES);
         params.put(API_KEY_PARAM, API_KEY); // TODO: Make Api Key Secret
@@ -73,53 +64,12 @@ public class TopNewsClient extends AppCompatActivity {
     // TODO: NARROW SCOPE OF RELATED NEWS TO GET THE BEST RELATED NEWS
     public void getRelatedNews(String category, JsonHttpResponseHandler jsonHttpResponseHandler) throws JSONException {
         String url = API_BASE_URL + "/everything";
+        RequestParams params = new RequestParams();
+        params.put(LANGUAGE_PARAM, LANGUAGE);
+        params.put(SOURCES_PARAM, SOURCES);
+        params.put(API_KEY_PARAM, API_KEY);
+        params.put(KEYWORD_KEY_PARAM, category);
+        client.get(url, params, jsonHttpResponseHandler);
 
-        RequestParams categoryParams = new RequestParams();
-        categoryParams.put(API_KEY_PARAM, API_KEY);
-        categoryParams.put(KEYWORD_KEY_PARAM, category);
-        client.get(url, categoryParams, jsonHttpResponseHandler);
-
-//        for (int i = 0; i < keywords.length(); i++) {
-//            RequestParams params = new RequestParams();
-//            params.put(COUNTRY_KEY_PARAM, COUNTRY);
-//            params.put(API_KEY_PARAM, API_KEY);
-//            params.put(KEYWORD_KEY_PARAM, keywords.get(i));
-//            client.get(url, params, new JsonHttpResponseHandler() {
-//                @Override
-//                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                    // parse the response to Post object
-//                    // add the Post object to the arraylist
-//                    try {
-//                        JSONArray results = response.getJSONArray(TopNewsClient.ROOT_NODE);
-//                        for (int i = 0; i < results.length(); i++) {
-//                            Post post = Post.fromJSON(results.getJSONObject(i));
-//                            if (!post.getUrl().equals(originalurl)) {
-//                                Boolean postExists = false;
-//                                for(int j = 0; j < posts.size(); j++){
-//                                    if(post.getUrl().equals(posts.get(j).getUrl())){
-//                                        postExists = true;
-//                                    }
-//                                }
-//                                if (!postExists) {
-//                                    posts.add(post);
-//                                    // notify adapter that a row was added
-//                                    relatedAdapter.notifyItemInserted(posts.size() - 1); // latest item
-//                                }
-//                            }
-//                        }
-//                        Log.i("TopNewsClient", String.format("Loaded %s posts", results.length()));
-//                    } catch (JSONException e) {
-//                        Log.e("TopNewsClient", "Failed to parse top posts", e);
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                    Log.e("TopNewsClient", "Failed to get data from now playing endpoint", throwable);
-//                }
-//            });
-//        }
     }
 }
