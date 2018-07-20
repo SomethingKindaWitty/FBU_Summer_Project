@@ -24,9 +24,11 @@ public class SwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
+        //pulls uid from either LoginActivity or CreateActivity
         Bundle bundle = getIntent().getExtras();
         uid = bundle.getInt("uid");
-      
+
+        //creates new bundle to send info to fragments
         Bundle user = new Bundle();
         user.putInt("uid", uid);
 
@@ -34,16 +36,19 @@ public class SwipeActivity extends AppCompatActivity {
         fragments.add(new FeedFragment());
         fragments.add(new UserFragment());
 
+
+        //packs bundle to fragment
         fragments.get(0).setArguments(user); // Feed Fragment
         fragments.get(1).setArguments(user); // User fragment
 
 
         // Grab a reference to view pager.
         viewPager = findViewById(R.id.viewPager);
-        // Instantiate our ExampleAdapter which we will use in our ViewPager
+        // Instantiate our FragmentAdapter which we will use in our ViewPager
         adapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
         // Attach our adapter to our view pager.
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {

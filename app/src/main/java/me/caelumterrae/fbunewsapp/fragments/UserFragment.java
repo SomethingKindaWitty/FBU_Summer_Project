@@ -25,6 +25,7 @@ public class UserFragment extends Fragment {
     private int userID;
     private User user;
     private UserDatabase database;
+    //arbitrary object for synchronization
     private final Object object = "hello";
 
     public UserFragment(){
@@ -41,6 +42,7 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //pull information from SwipeActivity
         userID = getArguments().getInt("uid");
         database = UserDatabase.getInstance(getContext());
         if (database == null) {
@@ -72,7 +74,7 @@ public class UserFragment extends Fragment {
                 object.wait();
                 createUser(view);
             } catch (InterruptedException e) {
-                // Happens if someone interrupts your thread.
+                e.printStackTrace();
             }
         }
     }

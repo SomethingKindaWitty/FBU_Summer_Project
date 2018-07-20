@@ -49,7 +49,7 @@ public class ParseNewsClient {
                     JSONArray keywords = response.getJSONArray("keywords");
                     String category = response.getString("category");
                     String text = response.getString("text");
-                    tvBody.setText(text);
+                    tvBody.setText(text); //TODO: Load text into the post so that post doesnt have to be reloaded.
                     pb.setVisibility(ProgressBar.INVISIBLE);
 
                     //TODO: update the trump keyword to be the keyword received from the call to our backend

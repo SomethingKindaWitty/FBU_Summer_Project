@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private List<User> userList;
     private User result;
     private UserDatabase database;
+    //object values are arbitrary; used for synchronization of threads
     private final Object object = "hello";
     private final Object otherObject = "hello";
 
@@ -40,17 +41,19 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login);
         signUpButton = findViewById(R.id.signup);
 
+        //grabs current instance of database
         database = UserDatabase.getInstance(getApplicationContext());
         if (database == null){
             Log.e("Database", "failed to create");
         }else{
-            Log.e("Database", "created");
+            Log.i("Database", "created");
         }
-
 
         new Thread(new Runnable() {
             @Override
             public void run() {
+                //userlist size used later to create uid
+                //consistent adding ensures no two uids are the same
                 userList = database.userDao().getAll();
                 if (userList == null){
                     Log.e("userDao", "invalid");
@@ -58,7 +61,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         }).start();
 
-
+        //checks to see if username/password combination already exists in database
+        //if not, prompts invalid login
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -70,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         result = database.userDao().findByName(username,password);
-                        Log.e("result", "created");
+                        Log.i("result", "created");
                         synchronized (object) {
                             object.notify();
                         }
@@ -79,28 +83,27 @@ public class LoginActivity extends AppCompatActivity {
 
                 synchronized (object) {
                     try {
-                        // Calling wait() will block this thread until another thread
-                        // calls notify() on the object.
+                        // block thread until respective object.notify() is called
                         object.wait();
                         if (result != null) {
                             int uid = result.getUid();
-
                             final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
                             intent.putExtra("uid", uid);
-
                             startActivity(intent);
                             finish();
                         }else{
                             Toast.makeText(getApplicationContext(), "Invalid login", Toast.LENGTH_LONG).show();
                         }
                     } catch (InterruptedException e) {
-                        // Happens if someone interrupts your thread.
+                        e.printStackTrace();
                     }
                 }
 
             }
         });
 
+        //checks to see if username/password combination already exists in database
+        //if yes, denies sign up
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         result = database.userDao().findByName(username,password);
-                        Log.e("result", "created");
+                        Log.i("result", "created");
                         synchronized (otherObject) {
                             otherObject.notify();
                         }
@@ -133,21 +136,19 @@ public class LoginActivity extends AppCompatActivity {
 
                 synchronized (otherObject) {
                     try {
+                        // block thread until respective otherObject.notify() is called
                         otherObject.wait();
                         if (result == null) {
                             final Intent intent = new Intent(LoginActivity.this, PoliticalActivity.class);
                             intent.putExtra("User", Parcels.wrap(user));
-
                             startActivity(intent);
                             finish();
-                            Log.e("intent", "started");
+                            Log.i("intent", "started");
                         } else {
                             Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_LONG).show();
-
                         }
-
                     } catch (InterruptedException e) {
-                        // Happens if someone interrupts your thread.
+                        e.printStackTrace();
                     }
                 }
             }

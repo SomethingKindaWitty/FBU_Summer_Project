@@ -12,8 +12,8 @@ import me.caelumterrae.fbunewsapp.model.User;
 
 @Dao
 public interface UserDao {
-
-
+    //Queries for accessing database information
+    //CANNOT be called on Main thread
     @Query("SELECT * FROM user")
     List<User> getAll();
 
