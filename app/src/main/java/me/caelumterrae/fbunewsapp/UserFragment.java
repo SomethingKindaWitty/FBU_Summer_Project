@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.model.User;
 
-public class UserFragment extends Fragment{
+public class UserFragment extends Fragment {
 
     public TextView username;
     public ImageView profileImage;
@@ -32,6 +33,8 @@ public class UserFragment extends Fragment{
     private int userID;
     private User user;
     private UserDatabase database;
+    private boolean isDone = false;
+    private final Object object = "hello";
 
     @Nullable
     @Override
@@ -45,24 +48,53 @@ public class UserFragment extends Fragment{
 
         //userID = getArguments().getInt("uid");
         database = UserDatabase.getInstance(getContext());
+        if (database == null) {
+            Log.e("Database", "failed to create");
+        } else {
+            Log.e("Database", "created");
+        }
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 user = database.userDao().findByID(0);
+                if (user == null) {
+                    Log.e("Usernew", "not found");
+                } else {
+                    Log.e("Usernew", "found");
+                    synchronized (object) {
+                        object.notify();
+                    }
+                }
             }
         }).start();
 
+        //controls thread operation order
+        synchronized (object) {
+            try {
+                // Calling wait() will block this thread until another thread
+                // calls notify() on the object.
+                object.wait();
+                createUser(view);
+            } catch (InterruptedException e) {
+                // Happens if someone interrupts your thread.
+            }
+        }
+    }
+
+    public void createUser(View view) {
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
 
-        //username.setText(user.getUsername());
-        username.setText("Fake Name");
+        if (user.getUsername() == null) {
+            username.setText(R.string.app_name);
+        } else {
+            username.setText(user.getUsername());
+        }
 
         Glide.with(getContext())
                 .load(R.drawable.red_footed_tortoise)
                 .apply(new RequestOptions().fitCenter())
                 .into(profileImage);
-
     }
 }
