@@ -41,7 +41,7 @@ public class PoliticalActivity extends AppCompatActivity {
 
         user.setPoliticalPreference(seekBar.getProgress());
 
-        //writeItems(affiliationNum); // store political affiliation number in political_affiliation.txt
+        // store political affiliation number in political_affiliation.txt
         Intent intent = new Intent(PoliticalActivity.this, CreateActivity.class);
         intent.putExtra("newUser", Parcels.wrap(user));
       
@@ -51,29 +51,5 @@ public class PoliticalActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-//    // Save the political affiliation number in text file
-//    private void writeItems(String text) {
-//        try {
-//            FileUtils.writeStringToFile(getDataFile(), text);  // writes line to FILE_NAME
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    // Return file which the data is stored in
-//    private File getDataFile() {
-//        return new File(getFilesDir(), FILE_NAME);
-//    }
-//
-//    // Read last saved (if any) affiliation number from the file system and display it on seekbar
-//    private void readItems() {
-//        try {
-//            affiliationNum = FileUtils.readFileToString(getDataFile());
-//            seekBar.setProgress(Integer.parseInt(affiliationNum));
-//        }  catch (IOException e) {
-//            e.printStackTrace(); // print error to console
-//        }
-//    }
 
 }

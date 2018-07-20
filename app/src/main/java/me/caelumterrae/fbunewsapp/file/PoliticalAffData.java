@@ -67,7 +67,7 @@ public class PoliticalAffData {
         }
     }
 
-    // from 0.0 [lto 100.0 [right]
+    // from 0.0 [left] to 100.0 [right]
     public double getAffiliationNum() {
         return Double.parseDouble(file_data.get(1));
     }

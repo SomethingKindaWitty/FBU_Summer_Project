@@ -34,11 +34,8 @@ public class Post {
         Post post = new Post();
         
         String tempTime = jsonObject.getString("publishedAt");
-        String example = "\"2018-07-17T17:35:01Z\"";
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"); // TODO put in date utility
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
-//        int index = tempTime.indexOf("T");
-//        post.setDate(tempTime.substring(0,index));
         Date date = format.parse(tempTime);
         post.setDate(date);
 

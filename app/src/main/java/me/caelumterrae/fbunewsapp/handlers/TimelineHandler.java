@@ -45,15 +45,13 @@ public class TimelineHandler extends JsonHttpResponseHandler{
             // rawPosts will get the raw data from the request. We will then order the posts based
             // on the user's political affiliation and put that in posts.
             final ArrayList<Post> rawPosts = new ArrayList<>();
-
-
             for (int i = 0; i < results.length(); i++) {
                 Post post = Post.fromJSON(results.getJSONObject(i));
                 // Sets the political bias of a source like "cnbc.com" to 0(left)-100(right)
-                String bias = sourceBias.get(TopNewsClient.trimUrl(post.getUrl()));
-                post.setPoliticalBias(TopNewsClient.biasToNum(bias));
+                String bias = sourceBias.get(TopNewsClient.trimUrl(post.getUrl())); // TODO move to utility
+                post.setPoliticalBias(TopNewsClient.biasToNum(bias)); // TODO move to utility
                 Log.i(TAG, TopNewsClient.trimUrl(post.getUrl()) + " " + Integer.toString(TopNewsClient.biasToNum(bias)) + " " + bias);
-                // **** new change -- add to rawPosts. afterwards, populate timeline based on affiliation
+                // Add to rawPosts. afterwards, populate timeline based on affiliation
                 rawPosts.add(post);
             }
             populateTimeline(rawPosts);
@@ -65,7 +63,8 @@ public class TimelineHandler extends JsonHttpResponseHandler{
         }
     }
 
-    // Orders posts based on user's political affilliation -- updates post & adapter
+    // Orders posts based on user's political affiliation -- updates post & adapter
+    // TODO move to utility
     private void populateTimeline(final ArrayList<Post> rawPosts) {
         // Creates Beta distribution based on on users affiliation number.
         PoliticalAffData data = new PoliticalAffData(context);
@@ -77,11 +76,11 @@ public class TimelineHandler extends JsonHttpResponseHandler{
             int category = betaDis.getCategory();
             Post p = findPostWithCategory(rawPosts, category);
             posts.add(p);
-
             feedAdapter.notifyItemInserted(posts.size()-1);
         }
     }
 
+    // TODO move to utility
     private Post findPostWithCategory(ArrayList<Post> rawPosts, int category) {
         for (int i = 0; i < rawPosts.size(); i++) {
             Post p = rawPosts.get(i);

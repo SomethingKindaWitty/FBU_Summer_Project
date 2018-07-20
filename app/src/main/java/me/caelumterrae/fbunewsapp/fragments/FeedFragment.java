@@ -49,7 +49,7 @@ public class FeedFragment extends Fragment{
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         //set adapter
         rvPosts.setAdapter(feedAdapter);
-        // Lookup the swipe contadfgsdiner view
+        // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
