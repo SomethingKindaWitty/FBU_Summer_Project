@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
+import me.caelumterrae.fbunewsapp.utility.DateFunctions;
+
 @Parcel
 public class Post {
 
@@ -32,13 +34,7 @@ public class Post {
 
     public static Post fromJSON(JSONObject jsonObject) throws JSONException, ParseException {
         Post post = new Post();
-        
-        String tempTime = jsonObject.getString("publishedAt");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"); // TODO put in date utility
-        format.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date date = format.parse(tempTime);
-        post.setDate(date);
-
+        post.setDate(DateFunctions.getRelativeDate(jsonObject.getString("publishedAt")));
         post.setImageUrl(jsonObject.getString("urlToImage"));
         post.setSummary(jsonObject.getString("description"));
         post.setTitle(jsonObject.getString("title"));
