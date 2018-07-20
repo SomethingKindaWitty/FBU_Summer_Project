@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     //private LocalUserDataSource dataSource;
     private UserDatabase database;
     private final Object object = "hello";
+    private final Object otherObject = "hello";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,18 +140,30 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
                         result = database.userDao().findByName(username,password);
                         Log.e("result", "created");
+                        synchronized (otherObject) {
+                            otherObject.notify();
+                        }
                     }
                 }).start();
 
-                if (result == null) {
-                    final Intent intent = new Intent(LoginActivity.this, PoliticalActivity.class);
-                    intent.putExtra("User", Parcels.wrap(user));
-                    //intent.putExtra("Data Source", Parcels.wrap(dataSource));
-                    startActivity(intent);
-                    finish();
-                    Log.e("intent", "started");
-                }else{
-                    Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_LONG).show();
+                synchronized (otherObject) {
+                    try {
+                        otherObject.wait();
+                        if (result == null) {
+                            final Intent intent = new Intent(LoginActivity.this, PoliticalActivity.class);
+                            intent.putExtra("User", Parcels.wrap(user));
+                            //intent.putExtra("Data Source", Parcels.wrap(dataSource));
+                            startActivity(intent);
+                            finish();
+                            Log.e("intent", "started");
+                        } else {
+                            Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_LONG).show();
+
+                        }
+
+                    } catch (InterruptedException e) {
+                        // Happens if someone interrupts your thread.
+                    }
                 }
             }
         });
