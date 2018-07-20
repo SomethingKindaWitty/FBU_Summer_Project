@@ -19,6 +19,7 @@ import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
+import me.caelumterrae.fbunewsapp.utility.Format;
 
 public class TimelineHandler extends JsonHttpResponseHandler{
     HashMap<String, String> sourceBias;
@@ -48,9 +49,9 @@ public class TimelineHandler extends JsonHttpResponseHandler{
             for (int i = 0; i < results.length(); i++) {
                 Post post = Post.fromJSON(results.getJSONObject(i));
                 // Sets the political bias of a source like "cnbc.com" to 0(left)-100(right)
-                String bias = sourceBias.get(TopNewsClient.trimUrl(post.getUrl())); // TODO move to utility
-                post.setPoliticalBias(TopNewsClient.biasToNum(bias)); // TODO move to utility
-                Log.i(TAG, TopNewsClient.trimUrl(post.getUrl()) + " " + Integer.toString(TopNewsClient.biasToNum(bias)) + " " + bias);
+                String bias = sourceBias.get(Format.trimUrl(post.getUrl())); // TODO move to utility
+                post.setPoliticalBias(Format.biasToNum(bias)); // TODO move to utility
+                Log.i(TAG, Format.trimUrl(post.getUrl()) + " " + Integer.toString(Format.biasToNum(bias)) + " " + bias);
                 // Add to rawPosts. afterwards, populate timeline based on affiliation
                 rawPosts.add(post);
             }

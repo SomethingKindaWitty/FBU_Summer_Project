@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
+import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 
 public class TopNewsClient extends AppCompatActivity {
     public final static String TAG = "TopNewClient";
@@ -84,59 +85,11 @@ public class TopNewsClient extends AppCompatActivity {
         });
     }
 
-    // Convert "https://www.cnbc.com/2018/3/2..." to "cnbc.com"
-    static public String trimUrl (String url) {
-        final String http = "http://";
-        final String https = "https://";
-        final String www = "www.";
-
-        int httpIndex = url.indexOf(http) + http.length();
-        int httpsIndex = url.indexOf(https) + https.length();
-        int wwwIndex = url.indexOf(www) + www.length();
-        int beginIndex = Math.max(Math.max(httpIndex, httpsIndex), wwwIndex);
-        String trimmedUrl = url.substring(beginIndex);
-        int endIndex = trimmedUrl.indexOf("/");
-        return trimmedUrl.substring(0, endIndex);
-    }
-
-    // converts bias string to political affiliation number
-    // TODO: refactor to not be in this class. Not necessary for the Client. Either put in handler or in its own utilities class.
-    public static int biasToNum(String bias) {
-        if (bias == null) return 50;
-        switch (bias) {
-            case "right":
-                return 100;
-            case "right-center":
-                return 75;
-            case "center":
-                return 50;
-            case "leftcenter":
-                return 25;
-            case "left":
-                return 0;
-            default:
-                return 50;
-        }
-    }
-    // Retrieves ArrayList of posts of top news from newsapi.org APi
-    // Pass in feedAdapter and this function will populate it with top news articles
-//    public void getTopNews_OLD(JsonHttpResponseHandler jsonHttpResponseHandler) {
-//        String url = API_BASE_URL + "/top-headlines"; // create url -- endpoint is /sources
-//        RequestParams params = new RequestParams();
-//        params.put(COUNTRY_KEY_PARAM, COUNTRY);
-//        params.put(NUM_RESPONSES_KEY, NUM_RESPONSES);
-//        params.put(API_KEY_PARAM, API_KEY);
-//        client.get(url, params, jsonHttpResponseHandler);
-//    }
-
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
     public void getTopNews(JsonHttpResponseHandler jsonHttpResponseHandler) {
         String url = API_BASE_URL + "/everything"; // create url -- endpoint is /sources
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cal = Calendar.getInstance();
-        String todaysDate = dateFormat.format(cal.getTime());
-
+        String todaysDate = DateFunctions.getTodaysDate();
         RequestParams params = new RequestParams();
         params.put(LANGUAGE_PARAM, LANGUAGE);
         params.put(SOURCES_PARAM, SOURCES);
