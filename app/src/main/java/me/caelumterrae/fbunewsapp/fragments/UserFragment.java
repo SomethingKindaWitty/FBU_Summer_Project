@@ -1,4 +1,4 @@
-package me.caelumterrae.fbunewsapp;
+package me.caelumterrae.fbunewsapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.model.User;
 

@@ -1,4 +1,4 @@
-package me.caelumterrae.fbunewsapp.utilities;
+package me.caelumterrae.fbunewsapp.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

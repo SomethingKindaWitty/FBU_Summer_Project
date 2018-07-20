@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.utilities.RelatedAdapter;
+import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 
 public class RelatedHandler extends JsonHttpResponseHandler{
     String originalurl;
