@@ -50,7 +50,7 @@ public class CreateActivity extends AppCompatActivity {
         business = findViewById(R.id.business);
         entertainment = findViewById(R.id.entertainment);
         general = findViewById(R.id.general);
-        health= findViewById(R.id.health);
+        health = findViewById(R.id.health);
         science = findViewById(R.id.science);
         sports = findViewById(R.id.sports);
         technology = findViewById(R.id.technology);
@@ -63,11 +63,11 @@ public class CreateActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if (numberChecked == 0){
+                if (numberChecked == 0) {
                     Toast.makeText(getBaseContext(), "Please select at least one category", Toast.LENGTH_LONG).show();
-                }else if (numberChecked > 3){
+                } else if (numberChecked > 3) {
                     Toast.makeText(getBaseContext(), "Please select up to three categories", Toast.LENGTH_LONG).show();
-                }else{
+                } else {
                     for (int i =0; i < categories.size(); i++){
                         categoryString += categories.get(i) + " ";
                     }
@@ -99,7 +99,7 @@ public class CreateActivity extends AppCompatActivity {
                 if (checked){
                     categories.add("business");
                     numberChecked ++;
-                }else{
+                } else {
                     categories.remove("business");
                     numberChecked --;
                 }
@@ -108,7 +108,7 @@ public class CreateActivity extends AppCompatActivity {
                 if (checked){
                     categories.add("entertainment");
                     numberChecked ++;
-                }else{
+                } else {
                     categories.remove("entertainment");
                     numberChecked --;
                 }
@@ -117,7 +117,7 @@ public class CreateActivity extends AppCompatActivity {
                 if (checked){
                     categories.add("general");
                     numberChecked ++;
-                }else{
+                } else {
                     categories.remove("general");
                     numberChecked --;
                 }
@@ -126,7 +126,7 @@ public class CreateActivity extends AppCompatActivity {
                 if (checked){
                     categories.add("health");
                     numberChecked ++;
-                }else{
+                } else {
                     categories.remove("health");
                     numberChecked --;
                 }
@@ -135,7 +135,7 @@ public class CreateActivity extends AppCompatActivity {
                 if (checked){
                     categories.add("science");
                     numberChecked ++;
-                }else{
+                } else {
                     categories.remove("science");
                     numberChecked --;
                 }
@@ -144,16 +144,16 @@ public class CreateActivity extends AppCompatActivity {
                 if (checked){
                     categories.add("sports");
                     numberChecked ++;
-                }else{
+                } else {
                     categories.remove("sports");
                     numberChecked --;
                 }
                 break;
             case R.id.technology:
-                if (checked){
+                if (checked) {
                     categories.add("technology");
                     numberChecked ++;
-                }else{
+                } else {
                     categories.remove("technology");
                     numberChecked --;
                 }

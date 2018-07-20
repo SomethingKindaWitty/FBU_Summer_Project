@@ -34,8 +34,8 @@ public class SwipeActivity extends AppCompatActivity {
         fragments.add(new FeedFragment());
         fragments.add(new UserFragment());
 
-        fragments.get(0).setArguments(user);
-        fragments.get(1).setArguments(user);
+        fragments.get(0).setArguments(user); // Feed Fragment
+        fragments.get(1).setArguments(user); // User fragment
 
 
         // Grab a reference to view pager.
