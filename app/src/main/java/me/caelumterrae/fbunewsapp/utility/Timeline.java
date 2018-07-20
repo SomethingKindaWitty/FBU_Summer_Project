@@ -4,9 +4,19 @@ package me.caelumterrae.fbunewsapp.utility;
 import android.content.Context;
 import android.util.Log;
 
-import java.util.ArrayList;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
+import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.Post;
@@ -14,6 +24,8 @@ import me.caelumterrae.fbunewsapp.model.Post;
 // All functions relating to populating the timeline
 public class Timeline {
 
+
+    public static HashMap<String, String> sourceBias;
 
     // Orders posts based on user's political affiliation. Takes in rawPosts (list of all raw posts)
     // and context. Updates post & adapter with the curated posts
@@ -54,5 +66,41 @@ public class Timeline {
                 p.getUrl());
         return p;
     }
+
+    /* Populates sourceBias hashmap with key=URL and value=bias.
+     * Example output { `
+     *  nytimes.com : leftcenter
+     *  democracynow.org : left
+     *  }
+     */
+    public static HashMap<String, String> populateBiasHashMap(AsyncHttpClient client) {
+        sourceBias = new HashMap<>();
+        client.get(TopNewsClient.MEDIA_BIAS_URL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    Iterator<?> keys = response.keys();
+                    while (keys.hasNext()) { // iterate over JSONObject
+                        String key = (String)keys.next();
+                        JSONObject valueObject = response.getJSONObject(key);
+                        String value = valueObject.getString("bias");
+                        if (response.get(key) instanceof JSONObject ) {
+                            sourceBias.put(key, value);
+                             // Log.i("BOOP", key + " : " + value);
+                        }
+                    }
+                } catch (JSONException e) {
+                    Log.e("HashMap", "Failed to parse top posts", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("HashMap", "Failed to get data from now playing endpoint", throwable);
+            }
+        });
+        return sourceBias;
+    }
+
 
 }
