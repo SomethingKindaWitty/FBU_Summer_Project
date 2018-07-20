@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private User result;
     //private LocalUserDataSource dataSource;
     private UserDatabase database;
+    private final Object object = "hello";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,22 +83,35 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
                         result = database.userDao().findByName(username,password);
                         Log.e("result", "created");
+                        synchronized (object) {
+                            object.notify();
+                        }
                     }
                 }).start();
 
                 //result = dataSource.getUser(username, password);
 
-                if (result != null) {
-                    int uid = result.getUid();
-                    // final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
-                    final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
-                    intent.putExtra("uid", uid);
-                    //intent.putExtra("Data Source", Parcels.wrap(dataSource));
-                    startActivity(intent);
-                    finish();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Invalid login", Toast.LENGTH_LONG).show();
+                synchronized (object) {
+                    try {
+                        // Calling wait() will block this thread until another thread
+                        // calls notify() on the object.
+                        object.wait();
+                        if (result != null) {
+                            int uid = result.getUid();
+                            // final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
+                            final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
+                            intent.putExtra("uid", uid);
+                            //intent.putExtra("Data Source", Parcels.wrap(dataSource));
+                            startActivity(intent);
+                            finish();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Invalid login", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (InterruptedException e) {
+                        // Happens if someone interrupts your thread.
+                    }
                 }
+
             }
         });
 
