@@ -24,15 +24,19 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.model.User;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
 
     List<Post> mPosts;
     Context context;
+    User user;
 
     //constructor for posts array
-    public FeedAdapter(List<Post> posts){
+    public FeedAdapter(List<Post> posts, User user)
+    {
         mPosts = posts;
+        this.user = user;
     }
 
     @NonNull
@@ -66,7 +70,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
             Log.e("ImageURL", " is null");
             viewHolder.ivImage.setVisibility(View.GONE);
             viewHolder.pb.setVisibility(View.GONE);
-        }else{
+        } else {
             Picasso.with(context)
                     .load(post.getImageUrl())
                     .fit().centerCrop()
@@ -140,8 +144,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
                 Post post = mPosts.get(position);
                 //create intent
                 Intent intent = new Intent(context, DetailsActivity.class);
-                // serialize the movie using parceler, use its short name as a key
+                // serialize the post using parceler, use its short name as a key
                 intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+                intent.putExtra(User.class.getSimpleName(), Parcels.wrap(user));
                 // show the activity
                 context.startActivity(intent);
             }

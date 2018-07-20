@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "35bb19f0b5bd2a8dd9321ebdb7c09b3a",
+    "identityHash": "e2a43844feb1085ee7e4351d763c1553",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER NOT NULL, `username` TEXT, `password` TEXT, `profileImage` TEXT, `categories` TEXT, `politicalPreference` INTEGER NOT NULL, PRIMARY KEY(`uid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER NOT NULL, `username` TEXT, `password` TEXT, `profileImage` TEXT, `categories` TEXT, `politicalPreference` REAL NOT NULL, `numUpvoted` INTEGER NOT NULL, PRIMARY KEY(`uid`))",
         "fields": [
           {
             "fieldPath": "uid",
@@ -41,6 +41,12 @@
           {
             "fieldPath": "politicalPreference",
             "columnName": "politicalPreference",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "numUpvoted",
+            "columnName": "numUpvoted",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -57,7 +63,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"35bb19f0b5bd2a8dd9321ebdb7c09b3a\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e2a43844feb1085ee7e4351d763c1553\")"
     ]
   }
 }

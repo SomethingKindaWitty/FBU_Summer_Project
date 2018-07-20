@@ -31,7 +31,10 @@ public class User {
     String categories;
 
     @ColumnInfo(name = "politicalPreference")
-    int politicalPreference;
+    double politicalPreference;
+
+    @ColumnInfo(name = "numUpvoted")
+    int numUpvoted;
 
     public int getUid() {
         return uid;
@@ -73,12 +76,19 @@ public class User {
         this.categories = categories;
     }
 
-    public int getPoliticalPreference() {
+    public double getPoliticalPreference() {
         return politicalPreference;
     }
 
-    public void setPoliticalPreference(int politicalPreference) {
+    public void setPoliticalPreference(double politicalPreference) {
         this.politicalPreference = politicalPreference;
     }
 
+    public int getNumUpvoted() {
+        return numUpvoted;
+    }
+
+    public void setNumUpvoted(int numUpvoted) {
+        this.numUpvoted = numUpvoted;
+    }
 }
