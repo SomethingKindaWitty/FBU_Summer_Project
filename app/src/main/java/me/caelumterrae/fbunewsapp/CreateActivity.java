@@ -1,7 +1,6 @@
 package me.caelumterrae.fbunewsapp;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +12,7 @@ import android.widget.Toast;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.model.User;
 
@@ -33,7 +30,6 @@ public class CreateActivity extends AppCompatActivity {
     public ArrayList<String> categories;
     public String categoryString = "";
     private User user;
-    private LocalUserDataSource dataSource;
     private UserDatabase database;
 
 
@@ -49,14 +45,6 @@ public class CreateActivity extends AppCompatActivity {
         }else{
             Log.e("Database", "created");
         }
-
-       // dataSource = LocalUserDataSource.getInstance(getApplicationContext());
-
-//        try {
-//            dataSource.initDb();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         business = findViewById(R.id.business);
         entertainment = findViewById(R.id.entertainment);
@@ -93,7 +81,6 @@ public class CreateActivity extends AppCompatActivity {
                     }).start();
 
                     i.putExtra("uid", user.getUid());
-                    //i.putExtra("Data Source", Parcels.wrap(dataSource));
                     startActivity(i);
                     finish();
                     Log.e("Intent","started");

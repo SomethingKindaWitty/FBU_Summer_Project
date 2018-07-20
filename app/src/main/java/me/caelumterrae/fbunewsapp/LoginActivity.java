@@ -14,9 +14,7 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
-import me.caelumterrae.fbunewsapp.math.Probability;
 import me.caelumterrae.fbunewsapp.model.User;
 
 public class LoginActivity extends AppCompatActivity {
@@ -27,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button signUpButton;
     private List<User> userList;
     private User result;
-    //private LocalUserDataSource dataSource;
     private UserDatabase database;
     private final Object object = "hello";
     private final Object otherObject = "hello";
@@ -42,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login);
         signUpButton = findViewById(R.id.signup);
 
-        //dataSource = new LocalUserDataSource());
         database = UserDatabase.getInstance(getApplicationContext());
         if (database == null){
             Log.e("Database", "failed to create");
@@ -61,12 +57,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }).start();
 
-//        try {
-//            dataSource.initDb();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        //userList = dataSource.getUsers();
 
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -74,10 +64,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
-
-//                final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
-//                startActivity(intent);
-//                finish();
 
                 new Thread(new Runnable() {
                     @Override
@@ -90,8 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }).start();
 
-                //result = dataSource.getUser(username, password);
-
                 synchronized (object) {
                     try {
                         // Calling wait() will block this thread until another thread
@@ -99,10 +83,10 @@ public class LoginActivity extends AppCompatActivity {
                         object.wait();
                         if (result != null) {
                             int uid = result.getUid();
-                            // final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
+
                             final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
                             intent.putExtra("uid", uid);
-                            //intent.putExtra("Data Source", Parcels.wrap(dataSource));
+
                             startActivity(intent);
                             finish();
                         }else{
@@ -152,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (result == null) {
                             final Intent intent = new Intent(LoginActivity.this, PoliticalActivity.class);
                             intent.putExtra("User", Parcels.wrap(user));
-                            //intent.putExtra("Data Source", Parcels.wrap(dataSource));
+
                             startActivity(intent);
                             finish();
                             Log.e("intent", "started");

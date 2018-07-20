@@ -1,7 +1,5 @@
 package me.caelumterrae.fbunewsapp;
 
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,13 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
-import org.parceler.Parcels;
-
-import java.io.File;
-
-import me.caelumterrae.fbunewsapp.database.LocalUserDataSource;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.model.User;
 
@@ -29,11 +21,9 @@ public class UserFragment extends Fragment {
 
     public TextView username;
     public ImageView profileImage;
-    private LocalUserDataSource dataSource;
     private int userID;
     private User user;
     private UserDatabase database;
-    private boolean isDone = false;
     private final Object object = "hello";
 
     public UserFragment(){
