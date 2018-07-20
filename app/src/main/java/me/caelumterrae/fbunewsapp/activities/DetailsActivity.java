@@ -83,9 +83,8 @@ public class DetailsActivity extends AppCompatActivity {
         final TopNewsClient topNewsClient = new TopNewsClient(this);
         ParseNewsClient parseNewsClient = new ParseNewsClient(this);
         String test = post.getUrl();
-        final ArrayList<Post> finalPosts = posts;
         try {
-            parseNewsClient.getData(test, new NewsDataHandler(test, tvBody, relatedAdapter, posts, topNewsClient, pb));
+            parseNewsClient.getData(test, new NewsDataHandler(test, tvBody, relatedAdapter, posts, topNewsClient, pb, this));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {

@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp.handlers;
 
+import android.content.Context;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
@@ -24,13 +26,18 @@ public class NewsDataHandler extends JsonHttpResponseHandler {
     TopNewsClient topNewsClient;
     ProgressBar pb;
     String articleUrl;
-    public NewsDataHandler(String articleUrl, TextView tvBody, RelatedAdapter relatedAdapter, ArrayList<Post> posts, TopNewsClient topNewsClient, ProgressBar pb) {
+    HashMap<String, String> sourceBias;
+    Context context;
+
+    public NewsDataHandler(String articleUrl, TextView tvBody, RelatedAdapter relatedAdapter, ArrayList<Post> posts, TopNewsClient topNewsClient, ProgressBar pb, Context context) {
         this.articleUrl = articleUrl;
         this.tvBody = tvBody;
         this.relatedAdapter = relatedAdapter;
         this.posts = posts;
         this.topNewsClient = topNewsClient;
+        this.sourceBias = topNewsClient.sourceBias;
         this.pb = pb;
+        this.context = context;
         pb.setVisibility(ProgressBar.VISIBLE);
     }
 
@@ -45,8 +52,7 @@ public class NewsDataHandler extends JsonHttpResponseHandler {
             tvBody.setText(text);
             pb.setVisibility(ProgressBar.INVISIBLE);
 
-            //TODO: update the trump keyword to be the keyword received from the call to our backend
-            topNewsClient.getRelatedNews(category, new RelatedHandler(articleUrl,relatedAdapter, posts));
+            topNewsClient.getRelatedNews(category, new RelatedHandler(articleUrl,relatedAdapter, posts, sourceBias, context));
         } catch (JSONException e) {
             e.printStackTrace();
         }
