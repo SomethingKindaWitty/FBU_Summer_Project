@@ -42,12 +42,20 @@ public class LoginActivity extends AppCompatActivity {
 
         //dataSource = new LocalUserDataSource());
         database = UserDatabase.getInstance(getApplicationContext());
+        if (database == null){
+            Log.e("Database", "failed to create");
+        }else{
+            Log.e("Database", "created");
+        }
 
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 userList = database.userDao().getAll();
+                if (userList == null){
+                    Log.e("userDao", "invalid");
+                }
             }
         }).start();
 
@@ -73,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         result = database.userDao().findByName(username,password);
+                        Log.e("result", "created");
                     }
                 }).start();
 
@@ -115,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         result = database.userDao().findByName(username,password);
+                        Log.e("result", "created");
                     }
                 }).start();
 
@@ -124,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                     //intent.putExtra("Data Source", Parcels.wrap(dataSource));
                     startActivity(intent);
                     finish();
+                    Log.e("intent", "started");
                 }else{
                     Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_LONG).show();
                 }

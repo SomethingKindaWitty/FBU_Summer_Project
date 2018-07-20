@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,6 +44,11 @@ public class CreateActivity extends AppCompatActivity {
 
         user = (User) Parcels.unwrap(getIntent().getParcelableExtra("newUser"));
         database = UserDatabase.getInstance(getApplicationContext());
+        if (database == null){
+            Log.e("Database", "failed to create");
+        }else{
+            Log.e("Database", "created");
+        }
 
        // dataSource = LocalUserDataSource.getInstance(getApplicationContext());
 
@@ -82,12 +88,15 @@ public class CreateActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             database.userDao().insertUser(user);
+                            Log.e("User","inserted");
                         }
                     }).start();
+
                     i.putExtra("uid", user.getUid());
                     //i.putExtra("Data Source", Parcels.wrap(dataSource));
                     startActivity(i);
                     finish();
+                    Log.e("Intent","started");
                 }
             }
         });
