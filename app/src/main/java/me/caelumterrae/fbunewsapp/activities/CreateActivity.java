@@ -40,6 +40,7 @@ public class CreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create);
 
         user = (User) Parcels.unwrap(getIntent().getParcelableExtra("newUser"));
+        //grabs current instance of database
         database = UserDatabase.getInstance(getApplicationContext());
         if (database == null){
             Log.e("Database", "failed to create");
@@ -54,11 +55,11 @@ public class CreateActivity extends AppCompatActivity {
         science = findViewById(R.id.science);
         sports = findViewById(R.id.sports);
         technology = findViewById(R.id.technology);
-
+        btnSubmit = findViewById(R.id.button);
         categories = new ArrayList<String>();
 
-        btnSubmit = findViewById(R.id.button);
-
+        //if number of categories selected is valid, adds the new user to the database
+        //categories is stored as a String in the user, with types separated by spaces
         btnSubmit.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -68,6 +69,7 @@ public class CreateActivity extends AppCompatActivity {
                 } else if (numberChecked > 3) {
                     Toast.makeText(getBaseContext(), "Please select up to three categories", Toast.LENGTH_LONG).show();
                 } else {
+                    //getting the name of every selected category
                     for (int i =0; i < categories.size(); i++){
                         categoryString += categories.get(i) + " ";
                     }
@@ -80,7 +82,6 @@ public class CreateActivity extends AppCompatActivity {
                             Log.e("User","inserted");
                         }
                     }).start();
-
                     i.putExtra("uid", user.getUid());
                     startActivity(i);
                     finish();
@@ -91,6 +92,7 @@ public class CreateActivity extends AppCompatActivity {
 
     }
 
+    //updates categories array and numberChecked value
     public void onCheckBoxClicked(View view){
         boolean checked = ((CheckBox) view).isChecked();
 

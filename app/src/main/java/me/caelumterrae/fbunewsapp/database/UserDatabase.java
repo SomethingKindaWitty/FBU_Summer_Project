@@ -12,12 +12,10 @@ import me.caelumterrae.fbunewsapp.model.User;
 public abstract class UserDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
-//    private static UserDatabase INSTANCE;
 
     private static UserDatabase INSTANCE;
 
-
-    //public abstract UserDao userDao();
+    //Singleton style; only one database on each device
     public static UserDatabase getInstance(Context context) {
         if (INSTANCE == null) {
             synchronized (UserDatabase.class) {

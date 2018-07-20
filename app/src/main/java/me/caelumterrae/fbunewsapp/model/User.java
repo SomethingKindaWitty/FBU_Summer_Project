@@ -11,8 +11,9 @@ import org.parceler.Parcel;
 public class User {
 
     public User(){
-
+        //for Parcel
     }
+
     @PrimaryKey
     int uid;
 
@@ -25,6 +26,7 @@ public class User {
     @ColumnInfo(name = "profileImage")
     String profileUrl;
 
+    //stored as a String separated by spaces due to database limitations
     @ColumnInfo(name = "categories")
     String categories;
 
