@@ -25,7 +25,6 @@ public class PoliticalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_political);
         seekBar = findViewById(R.id.sbSeekBar); // ranges from 0 (liberal) to 100 (conservative)
-       // data = new PoliticalAffData(this);
 
         user = (User) Parcels.unwrap(getIntent().getParcelableExtra("User"));
 
@@ -43,6 +42,7 @@ public class PoliticalActivity extends AppCompatActivity {
 
         // store political affiliation number in political_affiliation.txt
         Intent intent = new Intent(PoliticalActivity.this, CreateActivity.class);
+
         intent.putExtra("newUser", Parcels.wrap(user));
       
         data.resetAffiliationNum(affiliationNum);
