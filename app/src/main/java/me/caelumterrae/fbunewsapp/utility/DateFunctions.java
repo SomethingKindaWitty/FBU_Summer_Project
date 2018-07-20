@@ -19,7 +19,7 @@ public class DateFunctions {
     }
 
     public static Date getRelativeDate(String tempTime) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"); // TODO put in date utility
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         return format.parse(tempTime);
     }

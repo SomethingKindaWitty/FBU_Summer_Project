@@ -20,9 +20,9 @@ import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
+import me.caelumterrae.fbunewsapp.utility.Timeline;
 
 public class TopNewsClient extends AppCompatActivity {
-    public final static String TAG = "TopNewClient";
     public final static String MEDIA_BIAS_URL = "https://raw.githubusercontent.com/drmikecrowe/mbfcext/master/docs/sources.json";
     public static final String API_KEY = "843120ac9e79440e81573a57dc13ce4f";
     public final static String API_KEY_PARAM = "apiKey";
@@ -47,43 +47,11 @@ public class TopNewsClient extends AppCompatActivity {
     // Instantiates new Top News Client that extracts hottest news posts from NewsApi.org
     public TopNewsClient(Context c) {
         client = new AsyncHttpClient(); // TODO: close
-        sourceBias = new HashMap<>(); //TODO: this hashmap should be moved to its own utility class as well
-        populateBiasHashMap();
+        sourceBias = Timeline.populateBiasHashMap(client);
         context = c;
     }
 
-    /* Populates sourceBias hashmap with key=URL and value=bias.
-     * Example output { `
-     *  nytimes.com : leftcenter
-     *  democracynow.org : left
-     *  }
-     */
-    private void populateBiasHashMap() {
-        client.get(MEDIA_BIAS_URL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    Iterator<?> keys = response.keys();
-                    while (keys.hasNext()) { // iterate over JSONObject
-                        String key = (String)keys.next();
-                        JSONObject valueObject = response.getJSONObject(key);
-                        String value = valueObject.getString("bias");
-                        if (response.get(key) instanceof JSONObject ) {
-                            sourceBias.put(key, value);
-                            // Log.i(TAG, key + " : " + value);
-                        }
-                    }
-                } catch (JSONException e) {
-                    Log.e(TAG, "Failed to parse top posts", e);
-                }
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG, "Failed to get data from now playing endpoint", throwable);
-            }
-        });
-    }
 
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
