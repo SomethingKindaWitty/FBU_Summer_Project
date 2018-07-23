@@ -3,6 +3,7 @@ package me.caelumterrae.fbunewsapp.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import org.parceler.Parcel;
 
@@ -10,6 +11,7 @@ import org.parceler.Parcel;
 @Parcel
 public class UserLiked {
 
+    @NonNull
     @PrimaryKey
     private int id;
 
@@ -24,11 +26,11 @@ public class UserLiked {
     }
 
     public int getId() {
-        return uid;
+        return id;
     }
 
     public void setId(int uid) {
-        this.uid = uid;
+        this.id = uid;
     }
 
     public int getUid() {

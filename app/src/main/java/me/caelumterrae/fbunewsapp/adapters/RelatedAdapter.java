@@ -21,14 +21,17 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.model.User;
 
 public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHolder>{
 
     List<Post> relatedPosts;
     Context context;
+    User user;
 
-    public RelatedAdapter(List<Post> relatedPosts) {
+    public RelatedAdapter(List<Post> relatedPosts, User user) {
         this.relatedPosts = relatedPosts;
+        this.user = user;
     }
 
     @NonNull
@@ -79,6 +82,7 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
             Post post = relatedPosts.get(position);
             Intent i = new Intent(context, DetailsActivity.class);
             i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+            i.putExtra(User.class.getSimpleName(), Parcels.wrap(user));
             context.startActivity(i);
 
         }

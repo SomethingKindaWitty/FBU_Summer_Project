@@ -28,5 +28,5 @@ public interface LikedDao {
     void delete(UserLiked userliked);
 
     @Insert
-    void insertUser(UserLiked userliked);
+    void insertUserLiked(UserLiked userliked);
 }
