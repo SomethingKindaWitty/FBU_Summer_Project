@@ -26,16 +26,21 @@ import org.parceler.Parcels;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
+import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.handlers.NewsDataHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.model.UserLiked;
+import me.caelumterrae.fbunewsapp.utility.RandomSingleton;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -49,6 +54,16 @@ public class DetailsActivity extends AppCompatActivity {
     Drawable drawable;
     ProgressBar pb;
     User user;
+    UserLiked like;
+    Boolean upVoted;
+    UserDatabase database;
+    List<UserLiked> userLikeds;
+    Object likeconfirmed = "yay";
+    Object add_confirmed = "yay";
+    Object delete_confirmed = "yay";
+    RandomSingleton randomSingleton;
+    Semaphore waitForQueryingDatabase;
+    Semaphore waitForButton;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -56,7 +71,16 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        database = UserDatabase.getInstance(getApplicationContext());
+        randomSingleton = RandomSingleton.getInstance();
+        waitForQueryingDatabase = new Semaphore(0);
+        waitForButton = new Semaphore(0);
 
+        if (database == null) {
+            Log.e("Database", "failed to create");
+        } else {
+            Log.e("Database", "created");
+        }
 
         // populate the fields using an intent
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
@@ -76,13 +100,14 @@ public class DetailsActivity extends AppCompatActivity {
             posts = new ArrayList<Post>();
         }
 
-        final RelatedAdapter relatedAdapter = new RelatedAdapter(posts);
+        final RelatedAdapter relatedAdapter = new RelatedAdapter(posts, user);
         rvRelated.setLayoutManager(layoutManager);
         rvRelated.setAdapter(relatedAdapter);
 
         final TopNewsClient topNewsClient = new TopNewsClient(this);
         ParseNewsClient parseNewsClient = new ParseNewsClient(this);
         String test = post.getUrl();
+
         try {
             parseNewsClient.getData(test, new NewsDataHandler(test, tvBody, relatedAdapter, posts, topNewsClient, pb, this));
         } catch (UnsupportedEncodingException e) {
@@ -91,11 +116,9 @@ public class DetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         RequestOptions cropOptions = new RequestOptions().centerCrop();
         RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10, 10));
         RequestOptions fitCenter = new RequestOptions().fitCenter();
-
 
         tvTitle.setText(post.getTitle());
         tvBody.setText(post.getBody());
@@ -104,47 +127,123 @@ public class DetailsActivity extends AppCompatActivity {
                 .apply(fitCenter)
                 .into(ivMedia);
 
-
         // TODO put the right icon (if it was upvoted before) on page load
         main = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
         drawable = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
         DrawableCompat.setTint(drawable, getResources().getColor(R.color.green));
+        upVote.setBackground(main);
 
-        if (post.getUpvoted()) {
-            upVote.setBackground(drawable);
-        } else {
-            upVote.setBackground(main);
+        // see if the like/upvote exists in the database
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                like = database.likedDao().findLiked(user.getUid(), post.getUrl());
+                if (like == null){
+                    upVoted = false;
+                    Log.e("Object", "Making userliked object");
+                    like = new UserLiked();
+                    like.setId(randomSingleton.nextInt());
+                    like.setUid(user.getUid());
+                    like.setUrl(post.getUrl());
+                }else{
+                    upVoted = true;
+                }
+                waitForQueryingDatabase.release();
+                waitForButton.release();
+            }
+        }).start();
+
+        try {
+            waitForQueryingDatabase.acquire();
+            Log.e("Object", "Done waiting");
+            if (upVoted) {
+                Log.e("Object", "Passed If");
+                upVote.setBackground(drawable);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        Log.e("Object", "Got out of semaphore");
 
         upVote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (post.getUpvoted()){
-                    post.setUpvoted(false);
-                    updateFile(false, post.getPoliticalBias());
-                    upVote.setBackground(main);
-                } else {
-                    // change tint color!
-                    post.setUpvoted(true);
-                    updateFile(true, post.getPoliticalBias());
-                    upVote.setBackground(drawable);
+                try {
+                    Log.e("Object", "Waiting for button");
+                    waitForButton.acquire();
+                    Log.e("Object", "Got out of button semaphore and about to update it");
+                    if (upVoted){
+                        Log.e("Object", "About to update file");
+                        updateFile(false, post.getPoliticalBias());
+                        Log.e("Object", "Finished updating file");
+                        upVote.setBackground(main);
+                        upVoted = false;
+                        updateList(like, user.getUid(), false);
+                    } else {
+                        // change tint color!
+                        Log.e("Object", "About to update file");
+                        updateFile(true, post.getPoliticalBias());
+                        Log.e("Object", "Finished updating file");
+                        upVote.setBackground(drawable);
+                        Log.e("Object", "Done updating background");
+                        upVoted = true;
+                        Log.e("Object", "Before update list");
+                        updateList(like, user.getUid(), true);
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
-
     }
-    //  Upvote Button Handler - Saves data from button and brings user to activity main
-    public void onUpvote(View v) {
-        if (post.getUpvoted()){
-            post.setUpvoted(false);
-            updateFile(false, post.getPoliticalBias());
-            upVote.setBackground(main);
-        } else {
-            // change tint color!
-            post.setUpvoted(true);
-            updateFile(true, post.getPoliticalBias());
-            upVote.setBackground(drawable);
-        }
+
+    public void updateList(final UserLiked like, final int userID, final Boolean adding){
+        Log.e("Object", "Going into updateList body");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (adding) {
+                    //create a new usercliked object
+                    Log.e("Object", "About to insertUserLiked");
+                    database.likedDao().insertUserLiked(like);
+                } else {
+                    //delete like from database
+                    Log.e("Object", "about to Delete");
+                    database.likedDao().delete(like);
+                }
+                Log.e("Object", "Finished updating button, releasing semaphore");
+                waitForButton.release();
+            }
+        }).start();
+    }
+
+    // update list - delete
+    public void updateList(final UserLiked like) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //delete like from database
+                database.likedDao().delete(like);
+            }
+        }).start();
+    }
+
+    //update list - add
+    public void updateList(final int userID){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //create a new userliked object
+                UserLiked userliked = new UserLiked();
+                userliked.setId(randomSingleton.nextInt());
+                userliked.setUid(userID);
+                userliked.setUrl(post.getUrl());
+
+                database.likedDao().insertUserLiked(userliked);
+                }
+            }).start();
     }
 
     public void updateFile(boolean isUpvoting, int politicalBias) {

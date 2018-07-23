@@ -1,7 +1,5 @@
 package me.caelumterrae.fbunewsapp.utility;
 
-import org.json.JSONException;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +13,13 @@ public class DateFunctions {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         return dateFormat.format(cal.getTime());
+    }
 
+    public static String getPreviousDate(int daysBack) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -daysBack);
+        return dateFormat.format(cal.getTime());
     }
 
     public static Date getRelativeDate(String tempTime) throws ParseException {
