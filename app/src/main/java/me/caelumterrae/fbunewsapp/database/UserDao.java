@@ -32,4 +32,5 @@ public interface UserDao {
 
     @Insert
     void insertUser(User user);
+
 }

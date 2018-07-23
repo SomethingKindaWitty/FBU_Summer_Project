@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e2a43844feb1085ee7e4351d763c1553",
+    "identityHash": "198d985f71e047c242a5991b2359b9e2",
     "entities": [
       {
         "tableName": "User",
@@ -59,11 +59,43 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "UserLiked",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `UserID` INTEGER NOT NULL, `url` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uid",
+            "columnName": "UserID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e2a43844feb1085ee7e4351d763c1553\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"198d985f71e047c242a5991b2359b9e2\")"
     ]
   }
 }
