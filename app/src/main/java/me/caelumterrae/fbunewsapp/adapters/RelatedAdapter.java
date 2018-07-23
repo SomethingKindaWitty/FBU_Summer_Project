@@ -27,11 +27,11 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
 
     List<Post> relatedPosts;
     Context context;
-    User user;
+    int userID;
 
-    public RelatedAdapter(List<Post> relatedPosts, User user) {
+    public RelatedAdapter(List<Post> relatedPosts, int userID) {
         this.relatedPosts = relatedPosts;
-        this.user = user;
+        this.userID = userID;
     }
 
     @NonNull
@@ -82,7 +82,7 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
             Post post = relatedPosts.get(position);
             Intent i = new Intent(context, DetailsActivity.class);
             i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-            i.putExtra(User.class.getSimpleName(), Parcels.wrap(user));
+            i.putExtra(User.class.getSimpleName(), userID);
             context.startActivity(i);
 
         }

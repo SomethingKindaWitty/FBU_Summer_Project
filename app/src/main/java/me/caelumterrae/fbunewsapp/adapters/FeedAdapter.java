@@ -32,13 +32,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
 
     List<Post> mPosts;
     Context context;
-    User user;
+    int userID;
 
     //constructor for posts array
-    public FeedAdapter(List<Post> posts, User user)
+    public FeedAdapter(List<Post> posts, int userID)
     {
         mPosts = posts;
-        this.user = user;
+        this.userID = userID;
     }
 
     @NonNull
@@ -146,8 +146,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
                 Intent intent = new Intent(context, DetailsActivity.class);
                 // serialize the post using parceler, use its short name as a key
                 intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-                Log.e("User", user.getUsername());
-                intent.putExtra(User.class.getSimpleName(), Parcels.wrap(user));
+                //Log.e("User", userID);
+                intent.putExtra(User.class.getSimpleName(), userID);
                 // show the activity
                 context.startActivity(intent);
             }
