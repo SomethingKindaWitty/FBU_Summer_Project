@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
@@ -21,6 +22,7 @@ import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.model.UserLiked;
 
 public class FeedFragment extends Fragment{
 
@@ -31,6 +33,7 @@ public class FeedFragment extends Fragment{
     private SwipeRefreshLayout swipeContainer;
     private int userID;
     private User user;
+    private List<UserLiked> userLiked;
     private UserDatabase database;
     private final Object object = "hello";
 
