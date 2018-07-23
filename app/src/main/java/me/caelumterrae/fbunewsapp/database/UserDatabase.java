@@ -7,11 +7,13 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.model.UserLiked;
 
-@Database(entities = {User.class}, version = 1)
+@Database(entities = {User.class, UserLiked.class}, version = 1)
 public abstract class UserDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
+    public abstract LikedDao likedDao();
 
     private static UserDatabase INSTANCE;
 
@@ -21,7 +23,7 @@ public abstract class UserDatabase extends RoomDatabase {
             synchronized (UserDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context,
-                            UserDatabase.class, "UsersDatabase.db")
+                            UserDatabase.class, "UserDatabase.db")
                             .build();
                 }
             }

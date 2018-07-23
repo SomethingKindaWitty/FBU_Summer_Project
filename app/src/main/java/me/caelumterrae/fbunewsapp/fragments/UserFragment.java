@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
@@ -23,6 +26,7 @@ public class UserFragment extends Fragment {
     public TextView username;
     public ImageView profileImage;
     public TextView politicalAffiliation;
+    public GraphView graph;
     private int userID;
     private User user;
     private UserDatabase database;
@@ -84,6 +88,15 @@ public class UserFragment extends Fragment {
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
         politicalAffiliation = view.findViewById(R.id.politicalNum);
+        graph = (GraphView) view.findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+        graph.addSeries(series);
 
         if (user.getUsername() == null) {
             username.setText(R.string.app_name);
