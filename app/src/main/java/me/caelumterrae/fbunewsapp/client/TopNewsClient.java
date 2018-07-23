@@ -44,8 +44,6 @@ public class TopNewsClient extends AppCompatActivity {
         context = c;
     }
 
-
-
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
     public void getTopNews(JsonHttpResponseHandler jsonHttpResponseHandler) {
@@ -62,10 +60,8 @@ public class TopNewsClient extends AppCompatActivity {
 
 
     // Retrieves ArrayList of Posts given the related keywords from an API
-    // TODO: NARROW SCOPE OF RELATED NEWS TO GET THE BEST RELATED NEWS
     public void getRelatedNews(String category, JsonHttpResponseHandler jsonHttpResponseHandler) throws JSONException {
         String url = API_BASE_URL + "/everything";
-        //TODO: Give a couple days on the article
         String date = DateFunctions.getPreviousDate(DAYS_BACK);
         RequestParams params = new RequestParams();
         params.put(LANGUAGE_PARAM, LANGUAGE);
