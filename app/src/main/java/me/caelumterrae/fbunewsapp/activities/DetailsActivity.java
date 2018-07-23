@@ -54,6 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
     Drawable drawable;
     ProgressBar pb;
     User user;
+    int userID;
     UserLiked like;
     Boolean upVoted;
     UserDatabase database;
@@ -84,7 +85,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         // populate the fields using an intent
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
-        user = Parcels.unwrap(getIntent().getParcelableExtra(User.class.getSimpleName()));
+        Bundle bundle = getIntent().getExtras();
+        userID = bundle.getInt(User.class.getSimpleName());
 
         tvTitle = findViewById(R.id.tvTitle);
         rvRelated = findViewById(R.id.rvRelated);
@@ -100,7 +102,7 @@ public class DetailsActivity extends AppCompatActivity {
             posts = new ArrayList<Post>();
         }
 
-        final RelatedAdapter relatedAdapter = new RelatedAdapter(posts, user);
+        final RelatedAdapter relatedAdapter = new RelatedAdapter(posts, userID);
         rvRelated.setLayoutManager(layoutManager);
         rvRelated.setAdapter(relatedAdapter);
 
@@ -137,6 +139,7 @@ public class DetailsActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                user = database.userDao().findByID(userID);
                 like = database.likedDao().findLiked(user.getUid(), post.getUrl());
                 if (like == null){
                     upVoted = false;

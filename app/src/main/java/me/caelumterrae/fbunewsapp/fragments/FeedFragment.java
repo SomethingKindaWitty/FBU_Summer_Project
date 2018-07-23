@@ -49,27 +49,27 @@ public class FeedFragment extends Fragment{
 
         // TODO: POSSIBLE ABSTACTION (NEW CLASS) FOR ALL DATABASE REQUESTS
         userID = getArguments().getInt("uid");
-        database = UserDatabase.getInstance(getContext());
-        if (database == null) {
-            Log.e("Database", "failed to create");
-        } else {
-            Log.e("Database", "created");
-        }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                user = database.userDao().findByID(userID);
-                if (user == null) {
-                    Log.e("Usernew", "not found");
-                } else {
-                    Log.e("Usernew", "found");
-//                    synchronized (object) {
-//                        object.notify();
-//                    }
-                }
-            }
-        }).start();
+//        database = UserDatabase.getInstance(getContext());
+//        if (database == null) {
+//            Log.e("Database", "failed to create");
+//        } else {
+//            Log.e("Database", "created");
+//        }
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                user = database.userDao().findByID(userID);
+//                if (user == null) {
+//                    Log.e("Usernew", "not found");
+//                } else {
+//                    Log.e("Usernew", "found");
+////                    synchronized (object) {
+////                        object.notify();
+////                    }
+//                }
+//            }
+//        }).start();
 
         // set client
         client = new TopNewsClient(getContext());
@@ -78,7 +78,7 @@ public class FeedFragment extends Fragment{
         // init the ArrayList (data source)
         posts = new ArrayList<>();
         // construct adapter from data source
-        feedAdapter = new FeedAdapter(posts, user);
+        feedAdapter = new FeedAdapter(posts, userID);
         // RecyclerView setup (layout manager, use adapter)
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         // set adapter
