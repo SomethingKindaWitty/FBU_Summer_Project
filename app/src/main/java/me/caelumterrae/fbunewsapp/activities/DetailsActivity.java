@@ -117,6 +117,22 @@ public class DetailsActivity extends AppCompatActivity {
             upVote.setBackground(main);
         }
 
+        upVote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (post.getUpvoted()){
+                    post.setUpvoted(false);
+                    updateFile(false, post.getPoliticalBias());
+                    upVote.setBackground(main);
+                } else {
+                    // change tint color!
+                    post.setUpvoted(true);
+                    updateFile(true, post.getPoliticalBias());
+                    upVote.setBackground(drawable);
+                }
+            }
+        });
+
     }
     //  Upvote Button Handler - Saves data from button and brings user to activity main
     public void onUpvote(View v) {
