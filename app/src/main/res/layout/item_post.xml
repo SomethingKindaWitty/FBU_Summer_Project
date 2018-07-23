@@ -4,12 +4,14 @@
     android:id="@+id/cvRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
     android:layout_marginLeft="@dimen/grid_margin"
     android:layout_marginRight="@dimen/grid_margin"
     android:layout_marginTop="@dimen/cell_margin"
+    android:background="@android:color/white"
     android:clickable="true"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="4dp">
+    card_view:cardCornerRadius="2dp"
+    card_view:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,8 +33,10 @@
                 android:layout_marginTop="15dp"
                 android:layout_toLeftOf="@id/image"
                 android:text="TextView"
+                android:textColor="@android:color/black"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:typeface="serif" />
 
             <TextView
                 android:id="@+id/body"
@@ -61,7 +65,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="3dp"
                 android:text="TextView"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp" />
 
             <ProgressBar
                 android:id="@+id/pb"
