@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.caelumterrae.fbunewsapp.R;
@@ -61,6 +62,8 @@ public class DetailsActivity extends AppCompatActivity {
     Object add_confirmed = "yay";
     Object delete_confirmed = "yay";
     RandomSingleton randomSingleton;
+    Semaphore waitForQueryingDatabase;
+    Semaphore waitForButton;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -70,6 +73,9 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         database = UserDatabase.getInstance(getApplicationContext());
         randomSingleton = RandomSingleton.getInstance();
+        waitForQueryingDatabase = new Semaphore(0);
+        waitForButton = new Semaphore(0);
+
         if (database == null) {
             Log.e("Database", "failed to create");
         } else {
@@ -134,50 +140,83 @@ public class DetailsActivity extends AppCompatActivity {
                 like = database.likedDao().findLiked(user.getUid(), post.getUrl());
                 if (like == null){
                     upVoted = false;
+                    Log.e("Object", "Making userliked object");
+                    like = new UserLiked();
+                    like.setId(randomSingleton.nextInt());
+                    like.setUid(user.getUid());
+                    like.setUrl(post.getUrl());
                 }else{
                     upVoted = true;
                 }
-                synchronized (likeconfirmed) {
-                    likeconfirmed.notify();
-                    Log.e("Object", "Booped");
-                }
+                waitForQueryingDatabase.release();
+                waitForButton.release();
             }
         }).start();
 
-        synchronized (likeconfirmed) {
-            try {
-                likeconfirmed.wait();
-                Log.e("Object", "Done waiting");
-                if (upVoted) {
-                    Log.e("Object", "Passed If");
-                    upVote.setBackground(drawable);
-                }
-            } catch (InterruptedException e) {
-                Log.e("Object", "We errored");
-                e.printStackTrace();
+        try {
+            waitForQueryingDatabase.acquire();
+            Log.e("Object", "Done waiting");
+            if (upVoted) {
+                Log.e("Object", "Passed If");
+                upVote.setBackground(drawable);
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        Log.e("Object", "Got out of syncr]hrnioze");
-
+        Log.e("Object", "Got out of semaphore");
 
         upVote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (upVoted){
-                    updateFile(false, post.getPoliticalBias());
-                    upVote.setBackground(main);
-                    upVoted = false;
-                    updateList(like);
+                try {
+                    Log.e("Object", "Waiting for button");
+                    waitForButton.acquire();
+                    Log.e("Object", "Got out of button semaphore and about to update it");
+                    if (upVoted){
+                        Log.e("Object", "About to update file");
+                        updateFile(false, post.getPoliticalBias());
+                        Log.e("Object", "Finished updating file");
+                        upVote.setBackground(main);
+                        upVoted = false;
+                        updateList(like, user.getUid(), false);
+                    } else {
+                        // change tint color!
+                        Log.e("Object", "About to update file");
+                        updateFile(true, post.getPoliticalBias());
+                        Log.e("Object", "Finished updating file");
+                        upVote.setBackground(drawable);
+                        Log.e("Object", "Done updating background");
+                        upVoted = true;
+                        Log.e("Object", "Before update list");
+                        updateList(like, user.getUid(), true);
+                    }
 
-                } else {
-                    // change tint color!
-                    updateFile(true, post.getPoliticalBias());
-                    upVote.setBackground(drawable);
-                    upVoted = true;
-                    updateList(user.getUid());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
+    }
+
+    public void updateList(final UserLiked like, final int userID, final Boolean adding){
+        Log.e("Object", "Going into updateList body");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (adding) {
+                    //create a new usercliked object
+                    Log.e("Object", "About to insertUserLiked");
+                    database.likedDao().insertUserLiked(like);
+                } else {
+                    //delete like from database
+                    Log.e("Object", "about to Delete");
+                    database.likedDao().delete(like);
+                }
+                Log.e("Object", "Finished updating button, releasing semaphore");
+                waitForButton.release();
+            }
+        }).start();
     }
 
     // update list - delete
@@ -186,30 +225,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //delete like from database
-                synchronized (add_confirmed){
-                    try {
-                        synchronized (likeconfirmed){
-                            try{
-                                likeconfirmed.wait();
-                            }catch (InterruptedException e){
-                                e.printStackTrace();
-                            }
-                        }
-                        add_confirmed.wait();
-                        //
-                        database.likedDao().delete(like);
-                        synchronized (delete_confirmed){
-                            delete_confirmed.notify();
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!upVoted){
-                    synchronized (delete_confirmed){
-                        delete_confirmed.notify();
-                    }
-                }
+                database.likedDao().delete(like);
             }
         }).start();
     }
@@ -225,29 +241,9 @@ public class DetailsActivity extends AppCompatActivity {
                 userliked.setUid(userID);
                 userliked.setUrl(post.getUrl());
 
-                synchronized (delete_confirmed){
-                    try {
-                        synchronized (likeconfirmed){
-                            try{
-                                likeconfirmed.wait();
-                            }catch (InterruptedException e){
-                                e.printStackTrace();
-                            }
-                        }
-                        delete_confirmed.wait();
-                        //add to database
-                        database.likedDao().insertUserLiked(userliked);
-                        synchronized (add_confirmed){
-                            add_confirmed.notify();
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                database.likedDao().insertUserLiked(userliked);
                 }
-
-            }
-        }).start();
-
+            }).start();
     }
 
     public void updateFile(boolean isUpvoting, int politicalBias) {
