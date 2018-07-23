@@ -27,6 +27,7 @@ public class TopNewsClient extends AppCompatActivity {
     public final static String COUNTRY_KEY_PARAM = "country";
     public final static String KEYWORD_KEY_PARAM = "q";
     public final static String COUNTRY = "us";
+    public final static Integer DAYS_BACK = 3;
     public final static String ROOT_NODE = "articles";
     public final static String NUM_RESPONSES_KEY = "pageSize";
     public final static int NUM_RESPONSES = 100;
@@ -64,12 +65,14 @@ public class TopNewsClient extends AppCompatActivity {
     // TODO: NARROW SCOPE OF RELATED NEWS TO GET THE BEST RELATED NEWS
     public void getRelatedNews(String category, JsonHttpResponseHandler jsonHttpResponseHandler) throws JSONException {
         String url = API_BASE_URL + "/everything";
+        //TODO: Give a couple days on the article
+        String date = DateFunctions.getPreviousDate(DAYS_BACK);
         RequestParams params = new RequestParams();
         params.put(LANGUAGE_PARAM, LANGUAGE);
         params.put(SOURCES_PARAM, SOURCES);
+        params.put(FROM_PARAM, date);
         params.put(API_KEY_PARAM, API_KEY);
         params.put(KEYWORD_KEY_PARAM, category);
         client.get(url, params, jsonHttpResponseHandler);
-
     }
 }
