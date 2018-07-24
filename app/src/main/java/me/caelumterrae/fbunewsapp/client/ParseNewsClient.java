@@ -80,7 +80,7 @@ public class ParseNewsClient {
         StringEntity entity;
         jsonObject.put("UID", uid);
         entity = new StringEntity(jsonObject.toString());
-        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+        client.get(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
 
