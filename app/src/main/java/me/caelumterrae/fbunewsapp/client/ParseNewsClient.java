@@ -83,5 +83,16 @@ public class ParseNewsClient {
         client.get(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
+    public void getUser(final int uid, JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+        String url = API_BASE_URL + "/user";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("UID", uid);
+        entity = new StringEntity(jsonObject.toString());
+        client.get(context, url, entity, "application/json", jsonHttpResponseHandler);
+    }
+
+
+
 
 }
