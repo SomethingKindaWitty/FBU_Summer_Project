@@ -15,7 +15,8 @@
         android:layout_marginStart="55dp"
         android:layout_marginTop="75dp"
         android:onClick="onCheckBoxClicked"
-        android:text="Business" />
+        android:text="Business"
+        android:textColor="@color/browser_secondary_text" />
 
     <CheckBox
         android:id="@+id/entertainment"
@@ -24,7 +25,8 @@
         android:layout_alignStart="@+id/business"
         android:layout_below="@+id/business"
         android:onClick="onCheckBoxClicked"
-        android:text="Entertainment" />
+        android:text="Entertainment"
+        android:textColor="@color/browser_secondary_text" />
 
     <CheckBox
         android:id="@+id/general"
@@ -33,7 +35,8 @@
         android:layout_alignStart="@+id/business"
         android:layout_below="@+id/entertainment"
         android:onClick="onCheckBoxClicked"
-        android:text="General" />
+        android:text="General"
+        android:textColor="@color/browser_secondary_text" />
 
     <CheckBox
         android:id="@+id/health"
@@ -42,7 +45,8 @@
         android:layout_alignStart="@+id/business"
         android:layout_below="@+id/general"
         android:onClick="onCheckBoxClicked"
-        android:text="Health" />
+        android:text="Health"
+        android:textColor="@color/browser_secondary_text" />
 
     <CheckBox
         android:id="@+id/science"
@@ -51,7 +55,8 @@
         android:layout_alignTop="@+id/business"
         android:layout_toEndOf="@+id/business"
         android:onClick="onCheckBoxClicked"
-        android:text="Science" />
+        android:text="Science"
+        android:textColor="@color/browser_secondary_text" />
 
     <CheckBox
         android:id="@+id/sports"
@@ -60,7 +65,8 @@
         android:layout_below="@+id/business"
         android:layout_toEndOf="@+id/business"
         android:onClick="onCheckBoxClicked"
-        android:text="Sports" />
+        android:text="Sports"
+        android:textColor="@color/browser_secondary_text" />
 
     <CheckBox
         android:id="@+id/technology"
@@ -69,7 +75,8 @@
         android:layout_below="@+id/entertainment"
         android:layout_toEndOf="@+id/business"
         android:onClick="onCheckBoxClicked"
-        android:text="Technology" />
+        android:text="Technology"
+        android:textColor="@color/browser_secondary_text" />
 
     <TextView
         android:id="@+id/textView"
@@ -80,6 +87,7 @@
         android:layout_marginTop="26dp"
         android:fontFamily="sans-serif"
         android:text="Choose up to 3 different categories"
+        android:textColor="@color/browser_secondary_text"
         android:textSize="16sp" />
 
     <Button
@@ -91,6 +99,6 @@
         android:layout_marginBottom="52dp"
         android:background="@drawable/login_background"
         android:text="Submit"
-        android:textColor="@color/blue_0"
+        android:textColor="@android:color/white"
         android:textSize="16sp" />
 </RelativeLayout>

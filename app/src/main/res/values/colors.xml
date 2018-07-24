@@ -63,8 +63,8 @@
     <color name="browser_alternative_subtitle_color">#ff8a9ccd</color>
     <color name="browser_burd_url_bar_foreground_color">#ff9daccb</color>
     <color name="browser_chrome_text_color">#ff689afe</color>
-    <color name="browser_close_button_tint">#ff6a7180</color>
-    <color name="browser_menu_item_inactive_color">#ff898c96</color>
+    <color name="browser_close_button_tint">#6a7180</color>
+    <color name="browser_menu_item_inactive_color">#898c96</color>
     <color name="browser_more_menu_divider_color">#ffdcdee3</color>
     <color name="browser_more_menu_text_color">#ff373e4d</color>
     <color name="browser_more_menu_tint">#ff6a7180</color>
@@ -242,7 +242,7 @@
     <color name="reg_token_border">#ffececec</color>
     <color name="reg_token_fill">#fffbfbfb</color>
     <color name="reg_token_text">#ffa4a8ab</color>
-    <color name="result_bar_active_color">#ff4999da</color>
+    <color name="sea_blue">#4999da</color>
     <color name="share_screen_icon_color">#ff4a5158</color>
     <color name="slider_gradient_background">@color/grey_2</color>
     <color name="slider_gradient_end">#fff50000</color>
@@ -283,8 +283,8 @@
     <color name="yellow_3">#ffffe2a4</color>
     <color name="yellow_4">#ffffd882</color>
     <color name="yellow_5">#fffdcb5c</color>
-    <color name="yellow_6">#ffd2a031</color>
-    <color name="yellow_7">#ffb07d0f</color>
+    <color name="yellow_duck">#ffd2a031</color>
+    <color name="yellow_duck_2">#ffb07d0f</color>
     <color name="yellow_8">#ff795500</color>
     <color name="yellow_9">#ff563c00</color>
     <color name="zero_rating_data_banner_color">#ff262626</color>
@@ -293,5 +293,6 @@
     <color name="zero_rating_video_settings_drawer_confirm_button_color">#ffffffff</color>
     <color name="zero_rating_video_settings_drawer_subtitle_color">#ff999999</color>
     <color name="zero_rating_video_settings_drawer_unchecked_border_color">#ffdbdbdb</color>
+    <color name= "duck_beak">#EFB742</color>
 </resources>
 
