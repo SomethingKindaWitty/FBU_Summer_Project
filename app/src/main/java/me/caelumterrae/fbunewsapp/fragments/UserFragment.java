@@ -15,14 +15,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -143,7 +147,7 @@ public class UserFragment extends Fragment {
         chart.invalidate(); // refresh
 
         RadarChart radarChart = view.findViewById(R.id.radarchart);
-        SparseIntArray affiliation = new SparseIntArray(5);
+        final SparseIntArray affiliation = new SparseIntArray(5);
         SparseIntArray values = new SparseIntArray(5);
         ArrayList<RadarEntry> radarEntries = new ArrayList<>();
         ArrayList<IRadarDataSet> radarDataSets = new ArrayList<>();
@@ -153,6 +157,24 @@ public class UserFragment extends Fragment {
         affiliation.append(3, R.string.moderate);
         affiliation.append(4, R.string.rightmoderate);
         affiliation.append(5, R.string.right);
+
+        XAxis xAxis = radarChart.getXAxis();
+        xAxis.setXOffset(0f);
+        xAxis.setYOffset(0f);
+        xAxis.setTextSize(8f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+
+            private String[] mFactors = new String[]{getString(affiliation.get(1)), getString(affiliation.get(2)),
+                    getString(affiliation.get(3)), getString(affiliation.get(4)), getString(affiliation.get(5))};
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mFactors[(int) value % mFactors.length];
+            }
+
+        });
+
+        radarChart.animateXY(1400, 1400, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
 
         values.append(1, 18);
         values.append(2, 26);

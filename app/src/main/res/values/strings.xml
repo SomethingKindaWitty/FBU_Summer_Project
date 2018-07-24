@@ -10,4 +10,5 @@
     <string name="moderate">Moderate</string>
     <string name="rightmoderate">Right-Moderate</string>
     <string name="right">Right</string>
+    <string name="placeholder_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus arcu dolor, porttitor non velit eget, suscipit pellentesque nisl.</string>
 </resources>

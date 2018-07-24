@@ -45,7 +45,6 @@ public class NewsDataHandler extends JsonHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         try {
             // the response object also has a keywords passed to it. I am not currently doing anything with the keywords.
-            // TODO: use keywords to get related articles.
             JSONArray keywords = response.getJSONArray("keywords");
             String keyword = keywords.getString(0);
             String category = response.getString("category");
