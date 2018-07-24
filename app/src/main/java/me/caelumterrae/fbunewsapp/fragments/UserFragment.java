@@ -105,10 +105,10 @@ public class UserFragment extends Fragment {
         }
 
         //TODO - get political affiliation
-        politicalAffiliation.setText("human");
+        politicalAffiliation.setText("duck");
 
         Glide.with(getContext())
-                .load(R.drawable.red_footed_tortoise)
+                .load(R.drawable.duckie)
                 .apply(new RequestOptions().fitCenter())
                 .into(profileImage);
     }

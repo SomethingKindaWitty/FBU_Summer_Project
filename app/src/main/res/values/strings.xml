@@ -2,8 +2,7 @@
     <string name="app_name">FBUNewsApp</string>
     <string name="liberal">Liberal</string>
     <string name="conservative">Conservative</string>
-    <string name="political_affiliation">Political Affiliation</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="political_affiliation">Please select your political affiliation</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
