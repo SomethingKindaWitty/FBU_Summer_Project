@@ -11,6 +11,7 @@ import java.util.List;
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.adapters.FragmentAdapter;
 import me.caelumterrae.fbunewsapp.fragments.FeedFragment;
+import me.caelumterrae.fbunewsapp.fragments.GraphicsFragment;
 import me.caelumterrae.fbunewsapp.fragments.UserFragment;
 
 public class SwipeActivity extends AppCompatActivity {
@@ -35,6 +36,7 @@ public class SwipeActivity extends AppCompatActivity {
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());
         fragments.add(new UserFragment());
+        fragments.add(new GraphicsFragment());
 
 
         //packs bundle to fragment
