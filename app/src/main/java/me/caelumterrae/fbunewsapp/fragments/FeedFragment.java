@@ -99,10 +99,9 @@ public class FeedFragment extends Fragment{
             }
         });
         // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_blue_light,
-                android.R.color.holo_blue_dark,
-                android.R.color.holo_purple);
+        swipeContainer.setColorSchemeResources(R.color.duck_beak,
+                R.color.sea_blue, R.color.yellow_duck,
+                R.color.sea_blue_light);
 
         client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, getContext()));
     }
