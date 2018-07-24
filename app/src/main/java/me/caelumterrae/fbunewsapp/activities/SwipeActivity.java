@@ -35,13 +35,14 @@ public class SwipeActivity extends AppCompatActivity {
 
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());
-        fragments.add(new UserFragment());
         fragments.add(new GraphicsFragment());
+        fragments.add(new UserFragment());
 
 
         //packs bundle to fragment
         fragments.get(0).setArguments(user); // Feed Fragment
-        fragments.get(1).setArguments(user); // User fragment
+        fragments.get(1).setArguments(user); // Graphics fragment
+        fragments.get(2).setArguments(user); // User fragment
 
 
         // Grab a reference to view pager.
