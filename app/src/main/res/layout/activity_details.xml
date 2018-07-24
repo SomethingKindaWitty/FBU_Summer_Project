@@ -50,7 +50,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus arcu dolor, porttitor non velit eget, suscipit pellentesque nisl."
+                android:text="@string/placeholder_text"
                 android:textAlignment="textStart"
                 android:textSize="15sp" />
 
