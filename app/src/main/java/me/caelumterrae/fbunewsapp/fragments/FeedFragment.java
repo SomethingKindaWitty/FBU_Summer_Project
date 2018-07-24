@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp.fragments;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
@@ -85,12 +87,16 @@ public class FeedFragment extends Fragment{
         rvPosts.setAdapter(feedAdapter);
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        //create our quacking refresh sound
+        final MediaPlayer quack_sound = MediaPlayer.create(getContext(),R.raw.quack);
+
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
+                quack_sound.start();
                 feedAdapter.clear();
                 posts.clear();
                 client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, getContext()));
