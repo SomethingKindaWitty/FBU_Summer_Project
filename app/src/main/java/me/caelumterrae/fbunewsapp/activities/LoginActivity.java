@@ -10,12 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
+import me.caelumterrae.fbunewsapp.handlers.NewsDataHandler;
+import me.caelumterrae.fbunewsapp.handlers.database.LoginHandler;
+import me.caelumterrae.fbunewsapp.handlers.database.SignupHandler;
 import me.caelumterrae.fbunewsapp.model.User;
 
 public class LoginActivity extends AppCompatActivity {
@@ -69,35 +75,44 @@ public class LoginActivity extends AppCompatActivity {
 
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
+                ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        result = database.userDao().findByName(username,password);
-                        Log.i("result", "created");
-                        synchronized (object) {
-                            object.notify();
-                        }
-                    }
-                }).start();
-
-                synchronized (object) {
-                    try {
-                        // block thread until respective object.notify() is called
-                        object.wait();
-                        if (result != null) {
-                            int uid = result.getUid();
-                            final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
-                            intent.putExtra("uid", uid);
-                            startActivity(intent);
-                            finish();
-                        }else{
-                            Toast.makeText(getApplicationContext(), "Invalid login", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    parseNewsClient.login(username, password, new LoginHandler(getApplicationContext()));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        result = database.userDao().findByName(username,password);
+//                        Log.i("result", "created");
+//                        synchronized (object) {
+//                            object.notify();
+//                        }
+//                    }
+//                }).start();
+//
+//                synchronized (object) {
+//                    try {
+//                        // block thread until respective object.notify() is called
+//                        object.wait();
+//                        if (result != null) {
+//                            int uid = result.getUid();
+//                            final Intent intent = new Intent(LoginActivity.this, SwipeActivity.class);
+//                            intent.putExtra("uid", uid);
+//                            startActivity(intent);
+//                            finish();
+//                        }else{
+//                            Toast.makeText(getApplicationContext(), "Invalid login", Toast.LENGTH_LONG).show();
+//                        }
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
             }
         });
@@ -107,51 +122,60 @@ public class LoginActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = new User();
-                try {
-                    user.setUid(userList.size());
-                }catch (Exception e){
-                    user.setUid(0);
-                }
-                user.setPoliticalPreference(0);
-                user.setNumUpvoted(0);
-                user.setCategories(null);
-                user.setProfileUrl(null);
+//                User user = new User();
+//                try {
+//                    user.setUid(userList.size());
+//                }catch (Exception e){
+//                    user.setUid(0);
+//                }
+//                user.setPoliticalPreference(0);
+//                user.setNumUpvoted(0);
+//                user.setCategories(null);
+//                user.setProfileUrl(null);
 
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
+                ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
-                user.setUsername(username);
-                user.setPassword(password);
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        result = database.userDao().findByName(username,password);
-                        Log.i("result", "created");
-                        synchronized (otherObject) {
-                            otherObject.notify();
-                        }
-                    }
-                }).start();
-
-                synchronized (otherObject) {
-                    try {
-                        // block thread until respective otherObject.notify() is called
-                        otherObject.wait();
-                        if (result == null) {
-                            final Intent intent = new Intent(LoginActivity.this, PoliticalActivity.class);
-                            intent.putExtra("User", Parcels.wrap(user));
-                            startActivity(intent);
-                            finish();
-                            Log.i("intent", "started");
-                        } else {
-                            Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    parseNewsClient.signup(username, password, new SignupHandler(getApplicationContext()));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+//                user.setUsername(username);
+//                user.setPassword(password);
+//
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        result = database.userDao().findByName(username,password);
+//                        Log.i("result", "created");
+//                        synchronized (otherObject) {
+//                            otherObject.notify();
+//                        }
+//                    }
+//                }).start();
+//
+//                synchronized (otherObject) {
+//                    try {
+//                        // block thread until respective otherObject.notify() is called
+//                        otherObject.wait();
+//                        if (result == null) {
+//                            final Intent intent = new Intent(LoginActivity.this, PoliticalActivity.class);
+//                            intent.putExtra("User", Parcels.wrap(user));
+//                            startActivity(intent);
+//                            finish();
+//                            Log.i("intent", "started");
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_LONG).show();
+//                        }
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
         });
     }
