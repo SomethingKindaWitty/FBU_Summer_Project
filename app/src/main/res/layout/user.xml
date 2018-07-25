@@ -40,7 +40,7 @@
             <ImageView
                 android:id="@+id/middlepanel"
                 android:layout_width="match_parent"
-                android:layout_height="900dp"
+                android:layout_height="1300dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/toppanel"
                 android:layout_margin="10dp"
@@ -82,12 +82,19 @@
                 android:textStyle="bold" />
 
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
+                android:id="@+id/betachart"
                 android:layout_width="380dp"
                 android:layout_height="380dp"
                 android:layout_below="@id/progressBar"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20dp" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="380dp"
+                android:layout_height="380dp"
+                android:layout_below="@id/betachart"
+                android:layout_centerHorizontal="true"/>
 
             <com.github.mikephil.charting.charts.RadarChart
                 android:id="@+id/radarchart"

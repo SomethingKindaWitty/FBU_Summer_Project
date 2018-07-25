@@ -140,6 +140,14 @@ public class UserFragment extends Fragment {
                 .into(profileImage);
 
 
+        LineChart betachart = view.findViewById(R.id.betachart);
+        List<Entry> beta_entries = new ArrayList<Entry>();
+        beta_entries.add(new Entry(1, 1));
+        LineDataSet beta_dataSet = new LineDataSet(beta_entries, "BetaLabel");
+        LineData beta_lineData = new LineData(beta_dataSet);
+        betachart.setData(beta_lineData);
+        betachart.invalidate();
+
         LineChart chart = view.findViewById(R.id.chart);
         List<Entry> entries = new ArrayList<Entry>();
         entries.add(new Entry(1, 1));
