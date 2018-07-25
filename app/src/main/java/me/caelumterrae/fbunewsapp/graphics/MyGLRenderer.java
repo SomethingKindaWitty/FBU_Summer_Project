@@ -102,6 +102,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public volatile float mAngle;
     public volatile float mDistanceX;
     public volatile float mDistanceY;
+    public volatile long time;
 
     public float getAngle() {
         return mAngle;
@@ -127,6 +128,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     public float getY(){
         return mDistanceY;
+    }
+
+    public void setTime(long time){
+        this.time = time;
+    }
+
+    public long getTime(){
+        return this.time;
     }
 
 }

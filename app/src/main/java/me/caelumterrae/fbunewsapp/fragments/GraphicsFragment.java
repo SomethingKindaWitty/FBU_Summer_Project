@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +25,7 @@ public class GraphicsFragment extends Fragment {
 
 
     private GLSurfaceView mGLView;
+    private int userID;
 
     public GraphicsFragment() {
         super();
@@ -39,6 +43,11 @@ public class GraphicsFragment extends Fragment {
         return mGLView;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        userID = getArguments().getInt("uid");
+    }
 
     class MyGLSurfaceView extends GLSurfaceView {
         private final float TOUCH_SCALE_FACTOR = 180.0f/320;
@@ -86,16 +95,24 @@ public class GraphicsFragment extends Fragment {
                     mRenderer.translate(dx* TOUCH_SCALE_FACTOR*0.002f, dy * TOUCH_SCALE_FACTOR*0.002f);
                     break;
                 case MotionEvent.ACTION_DOWN:
-                    Post post = new Post();
-                    post.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
-                    post.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
-                    post.setTitle("test");
-                    post.setBody("test");
-                    Intent i = new Intent(getContext(), DetailsActivity.class);
-                    i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-                    //Log.e("User", userID);
-                    i.putExtra(User.class.getSimpleName(), 2);
-                    getContext().startActivity(i);
+                    mRenderer.setTime((new java.util.Date()).getTime());
+                    break;
+                case MotionEvent.ACTION_UP:
+                    long dT = (new java.util.Date()).getTime() - mRenderer.getTime();
+
+                    Log.i("TIME", Long.toString(dT));
+
+                    if(dT < 100) {
+                        Post post = new Post();
+                        post.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
+                        post.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
+                        post.setTitle("test");
+                        post.setBody("test");
+                        Intent i = new Intent(getContext(), DetailsActivity.class);
+                        i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+                        i.putExtra(User.class.getSimpleName(), userID);
+                        getContext().startActivity(i);
+                    }
                     break;
 
             }
