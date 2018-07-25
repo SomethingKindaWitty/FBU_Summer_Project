@@ -48,10 +48,16 @@ public class Hexagon {
             0.43301f,0.25f, 0.0f // 5
     };
 
+    private float origin[] = {0.f,0.f};
+
+    private final float[] modelMatrix = new float[16];
+    private final float[] translateMatrix = new float[16];
+
     private short drawOrder[] = {0,1,2,3,4,5};
 
     // Set color with red, green, blue and alpha (opacity) values
     float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    float altColor[] = {1.0f,0.0f,0.0f, 1.0f};
 
     public Hexagon(float radius, float offsetX, float offsetY) {
         for (int i = 0; i < pentagonCoords.length; i++){
@@ -61,6 +67,8 @@ public class Hexagon {
             pentagonCoords[i] += offsetX;
             pentagonCoords[i+1] += offsetY;
         }
+        origin[0] = offsetX;
+        origin[1] = offsetY;
 
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -125,8 +133,12 @@ public class Hexagon {
         // get handle to fragment shader's vColor member
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
-        // Set color for drawing the triangle
-        GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+        // Set color for drawing the triangle depending on location
+        if(offScreen()){
+            GLES20.glUniform4fv(mColorHandle, 1, altColor, 0);
+        }else{
+            GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+        }
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 
@@ -138,5 +150,14 @@ public class Hexagon {
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(mPositionHandle);
+    }
+
+    public void translate(float x, float y){
+        origin[0] -= x;
+        origin[1] -= y;
+    }
+
+    public boolean offScreen(){
+        return origin[0] >1 || origin [0] <-0.7 || origin[1] >1 || origin[1] < -1;
     }
 }

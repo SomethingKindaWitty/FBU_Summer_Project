@@ -3,6 +3,7 @@ package me.caelumterrae.fbunewsapp.graphics;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -16,12 +17,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
+    private float[] mRotationMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
+    private float[] mTranslationMatrix = new float[16];
 
-    private float X_OFF = 0.3f;//0th row
-    private float Y_OFF = 0.27f;//multiply by difference to offset the y
-    private float ODD_X_OFF = 0.15f; //add this to all x offsets if they are even.
+    private float X_OFF = 0.5f;//0th row
+    private float Y_OFF = 0.45f;//multiply by difference to offset the y
+    private float ODD_X_OFF = 0.25f; //add this to all x offsets if they are odd.
 
 
     @Override
@@ -32,18 +35,19 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         hexagons = new ArrayList<>();
 
         for(int x = -2; x <=2; x++){
-            for(int y = -3; y <= 3;y++){
+            for(int y = -2; y <= 2;y++){
                 if(y % 2==0){
                     //EVEN ROW
-                    hexagons.add(new Hexagon(0.3f,x*X_OFF,y*Y_OFF));
+                    hexagons.add(new Hexagon(0.5f,x*X_OFF,y*Y_OFF));
                 }else{
-                    hexagons.add(new Hexagon(0.3f,x*X_OFF + ODD_X_OFF,y*Y_OFF));
+                    hexagons.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF,y*Y_OFF));
                 }
             }
         }
     }
 
     public void onDrawFrame(GL10 unused) {
+        float[] scratch = new float[16];
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         // Set the camera position (View matrix)
@@ -52,9 +56,26 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
+        //rotation transformation for the triangle(s)
+        //long time = SystemClock.uptimeMillis() % 4000L;
+//        float angle = 0.090f * ((int) time);
+        //Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, -1.0f);
+
+        //Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
+
+        // Translate the hexagons with a matrix
+        Matrix.setIdentityM(mTranslationMatrix, 0);
+
+        Matrix.translateM(mTranslationMatrix, 0, mDistanceX, mDistanceY, 0);
+
+        Matrix.multiplyMM(scratch, 0, mTranslationMatrix, 0 ,mMVPMatrix,0);
+
         // Draw shape
         for (int i = 0; i < hexagons.size(); i++){
-            hexagons.get(i).draw(mMVPMatrix);
+            //hexagons.get(i).translate(mDistanceX, mDistanceY);
+
+            Log.i("abc", "translation");
+            hexagons.get(i).draw(scratch);
         }
     }
 
@@ -76,6 +97,36 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glCompileShader(shader);
 
         return shader;
+    }
+
+    public volatile float mAngle;
+    public volatile float mDistanceX;
+    public volatile float mDistanceY;
+
+    public float getAngle() {
+        return mAngle;
+    }
+
+    public void setAngle(float angle) {
+        mAngle = angle;
+    }
+
+    public void setMove(float distanceX, float distanceY) {
+        mDistanceX = distanceX;
+        mDistanceY = distanceY;
+    }
+
+    public void translate(float distanceX, float distanceY){
+        for (int i = 0; i < hexagons.size(); i++){
+            hexagons.get(i).translate(distanceX, distanceY);
+        }
+    }
+    public float getX(){
+        return mDistanceX;
+    }
+
+    public float getY(){
+        return mDistanceY;
     }
 
 }
