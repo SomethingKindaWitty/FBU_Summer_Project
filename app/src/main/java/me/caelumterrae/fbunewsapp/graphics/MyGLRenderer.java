@@ -19,21 +19,28 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
 
+    private float X_OFF = 0.3f;//0th row
+    private float Y_OFF = 0.27f;//multiply by difference to offset the y
+    private float ODD_X_OFF = 0.15f; //add this to all x offsets if they are even.
+
+
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         mTriangle  = new Triangle();
         hexagons = new ArrayList<>();
-        hexagons.add(new Hexagon(0.3f, 0f, 0f)); //center
-        hexagons.add(new Hexagon(0.3f, 0.3f, 0f)); //centerleft
-        hexagons.add(new Hexagon(0.3f, -0.3f, 0f)); //centerRight
-        hexagons.add(new Hexagon(0.3f, 0.15f, .27f)); //topleft
-        hexagons.add(new Hexagon(0.3f, -0.15f, 0.27f)); //topright
-        hexagons.add(new Hexagon(0.3f, -0.15f, -0.27f)); //bottomright
-        hexagons.add(new Hexagon(0.3f, 0.15f, -0.27f)); //bottomleft
 
-
+        for(int x = -2; x <=2; x++){
+            for(int y = -3; y <= 3;y++){
+                if(y % 2==0){
+                    //EVEN ROW
+                    hexagons.add(new Hexagon(0.3f,x*X_OFF,y*Y_OFF));
+                }else{
+                    hexagons.add(new Hexagon(0.3f,x*X_OFF + ODD_X_OFF,y*Y_OFF));
+                }
+            }
+        }
     }
 
     public void onDrawFrame(GL10 unused) {

@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp.fragments;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +10,9 @@ import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -108,18 +111,21 @@ public class UserFragment extends Fragment {
     }
 
     public void createUser(View view) {
+
+        // TODO - get political affiliation
+        // politicalAffiliation.setText("duck");
+
+        // Sets progress circle thing
+        ProgressBar progressBar = view.findViewById(R.id.progressBar);
+        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 23); // see this max value coming back here, we animate towards that value
+        animation.setDuration(5000); // in milliseconds
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();
+
+
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
         politicalAffiliation = view.findViewById(R.id.politicalNum);
-//        graph = (GraphView) view.findViewById(R.id.graph);
-//        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-//                new DataPoint(0, 1),
-//                new DataPoint(1, 5),
-//                new DataPoint(2, 3),
-//                new DataPoint(3, 2),
-//                new DataPoint(4, 6)
-//        });
-//        graph.addSeries(series);
 
         if (user.getUsername() == null) {
             username.setText(R.string.app_name);
@@ -127,8 +133,6 @@ public class UserFragment extends Fragment {
             username.setText(user.getUsername());
         }
 
-        //TODO - get political affiliation
-        politicalAffiliation.setText("duck");
 
         Glide.with(getContext())
                 .load(R.drawable.duckie)
