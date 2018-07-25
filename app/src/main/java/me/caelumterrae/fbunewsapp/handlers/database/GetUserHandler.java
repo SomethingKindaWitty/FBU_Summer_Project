@@ -23,12 +23,15 @@ import me.caelumterrae.fbunewsapp.model.User;
  *
  * Usage: Instantiate a semaphore like so:
  * >> Semaphore mySemaphore = new Semaphore(0);
+ * Package the semaphore inside an object like so:
+ * >> JSONObject semaphoreObj = new JSONObject();
+ * >> semaphoreObj.put(GetUserHandler.semaphoreKey, mySemaphore);
  * Then call:
- * >> parseNewsClient.getUser(uid, new GetUserHandler(myJsonUserObject, mySemaphore);
+ * >> parseNewsClient.getUser(uid, new GetUserHandler(myJsonUserObject, semaphoreObj);
  * Then wait for parseNewClient to populate myJsonUserObject by writing:
  * >> mySemaphore.acquire(); // this waits for semaphore.release to be called in line 54
- * Now, we are gurranteed to have myJsonUserObject populated, so we can access the user object with
- * User user = myJsonUserObject.get(GetUserHandler.userKey);
+ * Now, we are guaranteed to have myJsonUserObject populated, so we can access the user object with
+ * >> User user = myJsonUserObject.get(GetUserHandler.userKey);
  *
  * :)
  *
@@ -37,13 +40,14 @@ import me.caelumterrae.fbunewsapp.model.User;
 public class GetUserHandler extends JsonHttpResponseHandler {
 
     public static String userKey = "user";
+    public static String semaphoreKey = "semaphore";
 
     JSONObject userObject;
     Semaphore semaphore;
 
-    public GetUserHandler(JSONObject userObject, Semaphore semaphore) {
+    public GetUserHandler(JSONObject userObject, JSONObject semaphoreObject) throws JSONException {
         this.userObject = userObject;
-        this.semaphore = semaphore;
+        this.semaphore = (Semaphore) semaphoreObject.get(semaphoreKey);
     }
 
     @Override
