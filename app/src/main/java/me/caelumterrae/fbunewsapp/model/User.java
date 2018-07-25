@@ -25,7 +25,7 @@ public class User {
         User user = new User();
         user.setUid(jsonObject.getInt("UID"));
         user.setUsername(jsonObject.getString("username"));
-        user.setProfileUrl(jsonObject.getString("profileUrl"));
+        user.setProfileUrl(jsonObject.getString("url"));
         user.setPoliticalPreference(jsonObject.getDouble("politicalPreference"));
         user.setNumUpvoted(jsonObject.getInt("numUpvoted"));
         return user;
