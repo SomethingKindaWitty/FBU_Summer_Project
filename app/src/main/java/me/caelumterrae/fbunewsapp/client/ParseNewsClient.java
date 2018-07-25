@@ -26,7 +26,8 @@ public class ParseNewsClient {
         this.context = context;
     }
 
-    public void getData(final String articleUrl, JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+    public void getData(final String articleUrl, JsonHttpResponseHandler jsonHttpResponseHandler)
+            throws UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/getArticle";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
@@ -36,7 +37,8 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void login(final String username, final String password, JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+    public void login(final String username, final String password, JsonHttpResponseHandler
+            jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/login";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
@@ -46,7 +48,8 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void signup(final String username, final String password, JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+    public void signup(final String username, final String password, JsonHttpResponseHandler
+            jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/signup";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
@@ -56,34 +59,45 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void addLike(final int uid, JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+    public void addLike(final int uid, final String postBias, final String postUrl,
+                        JsonHttpResponseHandler jsonHttpResponseHandler) throws
+            UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/like";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
         jsonObject.put("UID", uid);
+        jsonObject.put("bias", postBias);
+        jsonObject.put("url", postUrl);
         entity = new StringEntity(jsonObject.toString());
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void removeLike(final int uid, JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+    public void removeLike(final int uid, final String postBias, final String postUrl,
+                           JsonHttpResponseHandler jsonHttpResponseHandler) throws
+            UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/like";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
         jsonObject.put("UID", uid);
+        jsonObject.put("bias", postBias);
+        jsonObject.put("url", postUrl);
         entity = new StringEntity(jsonObject.toString());
         client.delete(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void getLike(final int uid, JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+    public void getLike(final int uid, final String postUrl, JsonHttpResponseHandler
+            jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/like";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
         jsonObject.put("UID", uid);
+        jsonObject.put("url", postUrl);
         entity = new StringEntity(jsonObject.toString());
         client.get(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void getUser(final int uid, JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+    public void getUser(final int uid, JsonHttpResponseHandler jsonHttpResponseHandler) throws
+            UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/user";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
