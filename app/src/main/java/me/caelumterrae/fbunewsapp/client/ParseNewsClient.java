@@ -59,6 +59,18 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
+    public void setAffiliation(final int uid, final double affiliation,
+                        JsonHttpResponseHandler jsonHttpResponseHandler) throws
+            UnsupportedEncodingException, JSONException {
+        String url = API_BASE_URL + "/setaff";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("UID", uid);
+        jsonObject.put("aff", affiliation);
+        entity = new StringEntity(jsonObject.toString());
+        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+    }
+
     public void addLike(final int uid, final String postBias, final String postUrl,
                         JsonHttpResponseHandler jsonHttpResponseHandler) throws
             UnsupportedEncodingException, JSONException {
@@ -87,13 +99,13 @@ public class ParseNewsClient {
 
     public void getLike(final int uid, final String postUrl, JsonHttpResponseHandler
             jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
-        String url = API_BASE_URL + "/like";
+        String url = API_BASE_URL + "/getlike";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
         jsonObject.put("UID", uid);
         jsonObject.put("url", postUrl);
         entity = new StringEntity(jsonObject.toString());
-        client.get(context, url, entity, "application/json", jsonHttpResponseHandler);
+        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
     public void getUser(final int uid, JsonHttpResponseHandler jsonHttpResponseHandler) throws
