@@ -66,8 +66,8 @@
 
             <ImageButton
                 android:id="@+id/btnLike"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignStart="@+id/tvTitle"
                 android:layout_below="@+id/tvBody"
                 android:background="@color/transparent"
