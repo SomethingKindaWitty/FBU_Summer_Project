@@ -17,7 +17,7 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
-import me.caelumterrae.fbunewsapp.math.Probability;
+import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.model.Post;
 
 public class Related {
@@ -32,7 +32,7 @@ public class Related {
         // Creates Beta distribution based on on users affiliation number.
         PoliticalAffData data = new PoliticalAffData(context);
         double affiliation = data.getAffiliationNum();
-        Probability betaDis = new Probability(affiliation);
+        BetaDis betaDis = new BetaDis(affiliation);
         int size = rawPosts.size();
         Log.i("Handler", "Affiliation: " + affiliation);
         for (int i = 0; i < size; i++) {

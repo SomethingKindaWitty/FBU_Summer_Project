@@ -1,6 +1,8 @@
 package me.caelumterrae.fbunewsapp.fragments;
 
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +25,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -41,6 +44,7 @@ import java.util.List;
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
+import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
 
@@ -148,23 +152,36 @@ public class UserFragment extends Fragment {
                 .into(profileImage);
 
 
+        // Sets up beta distribution graph
+        BetaDis betaDis = new BetaDis(23.8);
         LineChart betachart = view.findViewById(R.id.betachart);
+        betachart.setContentDescription("Beta Distribution: Alpha: 3, Beta: 9");
+        XAxis x = betachart.getXAxis();
+        x.setDrawGridLines(false);
+        x.setLabelCount(6, false);
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis y = betachart.getAxisLeft();
+        y.setEnabled(false);
+        y.setLabelCount(6, false);
+        y.setTextColor(Color.BLACK);
+        y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        y.setDrawGridLines(false);
+        y.setAxisLineColor(Color.BLACK);
+
+        betachart.getAxisRight().setEnabled(false);
+
         List<Entry> beta_entries = new ArrayList<Entry>();
-        beta_entries.add(new Entry(1, 1));
+        for(float i = 0; i <= 1; i+=.02) {
+            beta_entries.add(new Entry(i, (float)betaDis.getPDF(i)));
+        }
         LineDataSet beta_dataSet = new LineDataSet(beta_entries, "BetaLabel");
         LineData beta_lineData = new LineData(beta_dataSet);
         betachart.setData(beta_lineData);
+        betachart.animateXY(2000, 2000);
         betachart.invalidate();
 
-        LineChart chart = view.findViewById(R.id.chart);
-        List<Entry> entries = new ArrayList<Entry>();
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 1));
-        entries.add(new Entry(3, 2));
-        LineDataSet dataSet = new LineDataSet(entries, "Label");
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-        chart.invalidate(); // refresh
+
 
         RadarChart radarChart = view.findViewById(R.id.radarchart);
         final SparseIntArray affiliation = new SparseIntArray(5);

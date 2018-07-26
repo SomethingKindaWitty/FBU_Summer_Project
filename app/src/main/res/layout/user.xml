@@ -22,29 +22,52 @@
                 android:layout_height="146dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="100dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="100dp"
                 app:srcCompat="@android:color/white" />
 
             <View
+                android:id="@+id/usernameDIvider"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="182dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="#8e8e8e" />
+                android:layout_marginTop="182dp"
+                android:background="#cccccc" />
 
             <ImageView
                 android:id="@+id/middlepanel"
                 android:layout_width="match_parent"
-                android:layout_height="1300dp"
+                android:layout_height="1000dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/toppanel"
                 android:layout_margin="10dp"
                 app:srcCompat="@color/white" />
+
+            <View
+                android:id="@+id/usernameDIvider2"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="432dp"
+                android:background="#cccccc" />
+
+            <View
+                android:id="@+id/usernameDivider3"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="905dp"
+                android:background="#cccccc" />
 
 
             <ImageView
@@ -74,8 +97,8 @@
                 android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/postsUpvotedLabel"
+                android:layout_alignStart="@+id/affiliationScoreLabel"
                 android:layout_marginBottom="-211dp"
-                android:layout_toEndOf="@+id/progressBar"
                 android:text="23.8"
                 android:textAlignment="center"
                 android:textSize="14sp"
@@ -87,31 +110,25 @@
                 android:layout_height="380dp"
                 android:layout_below="@id/progressBar"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="20dp" />
+                android:layout_marginTop="100dp"/>
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
-                android:layout_width="380dp"
-                android:layout_height="380dp"
-                android:layout_below="@id/betachart"
-                android:layout_centerHorizontal="true"/>
 
             <com.github.mikephil.charting.charts.RadarChart
                 android:id="@+id/radarchart"
                 android:layout_width="380dp"
                 android:layout_height="380dp"
-                android:layout_below="@id/chart"
+                android:layout_below="@id/betachart"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="20dp" />
+                android:layout_marginTop="40dp" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_below="@id/toppanel"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_alignEnd="@+id/politicalNum"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="266dp"
                 android:max="100"
                 android:progress="0"
                 android:progressDrawable="@drawable/circular" />
@@ -141,8 +158,9 @@
                 android:id="@+id/affiliationScoreLabel"
                 android:layout_width="88dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignTop="@+id/postsUpvotedLabel"
-                android:layout_toEndOf="@+id/progressBar"
+                android:layout_marginEnd="31dp"
                 android:text="Pol. Affiliation"
                 android:textAlignment="center"
                 android:textSize="12sp" />
@@ -171,23 +189,78 @@
 
             <TextView
                 android:id="@+id/politicalAffDesc"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="362dp"
-                android:text="0 [liberal] to 100 [conservative]"
-                android:textSize="7sp" />
+                android:layout_alignStart="@+id/affiliationScore2"
+                android:layout_below="@+id/affiliationScore2"
+                android:text="Liberal"
+                android:textAlignment="center"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/affiliationScore2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="306dp"
+                android:layout_above="@+id/liberalToConservative"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="69dp"
                 android:text="23.8"
                 android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/politicalAffLabel"
+                android:layout_width="151dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="280dp"
+                android:layout_toStartOf="@+id/numComments"
+                android:text="Political Affiliation"
+                android:textAllCaps="true"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/liberalToConservative"
+                android:layout_width="101dp"
+                android:layout_height="66dp"
+                android:layout_alignBottom="@+id/progressBar"
+                android:layout_alignStart="@+id/politicalAffLabel"
+                android:text="Liberal : 0 Moderate : 50 Conservative : 100"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/distribution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="441dp"
+                android:text="Distribution of Your News"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/across"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/distribution"
+                android:layout_centerHorizontal="true"
+                android:text="Across Political Spectrum"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/postsliked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/betachart"
+                android:layout_centerHorizontal="true"
+                android:text="Posts Liked"
+                android:textAllCaps="true"
+                android:textSize="24sp"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold" />
 
 
         </RelativeLayout>
