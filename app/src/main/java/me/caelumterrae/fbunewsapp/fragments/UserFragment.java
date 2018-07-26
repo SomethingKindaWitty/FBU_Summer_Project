@@ -1,38 +1,64 @@
 package me.caelumterrae.fbunewsapp.fragments;
 
+import android.animation.ObjectAnimator;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
+import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
+import me.caelumterrae.fbunewsapp.math.BetaDis;
+import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
 
 public class UserFragment extends Fragment {
@@ -40,10 +66,12 @@ public class UserFragment extends Fragment {
     public TextView username;
     public ImageView profileImage;
     public TextView politicalAffiliation;
+    public TextView otherPoliticalAffiliation;
+    public TextView numUpvoted;
+    private SwipeRefreshLayout swipeContainer;
+
     public GraphView graph;
-    private int userID;
     private User user;
-    private UserDatabase database;
     //arbitrary object for synchronization
     private final Object object = "hello";
 
@@ -61,70 +89,127 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //pull information from SwipeActivity
-        userID = getArguments().getInt("uid");
-        database = UserDatabase.getInstance(getContext());
-        if (database == null) {
-            Log.e("Database", "failed to create");
-        } else {
-            Log.e("Database", "created");
+            //pull information from SwipeActivity
+//            JSONObject userObject = new JSONObject();
+//            Semaphore semaphore = new Semaphore(0);
+//            JSONObject semaphoreObj = new JSONObject();
+//            semaphoreObj.put(GetUserHandler.SEMAPHORE_KEY, semaphore);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+
+        try {
+            user = Parcels.unwrap(getArguments().getParcelable("User"));
+        } catch (NullPointerException e) {
+            user = null;
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                user = database.userDao().findByID(userID);
-                if (user == null) {
-                    Log.e("Usernew", "not found");
-                } else {
-                    Log.e("Usernew", "found");
-                    synchronized (object) {
-                        object.notify();
-                    }
+        if (user != null){
+            createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());
+            //create our quacking refresh sound
+            final MediaPlayer quack_sound = MediaPlayer.create(getContext(),R.raw.quack);
+            final View view1 = view;
+
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    // Your code to refresh the list here.
+                    // Make sure you call swipeContainer.setRefreshing(false)
+                    // once the network request has completed successfully.
+                    quack_sound.start();
+                    createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());
+                    swipeContainer.setRefreshing(false);
+
                 }
-            }
-        }).start();
-
-        //controls thread operation order
-        synchronized (object) {
-            try {
-                // Calling wait() will block this thread until another thread
-                // calls notify() on the object.
-                object.wait();
-                createUser(view);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            });
+            // Configure the refreshing colors
+            swipeContainer.setColorSchemeResources(R.color.duck_beak,
+                    R.color.sea_blue, R.color.yellow_duck,
+                    R.color.sea_blue_light);
         }
+//            Log.e("UserFrag", "Waiting for semaphore");
+//            semaphore.acquire();
+//            user = (User) userObject.get(GetUserHandler.USER_KEY);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
 
+        // TODO - get user and set profile info accordingly
 
+        //parseNewsClient.getUser(userID, new GetUserHandler(getContext()));
+//        database = UserDatabase.getInstance(getContext());
+//        if (database == null) {
+//            Log.e("Database", "failed to create");
+//        } else {
+//            Log.e("Database", "created");
+//        }
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                user = database.userDao().findByID(userID);
+//                if (user == null) {
+//                    Log.e("Usernew", "not found");
+//                } else {
+//                    Log.e("Usernew", "found");
+//                    synchronized (object) {
+//                        object.notify();
+//                    }
+//                }
+//            }
+//        }).start();
 
-
+//        //controls thread operation order
+//        synchronized (object) {
+//            try {
+//                // Calling wait() will block this thread until another thread
+//                // calls notify() on the object.
+//                object.wait();
+//                createUser(view);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
-    public void createUser(View view) {
+    public void createUser(View view, String name, double politicalAff, int numVotes) {
+
+        // TODO - get political affiliation
+        // politicalAffiliation.setText("duck");
+
+        int pol_num = (int) politicalAff;
+
+        // Sets progress circle thing
+        ProgressBar progressBar = view.findViewById(R.id.progressBar);
+        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, pol_num); // see this max value coming back here, we animate towards that value
+        animation.setDuration(5000); // in milliseconds
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();
+
+
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
         politicalAffiliation = view.findViewById(R.id.politicalNum);
-//        graph = (GraphView) view.findViewById(R.id.graph);
-//        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-//                new DataPoint(0, 1),
-//                new DataPoint(1, 5),
-//                new DataPoint(2, 3),
-//                new DataPoint(3, 2),
-//                new DataPoint(4, 6)
-//        });
-//        graph.addSeries(series);
+        numUpvoted = view.findViewById(R.id.numUpvoted);
+        otherPoliticalAffiliation = view.findViewById(R.id.affiliationScore2);
 
-        if (user.getUsername() == null) {
+
+        username.setText(name);
+        numUpvoted.setText(String.valueOf(numVotes));
+        politicalAffiliation.setText(String.valueOf(politicalAff));
+        otherPoliticalAffiliation.setText(String.valueOf(politicalAff));
+
+
+       /* if (user.getUsername() == null) {
             username.setText(R.string.app_name);
         } else {
             username.setText(user.getUsername());
-        }
+        }*/
 
-        //TODO - get political affiliation
-        politicalAffiliation.setText("duck");
 
         Glide.with(getContext())
                 .load(R.drawable.duckie)
@@ -132,27 +217,90 @@ public class UserFragment extends Fragment {
                 .into(profileImage);
 
 
-        LineChart chart = view.findViewById(R.id.chart);
-        List<Entry> entries = new ArrayList<Entry>();
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 1));
-        entries.add(new Entry(3, 2));
-        LineDataSet dataSet = new LineDataSet(entries, "Label");
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-        chart.invalidate(); // refresh
+        // Sets up beta distribution graph ---- TODO: replace affiliation w/ real affiliation
+        BetaDis betaDis = new BetaDis(23.8);
+        LineChart betachart = view.findViewById(R.id.betachart);
+        Description desc = new Description();
+        desc.setText("Beta Distribution: Alpha: " + Integer.toString((int)betaDis.getAlpha())
+        + ", Beta: " + Integer.toString((int)betaDis.getBeta()));
+        betachart.setDescription(desc);
+        XAxis x = betachart.getXAxis();
+        x.setDrawGridLines(false);
+        x.setLabelCount(10, false);
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
 
+        YAxis y = betachart.getAxisLeft();
+        y.setEnabled(false);
+
+        betachart.getAxisRight().setEnabled(false);
+
+        List<Entry> beta_entries = new ArrayList<Entry>();
+        for(float i = 0; i <= 1; i+=.02) {
+            beta_entries.add(new Entry(i*100, (float)betaDis.getPDF(i)));
+        }
+        LineDataSet beta_dataSet = new LineDataSet(beta_entries, "PDF evaluated at given political affiliation");
+        beta_dataSet.setDrawCircles(false);
+        beta_dataSet.setLineWidth(1.8f);
+        beta_dataSet.setCircleRadius(4f);
+        beta_dataSet.setCircleColor(Color.BLACK);
+        beta_dataSet.setHighLightColor(Color.rgb(244, 117, 117));
+        beta_dataSet.setColor(Color.BLACK);
+        beta_dataSet.setFillColor(Color.BLACK);
+        beta_dataSet.setFillAlpha(100);
+        beta_dataSet.setDrawHorizontalHighlightIndicator(false);
+        beta_dataSet.setFillFormatter(new IFillFormatter() {
+            @Override
+            public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                return -10;
+            }
+        });
+
+        LineData beta_lineData = new LineData(beta_dataSet);
+        beta_lineData.setDrawValues(false);
+        betachart.setData(beta_lineData);
+        betachart.animateXY(2000, 2000);
+        betachart.invalidate();
+
+
+
+        // set up RadarChart - TODO replace values with actual # of how many upvoted per category
         RadarChart radarChart = view.findViewById(R.id.radarchart);
-        SparseIntArray affiliation = new SparseIntArray(5);
+        final SparseIntArray affiliation = new SparseIntArray(5);
         SparseIntArray values = new SparseIntArray(5);
         ArrayList<RadarEntry> radarEntries = new ArrayList<>();
         ArrayList<IRadarDataSet> radarDataSets = new ArrayList<>();
+        radarChart.getLegend().setEnabled(false);
+        Description desc2 = new Description();
+        desc2.setText("# of posts you upvoted across the political spectrum");
+        radarChart.setDescription(desc2);
+
 
         affiliation.append(1, R.string.left);
         affiliation.append(2, R.string.leftmoderate);
         affiliation.append(3, R.string.moderate);
         affiliation.append(4, R.string.rightmoderate);
         affiliation.append(5, R.string.right);
+
+        XAxis xAxis = radarChart.getXAxis();
+        xAxis.setXOffset(0f);
+        xAxis.setYOffset(0f);
+        xAxis.setTextSize(9f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+
+            private String[] mFactors = new String[]{getString(affiliation.get(1)), getString(affiliation.get(2)),
+                    getString(affiliation.get(3)), getString(affiliation.get(4)), getString(affiliation.get(5))};
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mFactors[(int) value % mFactors.length];
+            }
+
+        });
+
+        YAxis yAxis = radarChart.getYAxis();
+        yAxis.setDrawLabels(false);
+
+        radarChart.animateXY(2400, 2400, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
 
         values.append(1, 18);
         values.append(2, 26);

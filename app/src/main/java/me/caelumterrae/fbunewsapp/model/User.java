@@ -4,7 +4,13 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcel;
+
+import java.text.ParseException;
+
+import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 
 @Entity
 @Parcel
@@ -12,6 +18,19 @@ public class User {
 
     public User(){
         //for Parcel
+    }
+
+    // Populates everything from JSON except password and categories
+    public static User fromJSON(JSONObject jsonObject) throws JSONException, ParseException {
+        User user = new User();
+        user.setUid(jsonObject.getInt("UID"));
+        user.setUsername(jsonObject.getString("username"));
+        user.setPassword("password");
+        user.setProfileUrl(jsonObject.getString("url"));
+        user.setPoliticalPreference(jsonObject.getDouble("politicalPreference"));
+        user.setNumUpvoted(jsonObject.getInt("numUpvoted"));
+        user.setCategories("categories");
+        return user;
     }
 
     @PrimaryKey

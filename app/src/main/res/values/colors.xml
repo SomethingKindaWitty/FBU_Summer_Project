@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="seethroughwhite">#A6ffffff</color>
+    <color name="seethroughwhite">#a6ffffff</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -144,8 +144,8 @@
     <color name="green_8">#ff1d6000</color>
     <color name="green_9">#ff134400</color>
     <color name="greenteal">#ffb4fea6</color>
-    <color name="grey_0">#fffafafa</color>
-    <color name="grey_1">#ffefefef</color>
+    <color name="grey_0">#fafafa</color>
+    <color name="grey_1">#efefef</color>
     <color name="grey_1_30_transparent">#4defefef</color>
     <color name="grey_1_80_transparent">#ccefefef</color>
     <color name="grey_1_90_transparent">#e6efefef</color>

@@ -1,4 +1,4 @@
-# FBU NEWS APP (Temp Name)
+# Quack
 
 This is an android app created for the 2018 FBU program. It is a News App that attempts to decrease the impact of polarization in media by showing users articles from across the aisle while mitigating the abrasion caused by being exposed to drastically opposing viewpoints. We will also attempt to present the news media graph in a novel way.
 
