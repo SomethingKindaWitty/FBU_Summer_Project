@@ -41,7 +41,7 @@
             <ImageView
                 android:id="@+id/middlepanel"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
+                android:layout_height="1100dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/toppanel"
                 android:layout_margin="10dp"

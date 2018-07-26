@@ -24,6 +24,7 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -33,6 +34,9 @@ import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -144,42 +148,62 @@ public class UserFragment extends Fragment {
                 .into(profileImage);
 
 
-        // Sets up beta distribution graph
+        // Sets up beta distribution graph ---- TODO: replace affiliation w/ real affiliation
         BetaDis betaDis = new BetaDis(23.8);
         LineChart betachart = view.findViewById(R.id.betachart);
-        betachart.setContentDescription("Beta Distribution: Alpha: 3, Beta: 9");
+        Description desc = new Description();
+        desc.setText("Beta Distribution: Alpha: " + Integer.toString((int)betaDis.getAlpha())
+        + ", Beta: " + Integer.toString((int)betaDis.getBeta()));
+        betachart.setDescription(desc);
         XAxis x = betachart.getXAxis();
         x.setDrawGridLines(false);
-        x.setLabelCount(6, false);
+        x.setLabelCount(10, false);
         x.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis y = betachart.getAxisLeft();
         y.setEnabled(false);
-        y.setLabelCount(6, false);
-        y.setTextColor(Color.BLACK);
-        y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        y.setDrawGridLines(false);
-        y.setAxisLineColor(Color.BLACK);
 
         betachart.getAxisRight().setEnabled(false);
 
         List<Entry> beta_entries = new ArrayList<Entry>();
         for(float i = 0; i <= 1; i+=.02) {
-            beta_entries.add(new Entry(i, (float)betaDis.getPDF(i)));
+            beta_entries.add(new Entry(i*100, (float)betaDis.getPDF(i)));
         }
-        LineDataSet beta_dataSet = new LineDataSet(beta_entries, "BetaLabel");
+        LineDataSet beta_dataSet = new LineDataSet(beta_entries, "PDF evaluated at given political affiliation");
+        beta_dataSet.setDrawCircles(false);
+        beta_dataSet.setLineWidth(1.8f);
+        beta_dataSet.setCircleRadius(4f);
+        beta_dataSet.setCircleColor(Color.BLACK);
+        beta_dataSet.setHighLightColor(Color.rgb(244, 117, 117));
+        beta_dataSet.setColor(Color.BLACK);
+        beta_dataSet.setFillColor(Color.BLACK);
+        beta_dataSet.setFillAlpha(100);
+        beta_dataSet.setDrawHorizontalHighlightIndicator(false);
+        beta_dataSet.setFillFormatter(new IFillFormatter() {
+            @Override
+            public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                return -10;
+            }
+        });
+
         LineData beta_lineData = new LineData(beta_dataSet);
+        beta_lineData.setDrawValues(false);
         betachart.setData(beta_lineData);
         betachart.animateXY(2000, 2000);
         betachart.invalidate();
 
 
 
+        // set up RadarChart - TODO replace values with actual # of how many upvoted per category
         RadarChart radarChart = view.findViewById(R.id.radarchart);
         final SparseIntArray affiliation = new SparseIntArray(5);
         SparseIntArray values = new SparseIntArray(5);
         ArrayList<RadarEntry> radarEntries = new ArrayList<>();
         ArrayList<IRadarDataSet> radarDataSets = new ArrayList<>();
+        radarChart.getLegend().setEnabled(false);
+        desc.setText("# of posts you upvoted across the political spectrum");
+        radarChart.setDescription(desc);
+
 
         affiliation.append(1, R.string.left);
         affiliation.append(2, R.string.leftmoderate);
@@ -190,7 +214,7 @@ public class UserFragment extends Fragment {
         XAxis xAxis = radarChart.getXAxis();
         xAxis.setXOffset(0f);
         xAxis.setYOffset(0f);
-        xAxis.setTextSize(8f);
+        xAxis.setTextSize(9f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
             private String[] mFactors = new String[]{getString(affiliation.get(1)), getString(affiliation.get(2)),
@@ -203,7 +227,10 @@ public class UserFragment extends Fragment {
 
         });
 
-        radarChart.animateXY(1400, 1400, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
+        YAxis yAxis = radarChart.getYAxis();
+        yAxis.setDrawLabels(false);
+
+        radarChart.animateXY(2400, 2400, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
 
         values.append(1, 18);
         values.append(2, 26);
