@@ -43,7 +43,7 @@ public class SwipeActivity extends AppCompatActivity {
         fragments.add(new GraphicsFragment());
         fragments.add(new UserFragment());
 
-        if (source.equals("Login") || source.equals("Political")){
+        if (source.equals("Login") || source.equals("Political") || source.equals("DetailsActivity")){
             // Pulls uid from either LoginActivity or PoliticalActivity
             uid = bundle.getInt("uid");
             ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
@@ -91,6 +91,11 @@ public class SwipeActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 }

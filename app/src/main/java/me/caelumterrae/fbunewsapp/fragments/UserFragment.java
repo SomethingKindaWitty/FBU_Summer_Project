@@ -3,10 +3,12 @@ package me.caelumterrae.fbunewsapp.fragments;
 import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
@@ -50,6 +52,7 @@ import java.util.concurrent.Semaphore;
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
+import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
@@ -61,6 +64,8 @@ public class UserFragment extends Fragment {
     public TextView politicalAffiliation;
     public TextView otherPoliticalAffiliation;
     public TextView numUpvoted;
+    private SwipeRefreshLayout swipeContainer;
+
     public GraphView graph;
     private User user;
     //arbitrary object for synchronization
@@ -85,17 +90,37 @@ public class UserFragment extends Fragment {
 //            Semaphore semaphore = new Semaphore(0);
 //            JSONObject semaphoreObj = new JSONObject();
 //            semaphoreObj.put(GetUserHandler.SEMAPHORE_KEY, semaphore);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+
         try {
             user = Parcels.unwrap(getArguments().getParcelable("User"));
         } catch (NullPointerException e) {
             user = null;
         }
 
-
         if (user != null){
             createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());
-        }
+            //create our quacking refresh sound
+            final MediaPlayer quack_sound = MediaPlayer.create(getContext(),R.raw.quack);
+            final View view1 = view;
 
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    // Your code to refresh the list here.
+                    // Make sure you call swipeContainer.setRefreshing(false)
+                    // once the network request has completed successfully.
+                    quack_sound.start();
+                    createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());
+                    swipeContainer.setRefreshing(false);
+
+                }
+            });
+            // Configure the refreshing colors
+            swipeContainer.setColorSchemeResources(R.color.duck_beak,
+                    R.color.sea_blue, R.color.yellow_duck,
+                    R.color.sea_blue_light);
+        }
 //            Log.e("UserFrag", "Waiting for semaphore");
 //            semaphore.acquire();
 //            user = (User) userObject.get(GetUserHandler.USER_KEY);
@@ -167,6 +192,7 @@ public class UserFragment extends Fragment {
         politicalAffiliation = view.findViewById(R.id.politicalNum);
         numUpvoted = view.findViewById(R.id.numUpvoted);
         otherPoliticalAffiliation = view.findViewById(R.id.affiliationScore2);
+
 
         username.setText(name);
         numUpvoted.setText(String.valueOf(numVotes));

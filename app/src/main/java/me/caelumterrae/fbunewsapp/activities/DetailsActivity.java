@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp.activities;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,19 +59,10 @@ public class DetailsActivity extends AppCompatActivity {
     Drawable main;
     Drawable liked;
     ProgressBar pb;
-    User user;
     int userID;
-//    UserLiked like;
     Boolean upVoted;
     Boolean gotLike;
-//    UserDatabase database;
-//    List<UserLiked> userLikeds;
-//    Object likeconfirmed = "yay";
-//    Object add_confirmed = "yay";
-//    Object delete_confirmed = "yay";
-//    RandomSingleton randomSingleton;
-//    Semaphore waitForQueryingDatabase;
-//    Semaphore waitForButton;
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -93,10 +85,9 @@ public class DetailsActivity extends AppCompatActivity {
 
         final ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
-        try {
-            upVoted = bundle.getBoolean("isLiked");
-            gotLike = true;
-        } catch (Exception er) {
+        String source = bundle.getString("source");
+
+        if (source.contentEquals("Related Adapter") || source.contentEquals("PoliticalActivity")|| source.contentEquals("LoginActivity")) {
             try {
                 // This sets the upvote button to the drawable based on whether the user previously liked
                 // the post or not
@@ -108,7 +99,31 @@ public class DetailsActivity extends AppCompatActivity {
             }
             upVoted = false;
             gotLike = false;
+        } else {
+            upVoted = bundle.getBoolean("isLiked");
+            Log.e("DetailsActivity", "isLiked call successful");
+            gotLike = true;
         }
+
+//        // if the bundle was received from getLike, this boolean will be available
+//        // else, a call must be made
+//        try {
+//            upVoted = bundle.getBoolean("isLiked");
+//            Log.e("DetailsActivity/AddRemoveLikeHandler", "isLiked call successful");
+//            gotLike = true;
+//        } catch (Exception er) {
+//            try {
+//                // This sets the upvote button to the drawable based on whether the user previously liked
+//                // the post or not
+//                parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, post, userID, getApplicationContext()));
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            upVoted = false;
+//            gotLike = false;
+//        }
 
         tvTitle = findViewById(R.id.tvTitle);
         rvRelated = findViewById(R.id.rvRelated);
@@ -154,7 +169,7 @@ public class DetailsActivity extends AppCompatActivity {
                 if (upVoted){
                     try {
                         parseNewsClient.removeLike(userID, post.getPoliticalBias(), post.getUrl(),
-                                new AddRemoveLikeHandler(upVote, liked, main, false));
+                                new AddRemoveLikeHandler(post, userID, false, getApplicationContext()));
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -163,7 +178,7 @@ public class DetailsActivity extends AppCompatActivity {
                 } else {
                     try {
                         parseNewsClient.addLike(userID, post.getPoliticalBias(), post.getUrl(),
-                                new AddRemoveLikeHandler(upVote, liked, main, true));
+                                new AddRemoveLikeHandler(post, userID, true, getApplicationContext()));
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -239,6 +254,15 @@ public class DetailsActivity extends AppCompatActivity {
 //
 //            }
 //        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, SwipeActivity.class);
+        i.putExtra("source", "DetailsActivity");
+        i.putExtra("uid", userID);
+        startActivity(i);
+        finish();
     }
 
 //    public void updateList(final UserLiked like, final int userID, final Boolean adding){
