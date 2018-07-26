@@ -62,6 +62,8 @@ public class DetailsActivity extends AppCompatActivity {
     int userID;
     Boolean upVoted;
     Boolean gotLike;
+    ParseNewsClient parseNewsClient;
+    Semaphore semaphore;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -83,7 +85,7 @@ public class DetailsActivity extends AppCompatActivity {
         DrawableCompat.setTint(liked, getResources().getColor(R.color.green));
         upVote.setBackground(main);
 
-        final ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
+        parseNewsClient = new ParseNewsClient(getApplicationContext());
 
         String source = bundle.getString("source");
 
@@ -103,6 +105,11 @@ public class DetailsActivity extends AppCompatActivity {
             upVoted = bundle.getBoolean("isLiked");
             Log.e("DetailsActivity", "isLiked call successful");
             gotLike = true;
+            if (upVoted) {
+                upVote.setBackground(liked);
+            } else {
+                upVote.setBackground(main);
+            }
         }
 
 //        // if the bundle was received from getLike, this boolean will be available
@@ -163,31 +170,60 @@ public class DetailsActivity extends AppCompatActivity {
                 .apply(fitCenter)
                 .into(ivMedia);
 
+
+        semaphore = new Semaphore(1);
         upVote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (upVoted){
-                    try {
-                        parseNewsClient.removeLike(userID, post.getPoliticalBias(), post.getUrl(),
-                                new AddRemoveLikeHandler(post, userID, false, getApplicationContext()));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                onUpvoteClick();
+                // release semaphore
+                if (upVoted) {
+                    //change background to main
+                    upVote.setBackground(liked);
                 } else {
-                    try {
-                        parseNewsClient.addLike(userID, post.getPoliticalBias(), post.getUrl(),
-                                new AddRemoveLikeHandler(post, userID, true, getApplicationContext()));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    //change background to upVoted
+                    upVote.setBackground(main);
                 }
             }
         });
+    }
 
+    // We will wait until we are finished removing or adding like (semaphore.acquire()).
+    // Once we are signalled that we are not removing or addding like, then we will make a new
+    // thread to add or remove like.
+    private void onUpvoteClick() {
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // new thread:
+
+
+        if (upVoted) {
+            try {
+                parseNewsClient.removeLike(userID, post.getPoliticalBias(), post.getUrl(),
+                        new AddRemoveLikeHandler(false, upVote, main, liked, semaphore));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else  {
+            try {
+                parseNewsClient.addLike(userID, post.getPoliticalBias(), post.getUrl(),
+                        new AddRemoveLikeHandler(true, upVote, main, liked, semaphore));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        upVoted = !upVoted;
+        // semaphore.release();
+
+
+    }
 
 //        // see if the like/upvote exists in the database
 //        new Thread(new Runnable() {
@@ -254,7 +290,7 @@ public class DetailsActivity extends AppCompatActivity {
 //
 //            }
 //        });
-    }
+
 
     @Override
     public void onBackPressed() {

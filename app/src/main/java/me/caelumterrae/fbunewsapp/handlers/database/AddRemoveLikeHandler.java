@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.util.concurrent.Semaphore;
+
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.model.Post;
@@ -24,45 +26,43 @@ public class AddRemoveLikeHandler extends JsonHttpResponseHandler {
 
     boolean isLiked;
     Button button;
-    Drawable drawable;
+    Drawable liked;
     Drawable defaultDrawable;
-    Context context;
-    Post post;
-    int uid;
+    Semaphore semaphore;
 
-    public AddRemoveLikeHandler (Post post, int uid, boolean isLiked, Context context) {
+    public AddRemoveLikeHandler (boolean isLiked, Button button,
+                                 Drawable defaultDrawable, Drawable liked, Semaphore semaphore) {
         this.isLiked = isLiked;
-        this.context = context;
-        this.post = post;
-        this.uid = uid;
+        this.button = button;
+        this.defaultDrawable = defaultDrawable;
+        this.liked = liked;
+        this.semaphore = semaphore;
     }
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-        Log.e("AddRemoveLikeHandler" ,"Successful response");
-        try {
-//            boolean isLiked = response.getBoolean("isLiked");
-            if (isLiked) {
-                Log.e("GetLikeHandler", "User has just liked the post");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("AddRemoveLikeHandler", "Successful response");
+                try {
+                    if (isLiked) {
+                        Log.e("GetLikeHandler", "User has just liked the post");
+                    } else {
+                        Log.e("GetLikeHandler", "User chose to un-like this post");
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                semaphore.release();
             }
-            else {
-                Log.e("GetLikeHandler", "User chose to un-like this post");
-            }
-            Intent intent = new Intent(context, DetailsActivity.class);
-            intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-            intent.putExtra(User.class.getSimpleName(), uid);
-            intent.putExtra("source", "AddRemoveLikeHandler");
-            intent.putExtra("isLiked", isLiked);
-            context.startActivity(intent);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        }).start();
     }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
         Log.e("GetLikeHandler","failure");
+        semaphore.release();
     }
 }
