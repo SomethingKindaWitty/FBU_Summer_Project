@@ -46,7 +46,7 @@ public class GetLikeHandler extends JsonHttpResponseHandler {
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-        Log.e("GetLikeHandler" ,"response received");
+        Log.e("GetLikeHandler", "response received");
         boolean isLiked = false;
         try {
             isLiked = response.getBoolean("isLiked");
@@ -59,15 +59,16 @@ public class GetLikeHandler extends JsonHttpResponseHandler {
         } else {
             Log.e("GetLikeHandler", "User has NOT liked this post before");
         }
-
-        Intent intent = new Intent(context, DetailsActivity.class);
-        intent.putExtra("isLiked", isLiked);
-        intent.putExtra("source", "GetLikeHandler");
-        intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-        intent.putExtra(User.class.getSimpleName(),uid);
-        context.startActivity(intent);
-        Log.e("Intent","started");
     }
+
+//        Intent intent = new Intent(context, DetailsActivity.class);
+//        intent.putExtra("isLiked", isLiked);
+//        intent.putExtra("source", "GetLikeHandler");
+//        intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+//        intent.putExtra(User.class.getSimpleName(),uid);
+//        context.startActivity(intent);
+//        Log.e("Intent","started");
+//    }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {

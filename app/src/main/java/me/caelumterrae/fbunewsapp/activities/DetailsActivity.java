@@ -51,10 +51,8 @@ public class DetailsActivity extends AppCompatActivity {
     ProgressBar pb;
     int userID;
     Boolean upVoted;
-    Boolean gotLike;
     ParseNewsClient parseNewsClient;
     Semaphore semaphore;
-
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -63,64 +61,34 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        // populate the fields using an intent
+        // Populate the fields using an intent
         Bundle bundle = getIntent().getExtras();
         post = Parcels.unwrap(bundle.getParcelable(Post.class.getSimpleName()));
         userID = bundle.getInt(User.class.getSimpleName());
         Log.e("DetailsUid",Integer.toString(userID));
 
+        // Get the upVote button
         upVote = findViewById(R.id.btnLike);
-        // unliked and liked drawables
-        main = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
-        liked = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
-        DrawableCompat.setTint(liked, getResources().getColor(R.color.green));
 
         parseNewsClient = new ParseNewsClient(getApplicationContext());
 
-        String source = bundle.getString("source");
-
-        if (source.contentEquals("Related Adapter") || source.contentEquals("PoliticalActivity")|| source.contentEquals("LoginActivity") || source.contentEquals("FeedAdapter")) {
-            try {
-                // This sets the upvote button to the drawable based on whether the user previously liked
-                // the post or not
-                parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, post, userID, getApplicationContext()));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            upVoted = false;
-            gotLike = false;
-        } else {
-            upVoted = bundle.getBoolean("isLiked");
-            Log.e("DetailsActivity", "isLiked call successful");
-            gotLike = true;
-            if (upVoted) {
-                upVote.setSelected(true);
-            } else {
-                upVote.setSelected(false);
-            }
+        try {
+            // This sets the upvote button to the drawable based on whether the user previously liked
+            // the post or not
+            parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, post, userID, getApplicationContext()));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-//        // if the bundle was received from getLike, this boolean will be available
-//        // else, a call must be made
-//        try {
-//            upVoted = bundle.getBoolean("isLiked");
-//            Log.e("DetailsActivity/AddRemoveLikeHandler", "isLiked call successful");
-//            gotLike = true;
-//        } catch (Exception er) {
-//            try {
-//                // This sets the upvote button to the drawable based on whether the user previously liked
-//                // the post or not
-//                parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, post, userID, getApplicationContext()));
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            upVoted = false;
-//            gotLike = false;
-//        }
+
+        // Set upVoted
+        if (upVote.isSelected()){
+            upVoted = true;
+        } else {
+            upVoted = false;
+        }
 
         tvTitle = findViewById(R.id.tvTitle);
         rvRelated = findViewById(R.id.rvRelated);
@@ -208,13 +176,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         }
         upVoted = !upVoted;
-        // semaphore.release();
-
-
     }
-
-
-
 
     @Override
     public void onBackPressed() {
