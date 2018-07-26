@@ -10,7 +10,6 @@ import org.parceler.Parcel;
 @Parcel
 public class Comment {
 
-
     @PrimaryKey
     private int id;
 
