@@ -168,16 +168,16 @@ public class Hexagon {
 
     public void translate(float x, float y){
         origin[0] -= x;
-        origin[1] -= y;
+        origin[1] += y;
     }
 
     public boolean offScreen(){
-        return origin[0] >2.6 || origin [0] < 0.5f || origin[1] >3.f || origin[1] < 0.5f;
+        return origin[0] < -0.75 || origin [0] > 0.75f || -1 * origin[1] > 1.0f || -1 * origin[1] < -1.0f;
     }
 
     public boolean inHexagon(float x, float y){
-        float xDistance = Math.abs(origin[0] - x);
-        float yDistance = Math.abs(origin[1] - y);
+        float xDistance = Math.abs((-1 * origin[0]) - x);
+        float yDistance = Math.abs((-1*origin[1]) - y);
         double originDistance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
         if(originDistance < radius) {
             Log.i("Touchevent", "Touch registered in origin x:" + origin[0] + "  y:" + origin[1]);
