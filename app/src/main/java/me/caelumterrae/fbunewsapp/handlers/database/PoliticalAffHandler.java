@@ -30,6 +30,7 @@ public class PoliticalAffHandler extends JsonHttpResponseHandler {
                 // start next intent to Swipeactivity
                 final Intent intent = new Intent(context, SwipeActivity.class);
                 intent.putExtra("uid", UID);
+                intent.putExtra("source","Political");
                 context.startActivity(intent);
             }
             else {

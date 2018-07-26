@@ -33,6 +33,7 @@ public class LoginHandler extends JsonHttpResponseHandler {
                 // start next intent to Swipeactivity
                 final Intent intent = new Intent(context, SwipeActivity.class);
                 intent.putExtra("uid", UID);
+                intent.putExtra("source","Login");
                 context.startActivity(intent);
             }
             else {
