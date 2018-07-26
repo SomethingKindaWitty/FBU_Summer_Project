@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp.client;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -71,7 +72,7 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void addLike(final int uid, final String postBias, final String postUrl,
+    public void addLike(final int uid, final double postBias, final String postUrl,
                         JsonHttpResponseHandler jsonHttpResponseHandler) throws
             UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/like";
@@ -84,7 +85,7 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void removeLike(final int uid, final String postBias, final String postUrl,
+    public void removeLike(final int uid, final double postBias, final String postUrl,
                            JsonHttpResponseHandler jsonHttpResponseHandler) throws
             UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/like";
@@ -106,6 +107,7 @@ public class ParseNewsClient {
         jsonObject.put("url", postUrl);
         entity = new StringEntity(jsonObject.toString());
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+        Log.e("Backend like","accessed");
     }
 
     public void getUser(final int uid, JsonHttpResponseHandler jsonHttpResponseHandler) throws
@@ -115,7 +117,8 @@ public class ParseNewsClient {
         StringEntity entity;
         jsonObject.put("UID", uid);
         entity = new StringEntity(jsonObject.toString());
-        client.get(context, url, entity, "application/json", jsonHttpResponseHandler);
+        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+        Log.e("Backend user","accessed");
     }
 
 

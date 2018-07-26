@@ -35,8 +35,14 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
@@ -49,10 +55,10 @@ public class UserFragment extends Fragment {
     public TextView username;
     public ImageView profileImage;
     public TextView politicalAffiliation;
+    public TextView otherPoliticalAffilation;
+    public TextView numUpvoted;
     public GraphView graph;
-    private int userID;
     private User user;
-    private UserDatabase database;
     //arbitrary object for synchronization
     private final Object object = "hello";
 
@@ -70,11 +76,37 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //pull information from SwipeActivity
-        userID = getArguments().getInt("uid");
-        ParseNewsClient parseNewsClient = new ParseNewsClient(getContext());
+            //pull information from SwipeActivity
+//            JSONObject userObject = new JSONObject();
+//            Semaphore semaphore = new Semaphore(0);
+//            JSONObject semaphoreObj = new JSONObject();
+//            semaphoreObj.put(GetUserHandler.SEMAPHORE_KEY, semaphore);
+        try {
+            user = Parcels.unwrap(getArguments().getParcelable("User"));
+        } catch (NullPointerException e) {
+            user = null;
+        }
+
+
+        if (user != null){
+            createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());
+        }
+
+//            Log.e("UserFrag", "Waiting for semaphore");
+//            semaphore.acquire();
+//            user = (User) userObject.get(GetUserHandler.USER_KEY);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+
+
         // TODO - get user and set profile info accordingly
-        createUser(view);
+
         //parseNewsClient.getUser(userID, new GetUserHandler(getContext()));
 //        database = UserDatabase.getInstance(getContext());
 //        if (database == null) {
@@ -109,21 +141,18 @@ public class UserFragment extends Fragment {
 //                e.printStackTrace();
 //            }
 //        }
-
-
-
-
-
     }
 
-    public void createUser(View view) {
+    public void createUser(View view, String name, double politicalAff, int numVotes) {
 
         // TODO - get political affiliation
         // politicalAffiliation.setText("duck");
 
+        int pol_num = (int) politicalAff;
+
         // Sets progress circle thing
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
-        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 23); // see this max value coming back here, we animate towards that value
+        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, pol_num); // see this max value coming back here, we animate towards that value
         animation.setDuration(5000); // in milliseconds
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
@@ -132,8 +161,14 @@ public class UserFragment extends Fragment {
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
         politicalAffiliation = view.findViewById(R.id.politicalNum);
+        numUpvoted = view.findViewById(R.id.numUpvoted);
+        otherPoliticalAffilation = view.findViewById(R.id.affiliationScore2);
 
-        username.setText("Mock Name");
+        username.setText(name);
+        numUpvoted.setText(String.valueOf(numVotes));
+        politicalAffiliation.setText(String.valueOf(politicalAff));
+        otherPoliticalAffilation.setText(String.valueOf(politicalAff));
+
 
        /* if (user.getUsername() == null) {
             username.setText(R.string.app_name);

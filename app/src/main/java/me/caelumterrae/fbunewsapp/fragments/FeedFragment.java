@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,30 +53,11 @@ public class FeedFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         // TODO: POSSIBLE ABSTACTION (NEW CLASS) FOR ALL DATABASE REQUESTS
-        userID = getArguments().getInt("uid");
-//        database = UserDatabase.getInstance(getContext());
-//        if (database == null) {
-//            Log.e("Database", "failed to create");
-//        } else {
-//            Log.e("Database", "created");
-//        }
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                user = database.userDao().findByID(userID);
-//                if (user == null) {
-//                    Log.e("Usernew", "not found");
-//                } else {
-//                    Log.e("Usernew", "found");
-////                    synchronized (object) {
-////                        object.notify();
-////                    }
-//                }
-//            }
-//        }).start();
-
-
+        try {
+            user = Parcels.unwrap(getArguments().getParcelable("User"));
+        } catch (NullPointerException e){
+            user = null;
+        }
 
         // set client
         client = new TopNewsClient(getContext());

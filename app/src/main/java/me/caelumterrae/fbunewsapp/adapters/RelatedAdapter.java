@@ -83,6 +83,7 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
             Intent i = new Intent(context, DetailsActivity.class);
             i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
             i.putExtra(User.class.getSimpleName(), userID);
+            i.putExtra("source", "RelatedAdapter");
             context.startActivity(i);
 
         }

@@ -146,7 +146,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
                 Intent intent = new Intent(context, DetailsActivity.class);
                 // serialize the post using parceler, use its short name as a key
                 intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-                //Log.e("User", userID);
+                intent.putExtra("source", "FeedAdapter");
                 intent.putExtra(User.class.getSimpleName(), userID);
                 // show the activity
                 context.startActivity(intent);
