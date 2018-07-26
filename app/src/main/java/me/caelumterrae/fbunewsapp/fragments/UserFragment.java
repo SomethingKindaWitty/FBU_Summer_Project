@@ -3,10 +3,12 @@ package me.caelumterrae.fbunewsapp.fragments;
 import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
@@ -42,12 +44,19 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
+import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
@@ -57,10 +66,12 @@ public class UserFragment extends Fragment {
     public TextView username;
     public ImageView profileImage;
     public TextView politicalAffiliation;
+    public TextView otherPoliticalAffiliation;
+    public TextView numUpvoted;
+    private SwipeRefreshLayout swipeContainer;
+
     public GraphView graph;
-    private int userID;
     private User user;
-    private UserDatabase database;
     //arbitrary object for synchronization
     private final Object object = "hello";
 
@@ -78,11 +89,57 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //pull information from SwipeActivity
-        userID = getArguments().getInt("uid");
-        ParseNewsClient parseNewsClient = new ParseNewsClient(getContext());
+            //pull information from SwipeActivity
+//            JSONObject userObject = new JSONObject();
+//            Semaphore semaphore = new Semaphore(0);
+//            JSONObject semaphoreObj = new JSONObject();
+//            semaphoreObj.put(GetUserHandler.SEMAPHORE_KEY, semaphore);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+
+        try {
+            user = Parcels.unwrap(getArguments().getParcelable("User"));
+        } catch (NullPointerException e) {
+            user = null;
+        }
+
+        if (user != null){
+            createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());
+            //create our quacking refresh sound
+            final MediaPlayer quack_sound = MediaPlayer.create(getContext(),R.raw.quack);
+            final View view1 = view;
+
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    // Your code to refresh the list here.
+                    // Make sure you call swipeContainer.setRefreshing(false)
+                    // once the network request has completed successfully.
+                    quack_sound.start();
+                    createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());
+                    swipeContainer.setRefreshing(false);
+
+                }
+            });
+            // Configure the refreshing colors
+            swipeContainer.setColorSchemeResources(R.color.duck_beak,
+                    R.color.sea_blue, R.color.yellow_duck,
+                    R.color.sea_blue_light);
+        }
+//            Log.e("UserFrag", "Waiting for semaphore");
+//            semaphore.acquire();
+//            user = (User) userObject.get(GetUserHandler.USER_KEY);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+
+
         // TODO - get user and set profile info accordingly
-        createUser(view);
+
         //parseNewsClient.getUser(userID, new GetUserHandler(getContext()));
 //        database = UserDatabase.getInstance(getContext());
 //        if (database == null) {
@@ -117,21 +174,18 @@ public class UserFragment extends Fragment {
 //                e.printStackTrace();
 //            }
 //        }
-
-
-
-
-
     }
 
-    public void createUser(View view) {
+    public void createUser(View view, String name, double politicalAff, int numVotes) {
 
         // TODO - get political affiliation
         // politicalAffiliation.setText("duck");
 
+        int pol_num = (int) politicalAff;
+
         // Sets progress circle thing
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
-        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 23); // see this max value coming back here, we animate towards that value
+        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, pol_num); // see this max value coming back here, we animate towards that value
         animation.setDuration(5000); // in milliseconds
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
@@ -140,8 +194,15 @@ public class UserFragment extends Fragment {
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
         politicalAffiliation = view.findViewById(R.id.politicalNum);
+        numUpvoted = view.findViewById(R.id.numUpvoted);
+        otherPoliticalAffiliation = view.findViewById(R.id.affiliationScore2);
 
-        username.setText("Mock Name");
+
+        username.setText(name);
+        numUpvoted.setText(String.valueOf(numVotes));
+        politicalAffiliation.setText(String.valueOf(politicalAff));
+        otherPoliticalAffiliation.setText(String.valueOf(politicalAff));
+
 
        /* if (user.getUsername() == null) {
             username.setText(R.string.app_name);
@@ -209,8 +270,9 @@ public class UserFragment extends Fragment {
         ArrayList<RadarEntry> radarEntries = new ArrayList<>();
         ArrayList<IRadarDataSet> radarDataSets = new ArrayList<>();
         radarChart.getLegend().setEnabled(false);
-        desc.setText("# of posts you upvoted across the political spectrum");
-        radarChart.setDescription(desc);
+        Description desc2 = new Description();
+        desc2.setText("# of posts you upvoted across the political spectrum");
+        radarChart.setDescription(desc2);
 
 
         affiliation.append(1, R.string.left);

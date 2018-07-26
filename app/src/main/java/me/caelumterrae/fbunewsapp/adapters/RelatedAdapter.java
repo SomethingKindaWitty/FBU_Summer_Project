@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,9 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
             Intent i = new Intent(context, DetailsActivity.class);
             i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
             i.putExtra(User.class.getSimpleName(), userID);
+            i.putExtra("source", "RelatedAdapter");
             context.startActivity(i);
+            Log.e("Related Adapter", "started");
 
         }
     }

@@ -25,9 +25,11 @@ public class User {
         User user = new User();
         user.setUid(jsonObject.getInt("UID"));
         user.setUsername(jsonObject.getString("username"));
+        user.setPassword("password");
         user.setProfileUrl(jsonObject.getString("url"));
         user.setPoliticalPreference(jsonObject.getDouble("politicalPreference"));
         user.setNumUpvoted(jsonObject.getInt("numUpvoted"));
+        user.setCategories("categories");
         return user;
     }
 
