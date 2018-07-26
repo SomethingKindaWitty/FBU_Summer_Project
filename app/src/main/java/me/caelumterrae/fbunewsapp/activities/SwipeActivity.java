@@ -46,12 +46,12 @@ public class SwipeActivity extends AppCompatActivity {
         if (source.equals("User")) {
             user = Parcels.unwrap(bundle.getParcelable("User"));
             // Creates new bundle to send info to fragments
-            Bundle user = new Bundle();
-            user.putParcelable("User", Parcels.wrap(user));
+            Bundle userobj = new Bundle();
+            userobj.putParcelable("User", Parcels.wrap(user));
             // Packs bundle to fragment
-            fragments.get(0).setArguments(user); // Feed Fragment
-            fragments.get(1).setArguments(user); // Graphics fragment
-            fragments.get(2).setArguments(user); // User fragment
+            fragments.get(0).setArguments(userobj); // Feed Fragment
+            fragments.get(1).setArguments(userobj); // Graphics fragment
+            fragments.get(2).setArguments(userobj); // User fragment
         } else {
             // Pulls uid from other activities and calls ParseNewsClient
             uid = bundle.getInt("uid");
