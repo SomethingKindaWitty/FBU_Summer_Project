@@ -13,12 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import me.caelumterrae.fbunewsapp.graphics.MyGLRenderer;
+import me.caelumterrae.fbunewsapp.model.User;
 
 
 public class GraphicsFragment extends Fragment {
 
 
     private GLSurfaceView mGLView;
+    private User user;
     private int userID;
 
     public GraphicsFragment() {
@@ -40,7 +42,8 @@ public class GraphicsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        userID = getArguments().getInt("uid");
+//        user = Parcels.unwrap(getArguments().getParcelable("User"));
+        userID = 6;
     }
 
     class MyGLSurfaceView extends GLSurfaceView {
