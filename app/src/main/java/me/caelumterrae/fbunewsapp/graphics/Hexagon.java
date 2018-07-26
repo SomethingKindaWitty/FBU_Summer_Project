@@ -172,7 +172,7 @@ public class Hexagon {
     }
 
     public boolean offScreen(){
-        return origin[0] >1.3 || origin [0] <-0.0f || origin[1] >1.9 || origin[1] < 0;
+        return origin[0] >2.6 || origin [0] < 0.5f || origin[1] >3.f || origin[1] < 0.5f;
     }
 
     public boolean inHexagon(float x, float y){

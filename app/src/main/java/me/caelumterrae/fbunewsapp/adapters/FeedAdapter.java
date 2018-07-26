@@ -2,7 +2,6 @@ package me.caelumterrae.fbunewsapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -21,12 +19,10 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
-import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
-import me.caelumterrae.fbunewsapp.model.UserLiked;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
 
@@ -149,6 +145,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
                 Log.e("FeedAdapter" ,"post put into intent");
                 intent.putExtra("source", "FeedAdapter");
                 intent.putExtra(User.class.getSimpleName(), userID);
+                Log.e("FeedUid", Integer.toString(userID));
                 // show the activity
                 context.startActivity(intent);
             }
