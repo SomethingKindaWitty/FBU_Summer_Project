@@ -40,6 +40,7 @@ import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
+import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.model.User;
 
 public class UserFragment extends Fragment {
@@ -140,23 +141,19 @@ public class UserFragment extends Fragment {
                 .into(profileImage);
 
 
+        // Sets up beta distribution graph
+        BetaDis betaDis = new BetaDis(23.8);
         LineChart betachart = view.findViewById(R.id.betachart);
         List<Entry> beta_entries = new ArrayList<Entry>();
-        beta_entries.add(new Entry(1, 1));
+        for(float i = 0; i <= 1; i+=.02) {
+            beta_entries.add(new Entry(i, (float)betaDis.getPDF(i)));
+        }
         LineDataSet beta_dataSet = new LineDataSet(beta_entries, "BetaLabel");
         LineData beta_lineData = new LineData(beta_dataSet);
         betachart.setData(beta_lineData);
         betachart.invalidate();
 
-        LineChart chart = view.findViewById(R.id.chart);
-        List<Entry> entries = new ArrayList<Entry>();
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 1));
-        entries.add(new Entry(3, 2));
-        LineDataSet dataSet = new LineDataSet(entries, "Label");
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-        chart.invalidate(); // refresh
+
 
         RadarChart radarChart = view.findViewById(R.id.radarchart);
         final SparseIntArray affiliation = new SparseIntArray(5);

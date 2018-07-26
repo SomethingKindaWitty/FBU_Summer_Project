@@ -7,7 +7,7 @@ import org.apache.commons.math3.distribution.BetaDistribution;
 
 import java.util.ArrayList;
 
-public class Probability {
+public class BetaDis {
 
     /* Takes in the user's political affiliation number to gives us the political category we should
      * draw from
@@ -22,7 +22,7 @@ public class Probability {
      * user's affiliation value). The beta distribution (bell-curve shape) is used to describe
      * the probabilities of each of the 5 political categories
      */
-    public Probability(double affiliation) {
+    public BetaDis(double affiliation) {
         double alpha = getGaussianValue(affiliation, ALPHA_CONST);
         double beta = getGaussianValue(affiliation, BETA_CONST);
 
@@ -30,6 +30,9 @@ public class Probability {
 
     }
 
+    public double getPDF(double x) {
+        return betaDis.density(x);
+    }
     // returns a number 0, 25, 50, 75, 100 = which category to pick a news article from
     // corresponds to: [left (0), left-center (25), moderate (50), right-center (75), right (100)]
     public int getCategory() {
