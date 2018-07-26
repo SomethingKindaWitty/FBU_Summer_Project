@@ -1,7 +1,6 @@
 package me.caelumterrae.fbunewsapp.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,12 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.parceler.Parcels;
-
-import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.graphics.MyGLRenderer;
-import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.model.User;
 
 
 public class GraphicsFragment extends Fragment {
@@ -92,7 +86,7 @@ public class GraphicsFragment extends Fragment {
 
                     mRenderer.setMove( mRenderer.getX() + dx* TOUCH_SCALE_FACTOR*0.002f, mRenderer.getY() - dy * TOUCH_SCALE_FACTOR*0.002f);
                     requestRender();
-                    mRenderer.translate(dx* TOUCH_SCALE_FACTOR*0.002f, dy * TOUCH_SCALE_FACTOR*0.002f);
+                    mRenderer.translate(dx* TOUCH_SCALE_FACTOR*0.002f, -dy * TOUCH_SCALE_FACTOR*0.002f);
                     break;
                 case MotionEvent.ACTION_DOWN:
                     mRenderer.setTime((new java.util.Date()).getTime());
@@ -103,15 +97,8 @@ public class GraphicsFragment extends Fragment {
                     Log.i("TIME", Long.toString(dT));
 
                     if(dT < 100) {
-                        Post post = new Post();
-                        post.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
-                        post.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
-                        post.setTitle("test");
-                        post.setBody("test");
-                        Intent i = new Intent(getContext(), DetailsActivity.class);
-                        i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-                        i.putExtra(User.class.getSimpleName(), userID);
-                        getContext().startActivity(i);
+                        Log.i("Touchevent", "touch event at " + (x * TOUCH_SCALE_FACTOR*0.002f) + " " + (y * TOUCH_SCALE_FACTOR*0.002f));
+                        mRenderer.openHexagon(x * TOUCH_SCALE_FACTOR*0.002f - 0.59f, y * TOUCH_SCALE_FACTOR*0.002f-0.99f, getContext(), userID);
                     }
                     break;
 

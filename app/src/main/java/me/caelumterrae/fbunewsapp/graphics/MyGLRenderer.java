@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp.graphics;
 
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import me.caelumterrae.fbunewsapp.model.Post;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
     private Triangle mTriangle;
@@ -34,13 +37,31 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mTriangle  = new Triangle();
         hexagons = new ArrayList<>();
 
+        Post postOne = new Post();
+        postOne.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
+        postOne.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
+        postOne.setTitle("test1");
+        postOne.setBody("test1");
+
+        Post postTwo = new Post();
+        postTwo.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
+        postTwo.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
+        postTwo.setTitle("test2");
+        postTwo.setBody("test2");
+
+
         for(int x = -2; x <=2; x++){
             for(int y = -2; y <= 2;y++){
-                if(y % 2==0){
+                Post post = new Post();
+                post.setTitle(Integer.toString(x) + " " + Integer.toString(y));
+                post.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
+                post.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
+                postTwo.setBody("test");
+                if(Math.abs(y) % 2==0){
                     //EVEN ROW
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF,y*Y_OFF));
+                    hexagons.add(new Hexagon(0.5f,x*X_OFF,y*Y_OFF, post));
                 }else{
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF,y*Y_OFF));
+                    hexagons.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF,y*Y_OFF, post));
                 }
             }
         }
@@ -66,9 +87,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Translate the hexagons with a matrix
         Matrix.setIdentityM(mTranslationMatrix, 0);
 
-        Matrix.translateM(mTranslationMatrix, 0, mDistanceX, mDistanceY, 0);
+        Matrix.translateM(mTranslationMatrix, 0, -mDistanceX, mDistanceY, 0);
 
-        Matrix.multiplyMM(scratch, 0, mTranslationMatrix, 0 ,mMVPMatrix,0);
+        Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0 ,mTranslationMatrix,0);
 
         // Draw shape
         for (int i = 0; i < hexagons.size(); i++){
@@ -100,8 +121,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public volatile float mAngle;
-    public volatile float mDistanceX;
-    public volatile float mDistanceY;
+    public float mDistanceX;
+    public float mDistanceY;
     public volatile long time;
 
     public float getAngle() {
@@ -136,6 +157,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     public long getTime(){
         return this.time;
+    }
+
+    public void openHexagon(float x, float y, Context context, int userID){
+        for (int i = 0; i < hexagons.size(); i++){
+            if(hexagons.get(i).inHexagon(x,y)){
+                hexagons.get(i).open(context, userID);
+            }
+        }
     }
 
 }

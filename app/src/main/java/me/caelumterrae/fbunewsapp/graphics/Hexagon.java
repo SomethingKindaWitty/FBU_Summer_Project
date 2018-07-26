@@ -1,11 +1,20 @@
 package me.caelumterrae.fbunewsapp.graphics;
 
+import android.content.Context;
+import android.content.Intent;
 import android.opengl.GLES20;
+import android.util.Log;
+
+import org.parceler.Parcels;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+
+import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
+import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.model.User;
 
 public class Hexagon {
 
@@ -49,6 +58,7 @@ public class Hexagon {
     };
 
     private float origin[] = {0.f,0.f};
+    private float radius;
 
     private final float[] modelMatrix = new float[16];
     private final float[] translateMatrix = new float[16];
@@ -59,7 +69,12 @@ public class Hexagon {
     float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
     float altColor[] = {1.0f,0.0f,0.0f, 1.0f};
 
-    public Hexagon(float radius, float offsetX, float offsetY) {
+    private Post post;
+
+    public Hexagon(float radius, float offsetX, float offsetY, Post post) {
+        this.post = post;
+        this.radius = radius/2;
+
         for (int i = 0; i < pentagonCoords.length; i++){
             pentagonCoords[i] *= radius;
         }
@@ -158,6 +173,28 @@ public class Hexagon {
     }
 
     public boolean offScreen(){
-        return origin[0] >1 || origin [0] <-0.7 || origin[1] >1 || origin[1] < -1;
+        return origin[0] >1.3 || origin [0] <-0.0f || origin[1] >1.9 || origin[1] < 0;
+    }
+
+    public boolean inHexagon(float x, float y){
+        float xDistance = Math.abs(origin[0] - x);
+        float yDistance = Math.abs(origin[1] - y);
+        double originDistance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+        if(originDistance < radius) {
+            Log.i("Touchevent", "Touch registered in origin x:" + origin[0] + "  y:" + origin[1]);
+            Log.i("Touchevent", "with distance " + originDistance);
+        }
+        return originDistance < radius;
+    }
+
+    public void open(Context context, int userId){
+        Intent i = new Intent(context, DetailsActivity.class);
+        i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+        i.putExtra(User.class.getSimpleName(), userId);
+        context.startActivity(i);
+    }
+
+    public void logOrigin(){
+        Log.i("Touchevent", "Origin at x:" + origin[0] + "  y:" + origin[1]);
     }
 }

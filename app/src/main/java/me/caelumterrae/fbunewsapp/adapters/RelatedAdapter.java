@@ -84,7 +84,6 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
             i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
             i.putExtra(User.class.getSimpleName(), userID);
             context.startActivity(i);
-
         }
     }
 
