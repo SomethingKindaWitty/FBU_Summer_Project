@@ -20,33 +20,22 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
-import me.caelumterrae.fbunewsapp.database.UserDatabase;
-import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.handlers.NewsDataHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.AddRemoveLikeHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.GetLikeHandler;
-import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
-import me.caelumterrae.fbunewsapp.handlers.database.LoginHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.model.User;
-import me.caelumterrae.fbunewsapp.model.UserLiked;
-import me.caelumterrae.fbunewsapp.utility.RandomSingleton;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -77,6 +66,7 @@ public class DetailsActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         post = Parcels.unwrap(bundle.getParcelable(Post.class.getSimpleName()));
         userID = bundle.getInt(User.class.getSimpleName());
+        Log.e("DetailsUid",Integer.toString(userID));
 
         upVote = findViewById(R.id.btnLike);
         // unliked and liked drawables
@@ -89,7 +79,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         String source = bundle.getString("source");
 
-        if (source.contentEquals("Related Adapter") || source.contentEquals("PoliticalActivity")|| source.contentEquals("LoginActivity")) {
+        if (source.contentEquals("Related Adapter") || source.contentEquals("PoliticalActivity")|| source.contentEquals("LoginActivity") || source.contentEquals("FeedAdapter")) {
             try {
                 // This sets the upvote button to the drawable based on whether the user previously liked
                 // the post or not

@@ -61,8 +61,7 @@ public class ParseNewsClient {
     }
 
     public void setAffiliation(final int uid, final double affiliation,
-                        JsonHttpResponseHandler jsonHttpResponseHandler) throws
-            UnsupportedEncodingException, JSONException {
+                        JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/setaff";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;

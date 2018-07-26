@@ -45,6 +45,7 @@ public class SwipeActivity extends AppCompatActivity {
         if (source.equals("Login") || source.equals("Political") || source.equals("DetailsActivity")){
             // Pulls uid from either LoginActivity or PoliticalActivity
             uid = bundle.getInt("uid");
+            Log.e("Uid", Integer.toString(uid));
             ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
             try {
                 parseNewsClient.getUser(uid, new GetUserHandler(getApplicationContext()));

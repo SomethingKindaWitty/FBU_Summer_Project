@@ -76,6 +76,7 @@ public class GetUserHandler extends JsonHttpResponseHandler {
     @Override
     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
         Log.e("GetUserHandler","failure");
+        Log.e("GetUserHandler", throwable.toString());
     }
 
 //    @Override

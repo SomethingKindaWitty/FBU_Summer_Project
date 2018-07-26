@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
-import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
-import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
+import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.model.UserLiked;
 
@@ -55,9 +52,12 @@ public class FeedFragment extends Fragment{
         // TODO: POSSIBLE ABSTRACTION (NEW CLASS) FOR ALL DATABASE REQUESTS
         try {
             user = Parcels.unwrap(getArguments().getParcelable("User"));
+            userID = user.getUid();
         } catch (NullPointerException e){
             user = null;
         }
+
+
 
         // set client
         client = new TopNewsClient(getContext());
