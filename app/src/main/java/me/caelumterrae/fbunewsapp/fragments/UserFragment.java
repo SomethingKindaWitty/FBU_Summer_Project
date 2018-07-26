@@ -1,6 +1,8 @@
 package me.caelumterrae.fbunewsapp.fragments;
 
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +25,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -144,6 +147,22 @@ public class UserFragment extends Fragment {
         // Sets up beta distribution graph
         BetaDis betaDis = new BetaDis(23.8);
         LineChart betachart = view.findViewById(R.id.betachart);
+        betachart.setContentDescription("Beta Distribution: Alpha: 3, Beta: 9");
+        XAxis x = betachart.getXAxis();
+        x.setDrawGridLines(false);
+        x.setLabelCount(6, false);
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis y = betachart.getAxisLeft();
+        y.setEnabled(false);
+        y.setLabelCount(6, false);
+        y.setTextColor(Color.BLACK);
+        y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        y.setDrawGridLines(false);
+        y.setAxisLineColor(Color.BLACK);
+
+        betachart.getAxisRight().setEnabled(false);
+
         List<Entry> beta_entries = new ArrayList<Entry>();
         for(float i = 0; i <= 1; i+=.02) {
             beta_entries.add(new Entry(i, (float)betaDis.getPDF(i)));
@@ -151,6 +170,7 @@ public class UserFragment extends Fragment {
         LineDataSet beta_dataSet = new LineDataSet(beta_entries, "BetaLabel");
         LineData beta_lineData = new LineData(beta_dataSet);
         betachart.setData(beta_lineData);
+        betachart.animateXY(2000, 2000);
         betachart.invalidate();
 
 
