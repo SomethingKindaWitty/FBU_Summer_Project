@@ -11,25 +11,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.activities.LoginActivity;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 
-
-// This handler gets called in: LoginActivity login button handler
-// This handler: moves user to timeline intent with UID packaged inside
-public class LoginHandler extends JsonHttpResponseHandler {
-
+public class PoliticalAffHandler extends JsonHttpResponseHandler {
     Context context;
-    public LoginHandler(Context context) {
+
+    public PoliticalAffHandler(Context context) {
         this.context = context;
     }
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         try {
+            Boolean bool = response.getBoolean("isSet");
+            // TODO- change backend to also give back uid
             int UID = response.getInt("UID");
-            Log.e("uid",String.valueOf(UID));
-            if (UID != -1) {
+            if (bool) {
                 // start next intent to Swipeactivity
                 final Intent intent = new Intent(context, SwipeActivity.class);
                 intent.putExtra("uid", UID);
@@ -37,7 +34,7 @@ public class LoginHandler extends JsonHttpResponseHandler {
             }
             else {
                 // error!!
-                Toast.makeText(context, "Login Error", Toast.LENGTH_LONG);
+                Toast.makeText(context, "Setting Affiliation Error", Toast.LENGTH_LONG);
             }
 
         } catch (JSONException e) {
@@ -48,6 +45,6 @@ public class LoginHandler extends JsonHttpResponseHandler {
 
     @Override
     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-        Log.e("LoginHandler","failure");
+        Log.e("PoliticalAffHandler","failure");
     }
 }

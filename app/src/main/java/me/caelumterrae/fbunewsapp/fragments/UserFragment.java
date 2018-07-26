@@ -42,8 +42,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.math.BetaDis;
+import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
 
 public class UserFragment extends Fragment {
@@ -74,39 +76,43 @@ public class UserFragment extends Fragment {
 
         //pull information from SwipeActivity
         userID = getArguments().getInt("uid");
-        database = UserDatabase.getInstance(getContext());
-        if (database == null) {
-            Log.e("Database", "failed to create");
-        } else {
-            Log.e("Database", "created");
-        }
+        ParseNewsClient parseNewsClient = new ParseNewsClient(getContext());
+        // TODO - get user and set profile info accordingly
+        createUser(view);
+        //parseNewsClient.getUser(userID, new GetUserHandler(getContext()));
+//        database = UserDatabase.getInstance(getContext());
+//        if (database == null) {
+//            Log.e("Database", "failed to create");
+//        } else {
+//            Log.e("Database", "created");
+//        }
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                user = database.userDao().findByID(userID);
+//                if (user == null) {
+//                    Log.e("Usernew", "not found");
+//                } else {
+//                    Log.e("Usernew", "found");
+//                    synchronized (object) {
+//                        object.notify();
+//                    }
+//                }
+//            }
+//        }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                user = database.userDao().findByID(userID);
-                if (user == null) {
-                    Log.e("Usernew", "not found");
-                } else {
-                    Log.e("Usernew", "found");
-                    synchronized (object) {
-                        object.notify();
-                    }
-                }
-            }
-        }).start();
-
-        //controls thread operation order
-        synchronized (object) {
-            try {
-                // Calling wait() will block this thread until another thread
-                // calls notify() on the object.
-                object.wait();
-                createUser(view);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        //controls thread operation order
+//        synchronized (object) {
+//            try {
+//                // Calling wait() will block this thread until another thread
+//                // calls notify() on the object.
+//                object.wait();
+//                createUser(view);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
 
 
@@ -131,11 +137,13 @@ public class UserFragment extends Fragment {
         profileImage = view.findViewById(R.id.profImage);
         politicalAffiliation = view.findViewById(R.id.politicalNum);
 
-        if (user.getUsername() == null) {
+        username.setText("Mock Name");
+
+       /* if (user.getUsername() == null) {
             username.setText(R.string.app_name);
         } else {
             username.setText(user.getUsername());
-        }
+        }*/
 
 
         Glide.with(getContext())
