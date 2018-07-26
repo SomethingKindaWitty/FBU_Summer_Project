@@ -50,7 +50,7 @@ public class ParseNewsClient {
 
     public void signup(final String username, final String password, JsonHttpResponseHandler
             jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
-        String url = API_BASE_URL + "/signup";
+        String url = API_BASE_URL + "/signin";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
         jsonObject.put("username", username);

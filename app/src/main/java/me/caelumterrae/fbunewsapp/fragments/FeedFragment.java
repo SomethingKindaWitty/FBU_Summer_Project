@@ -18,6 +18,7 @@ import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
@@ -72,6 +73,8 @@ public class FeedFragment extends Fragment{
 //                }
 //            }
 //        }).start();
+
+
 
         // set client
         client = new TopNewsClient(getContext());
