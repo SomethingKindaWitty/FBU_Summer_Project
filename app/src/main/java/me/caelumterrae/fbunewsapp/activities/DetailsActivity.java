@@ -60,16 +60,17 @@ public class DetailsActivity extends AppCompatActivity {
     ProgressBar pb;
     User user;
     int userID;
-    UserLiked like;
+//    UserLiked like;
     Boolean upVoted;
-    UserDatabase database;
+    Boolean gotLike;
+//    UserDatabase database;
 //    List<UserLiked> userLikeds;
 //    Object likeconfirmed = "yay";
 //    Object add_confirmed = "yay";
 //    Object delete_confirmed = "yay";
-    RandomSingleton randomSingleton;
-    Semaphore waitForQueryingDatabase;
-    Semaphore waitForButton;
+//    RandomSingleton randomSingleton;
+//    Semaphore waitForQueryingDatabase;
+//    Semaphore waitForButton;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -77,25 +78,37 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        //database = UserDatabase.getInstance(getApplicationContext());
-//        randomSingleton = RandomSingleton.getInstance();
-//        waitForQueryingDatabase = new Semaphore(0);
-//        waitForButton = new Semaphore(0);
-//
-//        if (database == null) {
-//            Log.e("Database", "failed to create");
-//        } else {
-//            Log.e("Database", "created");
-//        }
 
+        // populate the fields using an intent
+        Bundle bundle = getIntent().getExtras();
+        post = Parcels.unwrap(bundle.getParcelable(Post.class.getSimpleName()));
+        userID = bundle.getInt(User.class.getSimpleName());
 
-
-        final ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
-
+        upVote = findViewById(R.id.btnLike);
         // unliked and liked drawables
         main = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
         liked = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
         DrawableCompat.setTint(liked, getResources().getColor(R.color.green));
+        upVote.setBackground(main);
+
+        final ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
+
+        try {
+            upVoted = bundle.getBoolean("isLiked");
+            gotLike = true;
+        } catch (Exception er) {
+            try {
+                // This sets the upvote button to the drawable based on whether the user previously liked
+                // the post or not
+                parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, post, userID, getApplicationContext()));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            upVoted = false;
+            gotLike = false;
+        }
 
         tvTitle = findViewById(R.id.tvTitle);
         rvRelated = findViewById(R.id.rvRelated);
@@ -104,61 +117,36 @@ public class DetailsActivity extends AppCompatActivity {
         upVote = findViewById(R.id.btnLike);
         pb = findViewById(R.id.progressBar);
 
-        // populate the fields using an intent
-        Bundle bundle = getIntent().getExtras();
-        String source = bundle.getString("source");
-        if (source.equals("FeedAdapter")|| source.equals("RelatedAdapter")) {
-            post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
-            userID = bundle.getInt(User.class.getSimpleName());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        ArrayList<Post> posts = post.getRelatedPosts();
 
-            try {
-                // This sets the upvote button to the drawable based on whether the user previously liked
-                // the post or not
-                parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, getApplicationContext()));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-            ArrayList<Post> posts = post.getRelatedPosts();
-
-            // Getting the related posts here.
-            if (posts == null) {
-                posts = new ArrayList<Post>();
-            }
-
-            final RelatedAdapter relatedAdapter = new RelatedAdapter(posts, userID);
-            rvRelated.setLayoutManager(layoutManager);
-            rvRelated.setAdapter(relatedAdapter);
-
-            // gets the body of the article
-            final TopNewsClient topNewsClient = new TopNewsClient(this);
-            try {
-                parseNewsClient.getData(post.getUrl(), new NewsDataHandler(post.getUrl(), tvBody, relatedAdapter, posts, topNewsClient, pb, this));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            // Puts image, body, and title into post
-            RequestOptions fitCenter = new RequestOptions().fitCenter();
-            tvTitle.setText(post.getTitle());
-            tvBody.setText(post.getBody());
-            Glide.with(this)
-                    .load(post.getImageUrl())
-                    .apply(fitCenter)
-                    .into(ivMedia);
-        } else {
-            upVoted = bundle.getBoolean("isLiked");
+        // Getting the related posts here.
+        if (posts == null) {
+            posts = new ArrayList<Post>();
         }
 
+        final RelatedAdapter relatedAdapter = new RelatedAdapter(posts, userID);
+        rvRelated.setLayoutManager(layoutManager);
+        rvRelated.setAdapter(relatedAdapter);
 
+        // gets the body of the article
+        final TopNewsClient topNewsClient = new TopNewsClient(this);
+        try {
+            parseNewsClient.getData(post.getUrl(), new NewsDataHandler(post.getUrl(), tvBody, relatedAdapter, posts, topNewsClient, pb, this));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-//        if (post != null) {
-//
-//        }
+        // Puts image, body, and title into post
+        RequestOptions fitCenter = new RequestOptions().fitCenter();
+        tvTitle.setText(post.getTitle());
+        tvBody.setText(post.getBody());
+        Glide.with(this)
+                .load(post.getImageUrl())
+                .apply(fitCenter)
+                .into(ivMedia);
 
         upVote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,6 +172,7 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
 
 //        // see if the like/upvote exists in the database
 //        new Thread(new Runnable() {

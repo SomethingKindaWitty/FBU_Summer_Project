@@ -55,7 +55,7 @@ public class UserFragment extends Fragment {
     public TextView username;
     public ImageView profileImage;
     public TextView politicalAffiliation;
-    public TextView otherPoliticalAffilation;
+    public TextView otherPoliticalAffiliation;
     public TextView numUpvoted;
     public GraphView graph;
     private User user;
@@ -162,12 +162,12 @@ public class UserFragment extends Fragment {
         profileImage = view.findViewById(R.id.profImage);
         politicalAffiliation = view.findViewById(R.id.politicalNum);
         numUpvoted = view.findViewById(R.id.numUpvoted);
-        otherPoliticalAffilation = view.findViewById(R.id.affiliationScore2);
+        otherPoliticalAffiliation = view.findViewById(R.id.affiliationScore2);
 
         username.setText(name);
         numUpvoted.setText(String.valueOf(numVotes));
         politicalAffiliation.setText(String.valueOf(politicalAff));
-        otherPoliticalAffilation.setText(String.valueOf(politicalAff));
+        otherPoliticalAffiliation.setText(String.valueOf(politicalAff));
 
 
        /* if (user.getUsername() == null) {
