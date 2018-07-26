@@ -2,9 +2,7 @@ package me.caelumterrae.fbunewsapp.handlers.database;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.widget.Button;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -12,13 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import java.util.concurrent.Semaphore;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
-import me.caelumterrae.fbunewsapp.fragments.UserFragment;
 import me.caelumterrae.fbunewsapp.model.User;
 
 /* This handler gets called in: UserFragment, and possibly in comments

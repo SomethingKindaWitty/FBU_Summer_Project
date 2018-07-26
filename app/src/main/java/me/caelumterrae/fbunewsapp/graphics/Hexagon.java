@@ -14,7 +14,6 @@ import java.nio.ShortBuffer;
 
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.model.User;
 
 public class Hexagon {
 
@@ -190,7 +189,8 @@ public class Hexagon {
     public void open(Context context, int userId){
         Intent i = new Intent(context, DetailsActivity.class);
         i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-        i.putExtra(User.class.getSimpleName(), userId);
+        i.putExtra("source","Login");
+        i.putExtra("uid", userId);
         context.startActivity(i);
     }
 
