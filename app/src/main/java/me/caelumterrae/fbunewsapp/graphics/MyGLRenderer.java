@@ -55,9 +55,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 post.setPoliticalBias(Format.biasToNum(bias));
                 if(Math.abs(y) % 2==0){
                     //EVEN ROW
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF,y*Y_OFF, post));
+                    hexagons.add(new Hexagon(0.5f,x*X_OFF - (5*X_OFF),y*Y_OFF - (7*Y_OFF), post));
                 }else{
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF,y*Y_OFF, post));
+                    hexagons.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF- (5*X_OFF),y*Y_OFF- (7*Y_OFF), post));
                 }
             }
         }
