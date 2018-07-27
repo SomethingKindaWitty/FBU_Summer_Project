@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.activities.LoginActivity;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 
 
