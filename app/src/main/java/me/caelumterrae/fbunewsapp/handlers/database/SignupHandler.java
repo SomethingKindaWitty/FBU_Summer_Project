@@ -13,8 +13,8 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.PoliticalActivity;
 
-// This handler gets called in: Login Activity signup button handler
-// This handler: moves user to Political Activity with UID packaged inside
+// This handler gets called in: LoginActivity onSubmit of sign up button
+// This handler: uses intent to move user to PoliticalActivity with UID packaged inside
 public class SignupHandler extends JsonHttpResponseHandler {
 
     Context context;
@@ -34,7 +34,7 @@ public class SignupHandler extends JsonHttpResponseHandler {
             }
             else {
                 // error!!
-                Toast.makeText(context, "Signup Error - User already exists", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "User already exists", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {

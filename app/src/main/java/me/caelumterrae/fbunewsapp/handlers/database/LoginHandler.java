@@ -37,7 +37,7 @@ public class LoginHandler extends JsonHttpResponseHandler {
             }
             else {
                 // error!!
-                Toast.makeText(context, "Login Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Invalid Login", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {
