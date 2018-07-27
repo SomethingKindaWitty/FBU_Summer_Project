@@ -48,7 +48,6 @@ public class DetailsActivity extends AppCompatActivity {
     Drawable liked;
     ProgressBar pb;
     int userID;
-    Boolean upVoted;
     ParseNewsClient parseNewsClient;
     Semaphore semaphore;
 
@@ -65,28 +64,7 @@ public class DetailsActivity extends AppCompatActivity {
         userID = bundle.getInt(User.class.getSimpleName());
         Log.e("DetailsUid",Integer.toString(userID));
 
-        // Get the upVote button
         upVote = findViewById(R.id.btnLike);
-
-        parseNewsClient = new ParseNewsClient(getApplicationContext());
-
-        try {
-            // This sets the upvote button to the drawable based on whether the user previously liked
-            // the post or not
-            parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, post, userID, getApplicationContext()));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // Set upVoted
-        if (upVote.isSelected()){
-            upVoted = true;
-        } else {
-            upVoted = false;
-        }
-
         tvTitle = findViewById(R.id.tvTitle);
         rvRelated = findViewById(R.id.rvRelated);
         tvBody = findViewById(R.id.tvBody);
@@ -98,17 +76,21 @@ public class DetailsActivity extends AppCompatActivity {
         ArrayList<Post> posts = post.getRelatedPosts();
 
         // Getting the related posts here.
-        if (posts == null) {
-            posts = new ArrayList<Post>();
-        }
-
+        if (posts == null) posts = new ArrayList<Post>();
         final RelatedAdapter relatedAdapter = new RelatedAdapter(posts, userID);
         rvRelated.setLayoutManager(layoutManager);
         rvRelated.setAdapter(relatedAdapter);
 
-        // gets the body of the article
+
+
+        parseNewsClient = new ParseNewsClient(getApplicationContext());
         final TopNewsClient topNewsClient = new TopNewsClient(this);
         try {
+            // This sets the upvote button to the drawable based on whether the user previously liked
+            // the post or not
+            parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote));
+
+            // Gets the body of the article
             parseNewsClient.getData(post.getUrl(), new NewsDataHandler(post.getUrl(), tvBody, relatedAdapter, posts, topNewsClient, pb, this));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -130,32 +112,23 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onUpvoteClick();
-                // release semaphore
-                if (upVoted) {
-                    //change background to main
-                    upVote.setSelected(true);
-                } else {
-                    //change background to upVoted
-                    upVote.setSelected(false);
-                }
             }
         });
     }
 
     // We will wait until we are finished removing or adding like (semaphore.acquire()).
-    // Once we are signalled that we are not removing or addding like, then we will make a new
-    // thread to add or remove like.
+    // Main thread blocks until its done.
     private void onUpvoteClick() {
         try {
             semaphore.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        if (upVoted) {
+        if (upVote.isSelected()) {
             try {
                 parseNewsClient.removeLike(userID, post.getPoliticalBias(), post.getUrl(),
                         new AddRemoveLikeHandler(false, main, liked, semaphore));
+                upVote.setSelected(false);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -165,13 +138,13 @@ public class DetailsActivity extends AppCompatActivity {
             try {
                 parseNewsClient.addLike(userID, post.getPoliticalBias(), post.getUrl(),
                         new AddRemoveLikeHandler(true, main, liked, semaphore));
+                upVote.setSelected(true);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        upVoted = !upVoted;
     }
 
     @Override
@@ -182,4 +155,5 @@ public class DetailsActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
+
 }
