@@ -42,8 +42,7 @@ public class Hexagon {
     static final int COORDS_PER_VERTEX = 3;
     private float pentagonCoords[] = {
             0.0f,0.5f, 0.0f, // 0
-            -0.43301f,0.25f,
-            0.0f, // 1
+            -0.43301f,0.25f, 0.0f, // 1
             -0.43301f,-0.25f, 0.0f, // 2
             0.0f,0.5f, 0.0f, // 0
             -0.43301f,-0.25f, 0.0f, // 2

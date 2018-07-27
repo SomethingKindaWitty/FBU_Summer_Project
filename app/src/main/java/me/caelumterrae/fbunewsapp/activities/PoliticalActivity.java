@@ -1,22 +1,17 @@
 package me.caelumterrae.fbunewsapp.activities;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.SeekBar;
 
 import org.json.JSONException;
-import org.parceler.Parcels;
 
 import java.io.UnsupportedEncodingException;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.database.PoliticalAffHandler;
-import me.caelumterrae.fbunewsapp.handlers.database.SignupHandler;
-import me.caelumterrae.fbunewsapp.model.User;
-import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 
 public class PoliticalActivity extends AppCompatActivity {
 
@@ -40,7 +35,6 @@ public class PoliticalActivity extends AppCompatActivity {
 
         ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
-        //TODO- make handler for setting political affiliation
         try {
             parseNewsClient.setAffiliation(uid, seekBar.getProgress(), new PoliticalAffHandler(getApplicationContext()));
         } catch (UnsupportedEncodingException e) {

@@ -13,6 +13,9 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 
+// This handler is called in: PoliticalActivity
+// This handler: sets the users political affiliation by requesting the backend and then moves them to swipeActivity
+
 public class PoliticalAffHandler extends JsonHttpResponseHandler {
     Context context;
 
@@ -24,18 +27,19 @@ public class PoliticalAffHandler extends JsonHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         try {
             Boolean bool = response.getBoolean("isSet");
-            // TODO- change backend to also give back uid
             int UID = response.getInt("UID");
             if (bool) {
                 // start next intent to Swipeactivity
                 final Intent intent = new Intent(context, SwipeActivity.class);
                 intent.putExtra("uid", UID);
+
+                // TODO: change to one value
                 intent.putExtra("source","Political");
                 context.startActivity(intent);
             }
             else {
                 // error!!
-                Toast.makeText(context, "Setting Affiliation Error", Toast.LENGTH_LONG);
+                Toast.makeText(context, "Setting Affiliation Error", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {

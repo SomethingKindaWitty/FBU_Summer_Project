@@ -14,7 +14,6 @@ import javax.microedition.khronos.opengles.GL10;
 import me.caelumterrae.fbunewsapp.model.Post;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
-    private Triangle mTriangle;
     private ArrayList<Hexagon> hexagons;
 
 
@@ -34,21 +33,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        mTriangle  = new Triangle();
         hexagons = new ArrayList<>();
-
-        Post postOne = new Post();
-        postOne.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
-        postOne.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
-        postOne.setTitle("test1");
-        postOne.setBody("test1");
-
-        Post postTwo = new Post();
-        postTwo.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
-        postTwo.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
-        postTwo.setTitle("test2");
-        postTwo.setBody("test2");
-
 
         for(int x = -2; x <=2; x++){
             for(int y = -2; y <= 2;y++){
@@ -56,7 +41,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 post.setTitle(Integer.toString(x) + " " + Integer.toString(y));
                 post.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
                 post.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
-                postTwo.setBody("test");
+                post.setBody("test");
                 if(Math.abs(y) % 2==0){
                     //EVEN ROW
                     hexagons.add(new Hexagon(0.5f,x*X_OFF,y*Y_OFF, post));
@@ -94,7 +79,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Draw shape
         for (int i = 0; i < hexagons.size(); i++){
             //hexagons.get(i).translate(mDistanceX, mDistanceY);
-
             Log.i("abc", "translation");
             hexagons.get(i).draw(scratch);
         }
