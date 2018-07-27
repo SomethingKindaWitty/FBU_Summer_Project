@@ -3,7 +3,7 @@
     <!-- NOTE: order is important (the first matching state(s) is what is rendered) -->
     <item
         android:state_selected="true"
-        android:drawable="@drawable/heart_filled" />
+        android:drawable="@drawable/upvoted" />
     <item
-        android:drawable="@drawable/heart_outline" />
+        android:drawable="@drawable/upvote" />
 </selector>

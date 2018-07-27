@@ -42,7 +42,8 @@ public class SwipeActivity extends AppCompatActivity {
         fragments.add(new GraphicsFragment());
         fragments.add(new UserFragment());
 
-        // if the User has already been loaded from the database
+        // If the source is from GetUserHandler
+        // we have finished making our user call and now have the updated object
         if (source.equals("User")) {
             user = Parcels.unwrap(bundle.getParcelable("User"));
             // Creates new bundle to send info to fragments
@@ -52,7 +53,7 @@ public class SwipeActivity extends AppCompatActivity {
             fragments.get(0).setArguments(userobj); // Feed Fragment
             fragments.get(1).setArguments(userobj); // Graphics fragment
             fragments.get(2).setArguments(userobj); // User fragment
-        } else {
+        } else { // Every other call must trigger a call to receive the user obj
             // Pulls uid from other activities and calls ParseNewsClient
             uid = bundle.getInt("uid");
             Log.e("Uid", Integer.toString(uid));

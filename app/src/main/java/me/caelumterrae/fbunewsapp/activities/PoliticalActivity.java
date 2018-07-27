@@ -40,7 +40,6 @@ public class PoliticalActivity extends AppCompatActivity {
 
         ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
-        //TODO- make handler for setting political affiliation
         try {
             parseNewsClient.setAffiliation(uid, seekBar.getProgress(), new PoliticalAffHandler(getApplicationContext()));
         } catch (UnsupportedEncodingException e) {
