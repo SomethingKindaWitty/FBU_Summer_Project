@@ -45,9 +45,20 @@
                     android:background="#cccccc" />
 
                 <ImageView
+                    android:id="@+id/profImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="46dp"
+                    android:background="@drawable/circle_drop_shadow"
+                    android:padding="7dp"
+                    app:srcCompat="@drawable/duckie" />
+
+                <ImageView
                     android:id="@+id/middlepanel"
                     android:layout_width="match_parent"
-                    android:layout_height="1000dp"
+                    android:layout_height="1050dp"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/toppanel"
                     android:layout_margin="10dp"
@@ -75,17 +86,6 @@
                     android:layout_marginTop="905dp"
                     android:background="#cccccc" />
 
-
-                <ImageView
-                    android:id="@+id/profImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="46dp"
-                    android:background="@drawable/circle_drop_shadow"
-                    android:padding="7dp"
-                    app:srcCompat="@drawable/duckie" />
 
                 <TextView
                     android:id="@+id/name"
@@ -195,11 +195,13 @@
 
                 <TextView
                     android:id="@+id/politicalAffDesc"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/affiliationScore2"
+                    android:layout_width="110dp"
+                    android:layout_height="43dp"
                     android:layout_below="@+id/affiliationScore2"
-                    android:text="Liberal"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="-3dp"
+                    android:layout_toEndOf="@+id/commentsLabel"
+                    android:text="Moderately Conservative"
                     android:textAlignment="center"
                     android:textSize="16sp" />
 
@@ -209,8 +211,8 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/liberalToConservative"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="69dp"
-                    android:text="23.8"
+                    android:layout_marginEnd="60dp"
+                    android:text="23.81"
                     android:textSize="36sp" />
 
                 <TextView

@@ -13,9 +13,8 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 
-// This handler is called in: PoliticalActivity
-// This handler: sets the users political affiliation by requesting the backend and then moves them to swipeActivity
-
+// This handler gets called in: PoliticalActivity onSubmit
+// This handler: uses intent to move user to SwipeActivity with UID and source name packaged inside
 public class PoliticalAffHandler extends JsonHttpResponseHandler {
     Context context;
 

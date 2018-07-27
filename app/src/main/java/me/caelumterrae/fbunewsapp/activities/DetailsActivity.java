@@ -80,7 +80,6 @@ public class DetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         // Set upVoted
         if (upVote.isSelected()){
             upVoted = true;
@@ -125,7 +124,6 @@ public class DetailsActivity extends AppCompatActivity {
                 .load(post.getImageUrl())
                 .apply(fitCenter)
                 .into(ivMedia);
-
 
         semaphore = new Semaphore(1);
         upVote.setOnClickListener(new View.OnClickListener() {

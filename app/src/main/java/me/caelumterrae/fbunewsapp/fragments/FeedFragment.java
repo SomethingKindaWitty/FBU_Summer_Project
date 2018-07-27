@@ -49,7 +49,6 @@ public class FeedFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TODO: POSSIBLE ABSTRACTION (NEW CLASS) FOR ALL DATABASE REQUESTS
         try {
             user = Parcels.unwrap(getArguments().getParcelable("User"));
             userID = user.getUid();
