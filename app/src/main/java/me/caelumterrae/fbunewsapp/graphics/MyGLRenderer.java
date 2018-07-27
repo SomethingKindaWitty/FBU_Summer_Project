@@ -4,17 +4,23 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.utility.Format;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
     private ArrayList<Hexagon> hexagons;
+    private HashMap<String, String> sourceBias;
 
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
@@ -28,25 +34,38 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private float Y_OFF = 0.45f;//multiply by difference to offset the y
     private float ODD_X_OFF = 0.25f; //add this to all x offsets if they are odd.
 
+    public MyGLRenderer() {
+    }
 
+    public MyGLRenderer(HashMap<String, String> sourceBias) {
+        this.sourceBias = sourceBias;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         hexagons = new ArrayList<>();
 
-        for(int x = -2; x <=2; x++){
-            for(int y = -2; y <= 2;y++){
+        for(int x = 0; x <=10; x++){
+            for(int y = 0; y <= 14;y++){
                 Post post = new Post();
                 post.setTitle(Integer.toString(x) + " " + Integer.toString(y));
                 post.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
                 post.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
                 post.setBody("test");
+                String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
+                post.setPoliticalBias(Format.biasToNum(bias));
+
+                //TESTING
+                int randomNum = ThreadLocalRandom.current().nextInt(0, 6);
+                post.setPoliticalBias(randomNum*25);
                 if(Math.abs(y) % 2==0){
                     //EVEN ROW
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF,y*Y_OFF, post));
+                    hexagons.add(new Hexagon(0.5f,x*X_OFF - (5*X_OFF),y*Y_OFF - (7*Y_OFF), post));
                 }else{
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF,y*Y_OFF, post));
+                    hexagons.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF- (5*X_OFF),y*Y_OFF- (7*Y_OFF), post));
                 }
             }
         }
