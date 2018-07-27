@@ -49,6 +49,8 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.io.UnsupportedEncodingException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -64,6 +66,7 @@ import me.caelumterrae.fbunewsapp.model.User;
 public class UserFragment extends Fragment {
 
     public TextView username;
+    public TextView politicalAffiliationWord;
     public ImageView profileImage;
     public TextView politicalAffiliation;
     public TextView otherPoliticalAffiliation;
@@ -89,11 +92,6 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-            //pull information from SwipeActivity
-//            JSONObject userObject = new JSONObject();
-//            Semaphore semaphore = new Semaphore(0);
-//            JSONObject semaphoreObj = new JSONObject();
-//            semaphoreObj.put(GetUserHandler.SEMAPHORE_KEY, semaphore);
         swipeContainer = view.findViewById(R.id.swipeContainer);
 
         try {
@@ -125,55 +123,9 @@ public class UserFragment extends Fragment {
                     R.color.sea_blue, R.color.yellow_duck,
                     R.color.sea_blue_light);
         }
-//            Log.e("UserFrag", "Waiting for semaphore");
-//            semaphore.acquire();
-//            user = (User) userObject.get(GetUserHandler.USER_KEY);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-
 
         // TODO - get user and set profile info accordingly
 
-        //parseNewsClient.getUser(userID, new GetUserHandler(getContext()));
-//        database = UserDatabase.getInstance(getContext());
-//        if (database == null) {
-//            Log.e("Database", "failed to create");
-//        } else {
-//            Log.e("Database", "created");
-//        }
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                user = database.userDao().findByID(userID);
-//                if (user == null) {
-//                    Log.e("Usernew", "not found");
-//                } else {
-//                    Log.e("Usernew", "found");
-//                    synchronized (object) {
-//                        object.notify();
-//                    }
-//                }
-//            }
-//        }).start();
-
-//        //controls thread operation order
-//        synchronized (object) {
-//            try {
-//                // Calling wait() will block this thread until another thread
-//                // calls notify() on the object.
-//                object.wait();
-//                createUser(view);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     public void createUser(View view, String name, double politicalAff, int numVotes) {
@@ -190,7 +142,7 @@ public class UserFragment extends Fragment {
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
 
-
+        politicalAffiliationWord = view.findViewById(R.id.politicalAffDesc);
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
         politicalAffiliation = view.findViewById(R.id.politicalNum);
@@ -200,16 +152,27 @@ public class UserFragment extends Fragment {
 
         username.setText(name);
         numUpvoted.setText(String.valueOf(numVotes));
-        politicalAffiliation.setText(String.valueOf(politicalAff));
-        otherPoliticalAffiliation.setText(String.valueOf(politicalAff));
 
+        // Rounds politicalAff to two decimal places
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        double politicalRounded = Double.parseDouble(df.format(politicalAff));
 
-       /* if (user.getUsername() == null) {
-            username.setText(R.string.app_name);
-        } else {
-            username.setText(user.getUsername());
-        }*/
+        politicalAffiliation.setText(String.valueOf(politicalRounded));
+        otherPoliticalAffiliation.setText(String.valueOf(politicalRounded));
 
+        // Set descriptive string
+        if (politicalRounded <= 12.50) {
+            politicalAffiliationWord.setText("Liberal");
+        } else if (politicalRounded <= 37.50) {
+            politicalAffiliationWord.setText("Moderately Liberal");
+        } else if (politicalRounded <= 62.50) {
+            politicalAffiliationWord.setText("Moderate");
+        } else if (politicalRounded <= 87.50) {
+            politicalAffiliationWord.setText("Moderately Conservative");
+        } else if (politicalRounded <= 100.00) {
+            politicalAffiliationWord.setText("Conservative");
+        }
 
         Glide.with(getContext())
                 .load(R.drawable.duckie)
@@ -217,9 +180,9 @@ public class UserFragment extends Fragment {
                 .into(profileImage);
 
 
-        // Sets up beta distribution graph ---- TODO: replace affiliation w/ real affiliation
+        // Sets up beta distribution graph ---- TODO: replace affiliation w/ real affiliation - done
         // TODO put this in another function
-        BetaDis betaDis = new BetaDis(23.8);
+        BetaDis betaDis = new BetaDis(politicalRounded);
         LineChart betachart = view.findViewById(R.id.betachart);
         Description desc = new Description();
         desc.setText("Beta Distribution: Alpha: " + Integer.toString((int)betaDis.getAlpha())
@@ -261,8 +224,6 @@ public class UserFragment extends Fragment {
         betachart.setData(beta_lineData);
         betachart.animateXY(2000, 2000);
         betachart.invalidate();
-
-
 
         // set up RadarChart - TODO replace values with actual # of how many upvoted per category
         // TODO put this in another function

@@ -82,7 +82,6 @@ public class DetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         // Set upVoted
         if (upVote.isSelected()){
             upVoted = true;
