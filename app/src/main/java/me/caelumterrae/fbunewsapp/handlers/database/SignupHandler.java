@@ -47,7 +47,7 @@ public class SignupHandler extends JsonHttpResponseHandler {
             }
             else {
                 // error!!
-                Toast.makeText(context, "Signup Error - User already exists", Toast.LENGTH_LONG);
+                Toast.makeText(context, "User already exists", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {
