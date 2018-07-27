@@ -66,11 +66,11 @@ public class Hexagon {
 
     // Set color with red, green, blue and alpha (opacity) values
     static float white[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    static float left[] = {101.f/255.f, 141.f/255.f, 167.f/255.f, 1.0f};
-    static float leftcenter[] = {193.f/255.f, 213.f/255.f, 219.f/255.f, 1.0f};
+    static float left[] = {239.f/255.f, 183.f/255.f, 66.f/255.f, 1.0f};
+    static float leftcenter[] = {245.f/255.f, 210.f/255.f, 146.f/255.f, 1.0f};
     static float center[] = {252.f/255.f, 238.f/255.f, 227.f/255.f, 1.0f};
-    static float rightcenter[] = {202.f/255.f, 4.f/255.f, 4.f/255.f, 1.0f};
-    static float right[] = {143.f/255.f, 3.f/255.f, 4.f/255.f, 1.0f};
+    static float rightcenter[] = {162.f/255.f, 195.f/255.f, 222.f/255.f, 1.0f};
+    static float right[] = {73.f/255.f, 153.f/255.f, 218.f/255.f, 1.0f};
     static float altColor[] = {1.0f,0.0f,0.0f, 1.0f};
 
     private Post post;
@@ -178,7 +178,7 @@ public class Hexagon {
                 GLES20.glUniform4fv(mColorHandle, 1, left, 0);
                 break;
             default:
-                GLES20.glUniform4fv(mColorHandle, 1, white, 0);
+                GLES20.glUniform4fv(mColorHandle, 1, center, 0);
                 break;
         }
 

@@ -4,10 +4,13 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -38,6 +41,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.sourceBias = sourceBias;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -53,6 +57,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 post.setBody("test");
                 String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
                 post.setPoliticalBias(Format.biasToNum(bias));
+
+                //TESTING
+                int randomNum = ThreadLocalRandom.current().nextInt(0, 6);
+                post.setPoliticalBias(randomNum*25);
                 if(Math.abs(y) % 2==0){
                     //EVEN ROW
                     hexagons.add(new Hexagon(0.5f,x*X_OFF - (5*X_OFF),y*Y_OFF - (7*Y_OFF), post));
