@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.text.ParseException;
+import java.util.concurrent.Semaphore;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
@@ -45,12 +46,6 @@ public class GetUserHandler extends JsonHttpResponseHandler {
 //    JSONObject userObject;
 //    Semaphore semaphore;
     Context context;
-
-//    public GetUserHandler(JSONObject userObject, JSONObject semaphoreObject) throws JSONException {
-//        this.userObject = userObject;
-//        this.semaphore = (Semaphore) semaphoreObject.get(SEMAPHORE_KEY);
-//        Log.e("UserHandler", "Instantiated");
-//    }
 
     public GetUserHandler(Context context) throws JSONException {
         this.context = context;
