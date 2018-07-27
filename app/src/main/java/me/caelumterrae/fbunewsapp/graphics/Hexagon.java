@@ -14,6 +14,7 @@ import java.nio.ShortBuffer;
 
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.model.User;
 
 public class Hexagon {
 
@@ -189,11 +190,16 @@ public class Hexagon {
         Intent i = new Intent(context, DetailsActivity.class);
         i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
         i.putExtra("source","Login");
-        i.putExtra("uid", userId);
+        i.putExtra(User.class.getSimpleName(), userId);
         context.startActivity(i);
     }
 
     public void logOrigin(){
         Log.i("Touchevent", "Origin at x:" + origin[0] + "  y:" + origin[1]);
+    }
+
+    public int getColor(){
+        // TODO: convert a political affiliation to the proper color.
+        return 0;
     }
 }
