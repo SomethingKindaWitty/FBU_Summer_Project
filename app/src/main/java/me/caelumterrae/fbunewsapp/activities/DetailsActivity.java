@@ -127,7 +127,6 @@ public class DetailsActivity extends AppCompatActivity {
                 .apply(fitCenter)
                 .into(ivMedia);
 
-
         semaphore = new Semaphore(1);
         upVote.setOnClickListener(new View.OnClickListener() {
             @Override

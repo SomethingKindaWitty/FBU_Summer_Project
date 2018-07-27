@@ -25,8 +25,8 @@ import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.RelatedHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 
-// This handler gets called in: Login Activity signup button handler
-// This handler: moves user to Political Activity with UID packaged inside
+// This handler gets called in: LoginActivity onSubmit of sign up button
+// This handler: uses intent to move user to PoliticalActivity with UID packaged inside
 public class SignupHandler extends JsonHttpResponseHandler {
 
     Context context;
