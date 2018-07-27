@@ -72,6 +72,7 @@ public class UserFragment extends Fragment {
     public TextView otherPoliticalAffiliation;
     public TextView numUpvoted;
     private SwipeRefreshLayout swipeContainer;
+    MediaPlayer mediaPlayer;
 
     public GraphView graph;
     private User user;
@@ -101,8 +102,10 @@ public class UserFragment extends Fragment {
         if (user != null){
             createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());
             //create our quacking refresh sound
-            final MediaPlayer quack_sound = MediaPlayer.create(getContext(),R.raw.quack);
             final View view1 = view;
+            //create our quacking refresh sound
+            mediaPlayer = MediaPlayer.create(getContext(),R.raw.quack);
+            final MediaPlayer quack_sound = mediaPlayer;
 
             swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
@@ -113,7 +116,6 @@ public class UserFragment extends Fragment {
                     quack_sound.start();
                     createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());
                     swipeContainer.setRefreshing(false);
-
                 }
             });
             // Configure the refreshing colors
