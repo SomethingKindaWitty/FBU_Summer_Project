@@ -218,6 +218,7 @@ public class UserFragment extends Fragment {
 
 
         // Sets up beta distribution graph ---- TODO: replace affiliation w/ real affiliation
+        // TODO put this in another function
         BetaDis betaDis = new BetaDis(23.8);
         LineChart betachart = view.findViewById(R.id.betachart);
         Description desc = new Description();
@@ -264,6 +265,7 @@ public class UserFragment extends Fragment {
 
 
         // set up RadarChart - TODO replace values with actual # of how many upvoted per category
+        // TODO put this in another function
         RadarChart radarChart = view.findViewById(R.id.radarchart);
         final SparseIntArray affiliation = new SparseIntArray(5);
         SparseIntArray values = new SparseIntArray(5);

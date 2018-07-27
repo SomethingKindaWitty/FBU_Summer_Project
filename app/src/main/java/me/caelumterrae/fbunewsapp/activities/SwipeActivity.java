@@ -42,8 +42,18 @@ public class SwipeActivity extends AppCompatActivity {
         fragments.add(new GraphicsFragment());
         fragments.add(new UserFragment());
 
-        if (source.equals("Login") || source.equals("Political") || source.equals("DetailsActivity")){
-            // Pulls uid from either LoginActivity or PoliticalActivity
+        // if the User has already been loaded from the database
+        if (source.equals("User")) {
+            user = Parcels.unwrap(bundle.getParcelable("User"));
+            // Creates new bundle to send info to fragments
+            Bundle userobj = new Bundle();
+            userobj.putParcelable("User", Parcels.wrap(user));
+            // Packs bundle to fragment
+            fragments.get(0).setArguments(userobj); // Feed Fragment
+            fragments.get(1).setArguments(userobj); // Graphics fragment
+            fragments.get(2).setArguments(userobj); // User fragment
+        } else {
+            // Pulls uid from other activities and calls ParseNewsClient
             uid = bundle.getInt("uid");
             Log.e("Uid", Integer.toString(uid));
             ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
@@ -55,18 +65,7 @@ public class SwipeActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } else {
-            user = Parcels.unwrap(bundle.getParcelable("User"));
-            // Creates new bundle to send info to fragments
-            Bundle userobj = new Bundle();
-            userobj.putParcelable("User", Parcels.wrap(user));
-            // Packs bundle to fragment
-            fragments.get(0).setArguments(userobj); // Feed Fragment
-            fragments.get(1).setArguments(userobj); // Graphics fragment
-            fragments.get(2).setArguments(userobj); // User fragment
         }
-
-
 
         // Grab a reference to view pager.
         viewPager = findViewById(R.id.viewPager);

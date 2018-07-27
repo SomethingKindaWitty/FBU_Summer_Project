@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,17 +44,15 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvTitle;
     TextView tvBody;
     ImageView ivMedia;
-    Button upVote;
+    ImageButton upVote;
     Post post;
     Drawable main;
     Drawable liked;
     ProgressBar pb;
     int userID;
     Boolean upVoted;
-    Boolean gotLike;
     ParseNewsClient parseNewsClient;
     Semaphore semaphore;
-
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -62,65 +61,34 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        // populate the fields using an intent
+        // Populate the fields using an intent
         Bundle bundle = getIntent().getExtras();
         post = Parcels.unwrap(bundle.getParcelable(Post.class.getSimpleName()));
         userID = bundle.getInt(User.class.getSimpleName());
         Log.e("DetailsUid",Integer.toString(userID));
 
+        // Get the upVote button
         upVote = findViewById(R.id.btnLike);
-        // unliked and liked drawables
-        main = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
-        liked = DrawableCompat.wrap(getDrawable(android.R.drawable.ic_menu_more));
-        DrawableCompat.setTint(liked, getResources().getColor(R.color.green));
-        upVote.setBackground(main);
 
         parseNewsClient = new ParseNewsClient(getApplicationContext());
 
-        String source = bundle.getString("source");
-
-        if (source.contentEquals("Related Adapter") || source.contentEquals("PoliticalActivity")|| source.contentEquals("LoginActivity") || source.contentEquals("FeedAdapter")) {
-            try {
-                // This sets the upvote button to the drawable based on whether the user previously liked
-                // the post or not
-                parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, post, userID, getApplicationContext()));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            upVoted = false;
-            gotLike = false;
-        } else {
-            upVoted = bundle.getBoolean("isLiked");
-            Log.e("DetailsActivity", "isLiked call successful");
-            gotLike = true;
-            if (upVoted) {
-                upVote.setBackground(liked);
-            } else {
-                upVote.setBackground(main);
-            }
+        try {
+            // This sets the upvote button to the drawable based on whether the user previously liked
+            // the post or not
+            parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, post, userID, getApplicationContext()));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-//        // if the bundle was received from getLike, this boolean will be available
-//        // else, a call must be made
-//        try {
-//            upVoted = bundle.getBoolean("isLiked");
-//            Log.e("DetailsActivity/AddRemoveLikeHandler", "isLiked call successful");
-//            gotLike = true;
-//        } catch (Exception er) {
-//            try {
-//                // This sets the upvote button to the drawable based on whether the user previously liked
-//                // the post or not
-//                parseNewsClient.getLike(userID, post.getUrl(), new GetLikeHandler(upVote, liked, post, userID, getApplicationContext()));
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            upVoted = false;
-//            gotLike = false;
-//        }
+
+        // Set upVoted
+        if (upVote.isSelected()){
+            upVoted = true;
+        } else {
+            upVoted = false;
+        }
 
         tvTitle = findViewById(R.id.tvTitle);
         rvRelated = findViewById(R.id.rvRelated);
@@ -169,10 +137,10 @@ public class DetailsActivity extends AppCompatActivity {
                 // release semaphore
                 if (upVoted) {
                     //change background to main
-                    upVote.setBackground(liked);
+                    upVote.setSelected(true);
                 } else {
                     //change background to upVoted
-                    upVote.setBackground(main);
+                    upVote.setSelected(false);
                 }
             }
         });
@@ -187,13 +155,11 @@ public class DetailsActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // new thread:
-
 
         if (upVoted) {
             try {
                 parseNewsClient.removeLike(userID, post.getPoliticalBias(), post.getUrl(),
-                        new AddRemoveLikeHandler(false, upVote, main, liked, semaphore));
+                        new AddRemoveLikeHandler(false, main, liked, semaphore));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -202,7 +168,7 @@ public class DetailsActivity extends AppCompatActivity {
         } else  {
             try {
                 parseNewsClient.addLike(userID, post.getPoliticalBias(), post.getUrl(),
-                        new AddRemoveLikeHandler(true, upVote, main, liked, semaphore));
+                        new AddRemoveLikeHandler(true, main, liked, semaphore));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -210,77 +176,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         }
         upVoted = !upVoted;
-        // semaphore.release();
-
-
     }
-
-//        // see if the like/upvote exists in the database
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                user = database.userDao().findByID(userID);
-//                like = database.likedDao().findLiked(user.getUid(), post.getUrl());
-//                if (like == null){
-//                    upVoted = false;
-//                    Log.e("Object", "Making userliked object");
-//                    like = new UserLiked();
-//                    like.setId(randomSingleton.nextInt());
-//                    like.setUid(user.getUid());
-//                    like.setUrl(post.getUrl());
-//                }else{
-//                    upVoted = true;
-//                }
-//                waitForQueryingDatabase.release();
-//                waitForButton.release();
-//            }
-//        }).start();
-//
-//        try {
-//            waitForQueryingDatabase.acquire();
-//            Log.e("Object", "Done waiting");
-//            if (upVoted) {
-//                Log.e("Object", "Passed If");
-//                upVote.setBackground(drawable);
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        Log.e("Object", "Got out of semaphore");
-//
-//        upVote.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                try {
-//                    Log.e("Object", "Waiting for button");
-//                    waitForButton.acquire();
-//                    Log.e("Object", "Got out of button semaphore and about to update it");
-//                    if (upVoted){
-//                        Log.e("Object", "About to update file");
-//                        updateFile(false, post.getPoliticalBias());
-//                        Log.e("Object", "Finished updating file");
-//                        upVote.setBackground(main);
-//                        upVoted = false;
-//                        updateList(like, user.getUid(), false);
-//                    } else {
-//                        // change tint color!
-//                        Log.e("Object", "About to update file");
-//                        updateFile(true, post.getPoliticalBias());
-//                        Log.e("Object", "Finished updating file");
-//                        upVote.setBackground(drawable);
-//                        Log.e("Object", "Done updating background");
-//                        upVoted = true;
-//                        Log.e("Object", "Before update list");
-//                        updateList(like, user.getUid(), true);
-//                    }
-//
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        });
-
 
     @Override
     public void onBackPressed() {
@@ -291,67 +187,5 @@ public class DetailsActivity extends AppCompatActivity {
         finish();
     }
 
-//    public void updateList(final UserLiked like, final int userID, final Boolean adding){
-//        Log.e("Object", "Going into updateList body");
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (adding) {
-//                    //create a new usercliked object
-//                    Log.e("Object", "About to insertUserLiked");
-//                    database.likedDao().insertUserLiked(like);
-//                } else {
-//                    //delete like from database
-//                    Log.e("Object", "about to Delete");
-//                    database.likedDao().delete(like);
-//                }
-//                Log.e("Object", "Finished updating button, releasing semaphore");
-//                waitForButton.release();
-//            }
-//        }).start();
-//    }
-//
-//    // update list - delete
-//    public void updateList(final UserLiked like) {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                //delete like from database
-//                database.likedDao().delete(like);
-//            }
-//        }).start();
-//    }
-//
-//    //update list - add
-//    public void updateList(final int userID){
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                //create a new userliked object
-//                UserLiked userliked = new UserLiked();
-//                userliked.setId(randomSingleton.nextInt());
-//                userliked.setUid(userID);
-//                userliked.setUrl(post.getUrl());
-//
-//                database.likedDao().insertUserLiked(userliked);
-//                }
-//            }).start();
-//    }
-//
-//    public void updateFile(boolean isUpvoting, int politicalBias) {
-//        int numVotes = user.getNumUpvoted();
-//        double voteAvg = user.getPoliticalPreference();
-//        Log.i("this", Integer.toString(numVotes) + " " + Double.toString(voteAvg));
-//        if (isUpvoting) {
-//            // increase num votes and calculate new average
-//            user.setNumUpvoted(numVotes+1);
-//            user.setPoliticalPreference((numVotes*voteAvg+politicalBias)/(numVotes+1));
-//        }
-//        else { // decrease num votes and calculate new average
-//            user.setNumUpvoted(numVotes-1);
-//            user.setPoliticalPreference((numVotes*voteAvg-politicalBias)/(numVotes-1));
-//        }
-//        Log.i("this", Integer.toString(user.getNumUpvoted()) + " " + Double.toString(user.getPoliticalPreference()));
-//    }
 
 }

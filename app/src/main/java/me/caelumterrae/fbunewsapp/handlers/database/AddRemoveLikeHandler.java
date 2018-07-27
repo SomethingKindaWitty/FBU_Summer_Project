@@ -25,15 +25,13 @@ import me.caelumterrae.fbunewsapp.model.User;
 public class AddRemoveLikeHandler extends JsonHttpResponseHandler {
 
     boolean isLiked;
-    Button button;
     Drawable liked;
     Drawable defaultDrawable;
     Semaphore semaphore;
 
-    public AddRemoveLikeHandler (boolean isLiked, Button button,
+    public AddRemoveLikeHandler (boolean isLiked,
                                  Drawable defaultDrawable, Drawable liked, Semaphore semaphore) {
         this.isLiked = isLiked;
-        this.button = button;
         this.defaultDrawable = defaultDrawable;
         this.liked = liked;
         this.semaphore = semaphore;
