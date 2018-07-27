@@ -95,6 +95,13 @@ public class SwipeActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+
+    @Override
     public void onBackPressed() {
 
     }

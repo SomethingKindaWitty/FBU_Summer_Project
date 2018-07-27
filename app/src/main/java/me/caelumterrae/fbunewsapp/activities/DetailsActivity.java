@@ -71,6 +71,7 @@ public class DetailsActivity extends AppCompatActivity {
         ivMedia = findViewById(R.id.ivMedia);
         upVote = findViewById(R.id.btnLike);
         pb = findViewById(R.id.progressBar);
+        upVote.setVisibility(View.INVISIBLE); // Hide button until it loads in Getlikehandler
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         ArrayList<Post> posts = post.getRelatedPosts();
@@ -116,34 +117,18 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    // We will wait until we are finished removing or adding like (semaphore.acquire()).
-    // Main thread blocks until its done.
     private void onUpvoteClick() {
         try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (upVote.isSelected()) {
-            try {
+            if (upVote.isSelected())
                 parseNewsClient.removeLike(userID, post.getPoliticalBias(), post.getUrl(),
-                        new AddRemoveLikeHandler(false, main, liked, semaphore));
-                upVote.setSelected(false);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else  {
-            try {
+                        new AddRemoveLikeHandler(false, upVote));
+            else
                 parseNewsClient.addLike(userID, post.getPoliticalBias(), post.getUrl(),
-                        new AddRemoveLikeHandler(true, main, liked, semaphore));
-                upVote.setSelected(true);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                        new AddRemoveLikeHandler(true, upVote));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
