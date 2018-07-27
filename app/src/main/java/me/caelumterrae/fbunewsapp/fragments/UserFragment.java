@@ -75,8 +75,6 @@ public class UserFragment extends Fragment {
 
     public GraphView graph;
     private User user;
-    //arbitrary object for synchronization
-    private final Object object = "hello";
 
     public UserFragment(){
 
@@ -124,14 +122,9 @@ public class UserFragment extends Fragment {
                     R.color.sea_blue_light);
         }
 
-        // TODO - get user and set profile info accordingly
-
     }
 
     public void createUser(View view, String name, double politicalAff, int numVotes) {
-
-        // TODO - get political affiliation
-        // politicalAffiliation.setText("duck");
 
         int pol_num = (int) politicalAff;
 

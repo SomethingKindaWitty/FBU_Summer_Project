@@ -33,7 +33,6 @@ public class CreateActivity extends AppCompatActivity {
     private User user;
     private UserDatabase database;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
