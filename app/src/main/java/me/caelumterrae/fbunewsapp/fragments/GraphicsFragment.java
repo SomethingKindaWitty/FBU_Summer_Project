@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.parceler.Parcels;
+
 import me.caelumterrae.fbunewsapp.graphics.MyGLRenderer;
 import me.caelumterrae.fbunewsapp.model.User;
 
@@ -42,8 +44,12 @@ public class GraphicsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        user = Parcels.unwrap(getArguments().getParcelable("User"));
-        userID = 6;
+        try {
+            user = Parcels.unwrap(getArguments().getParcelable("User"));
+            userID = user.getUid();
+        } catch (NullPointerException e){
+            user = null;
+        }
     }
 
     class MyGLSurfaceView extends GLSurfaceView {
