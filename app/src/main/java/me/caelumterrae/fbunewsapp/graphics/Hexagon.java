@@ -65,8 +65,13 @@ public class Hexagon {
     private short drawOrder[] = {0,1,2,3,4,5};
 
     // Set color with red, green, blue and alpha (opacity) values
-    float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    float altColor[] = {1.0f,0.0f,0.0f, 1.0f};
+    static float white[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    static float left[] = {101.f/255.f, 141.f/255.f, 167.f/255.f, 1.0f};
+    static float leftcenter[] = {193.f/255.f, 213.f/255.f, 219.f/255.f, 1.0f};
+    static float center[] = {252.f/255.f, 238.f/255.f, 227.f/255.f, 1.0f};
+    static float rightcenter[] = {202.f/255.f, 4.f/255.f, 4.f/255.f, 1.0f};
+    static float right[] = {143.f/255.f, 3.f/255.f, 4.f/255.f, 1.0f};
+    static float altColor[] = {1.0f,0.0f,0.0f, 1.0f};
 
     private Post post;
 
@@ -147,12 +152,37 @@ public class Hexagon {
         // get handle to fragment shader's vColor member
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
-        // Set color for drawing the triangle depending on location
-        if(offScreen()){
-            GLES20.glUniform4fv(mColorHandle, 1, altColor, 0);
-        }else{
-            GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+        // Set color for drawing the hexagon depending on location
+//        if(offScreen()){
+//            GLES20.glUniform4fv(mColorHandle, 1, altColor, 0);
+//        }else{
+//            GLES20.glUniform4fv(mColorHandle, 1, white, 0);
+//        }
+        // Set color for drawing the hexagon depending on politicalAffiliation
+
+        int bias = post.getPoliticalBias();
+        switch(bias){
+            case 100:
+                GLES20.glUniform4fv(mColorHandle, 1, right, 0);
+                break;
+            case 75:
+                GLES20.glUniform4fv(mColorHandle, 1, rightcenter, 0);
+                break;
+            case 50:
+                GLES20.glUniform4fv(mColorHandle, 1, center, 0);
+                break;
+            case 25:
+                GLES20.glUniform4fv(mColorHandle, 1, leftcenter, 0);
+                break;
+            case 0:
+                GLES20.glUniform4fv(mColorHandle, 1, left, 0);
+                break;
+            default:
+                GLES20.glUniform4fv(mColorHandle, 1, white, 0);
+                break;
         }
+
+
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 
