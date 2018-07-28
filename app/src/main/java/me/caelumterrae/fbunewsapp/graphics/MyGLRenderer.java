@@ -69,10 +69,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 if(Math.abs(y) % 2==0){
                     //EVEN ROW
                     row.add(new Hexagon(0.5f,x*X_OFF - (5*X_OFF),y*Y_OFF - (7*Y_OFF), post));
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF - (5*X_OFF),y*Y_OFF - (7*Y_OFF), post));
                 }else{
                     row.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF- (5*X_OFF),y*Y_OFF- (7*Y_OFF), post));
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF- (5*X_OFF),y*Y_OFF- (7*Y_OFF), post));
                 }
             }
             hexagonMap.add(row);
