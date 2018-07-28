@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import org.parceler.Parcels;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.adapters.FragmentAdapter;
@@ -27,7 +30,10 @@ public class SwipeActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private FragmentAdapter adapter;
     private int uid;
-    private User user;
+    public User user;
+    public Semaphore semaphore;
+    ParseNewsClient parseNewsClient;
+    public Object lock = new Object();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,30 +48,12 @@ public class SwipeActivity extends AppCompatActivity {
         fragments.add(new GraphicsFragment());
         fragments.add(new UserFragment());
 
-        // if the User has already been loaded from the database
-        if (source.equals("User")) {
-            user = Parcels.unwrap(bundle.getParcelable("User"));
-            // Creates new bundle to send info to fragments
-            Bundle userobj = new Bundle();
-            userobj.putParcelable("User", Parcels.wrap(user));
-            // Packs bundle to fragment
-            fragments.get(0).setArguments(userobj); // Feed Fragment
-            fragments.get(1).setArguments(userobj); // Graphics fragment
-            fragments.get(2).setArguments(userobj); // User fragment
-        } else {
-            // Pulls uid from other activities and calls ParseNewsClient
-            uid = bundle.getInt("uid");
-            Log.e("Uid", Integer.toString(uid));
-            ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
-            try {
-                parseNewsClient.getUser(uid, new GetUserHandler(getApplicationContext()));
-                Log.e("UserGetCall", "Got User");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        // Pulls uid from other activities
+        uid = bundle.getInt("uid");
+        Log.e("Uid", Integer.toString(uid));
+        parseNewsClient = new ParseNewsClient(getApplicationContext());
+
+        semaphore = new Semaphore(0);
 
         // Grab a reference to view pager.
         viewPager = findViewById(R.id.viewPager);
@@ -91,11 +79,47 @@ public class SwipeActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        user = new User();
+        user.setUsername("");
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        try {
+            parseNewsClient.getUser(uid, new GetUserHandler(user, latch));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        Log.e("Making", "new thread");
+        new Thread() {
+            @Override
+            public void run() {
+             while (user.getUsername().isEmpty()) {
+                 Log.e("username", "isempty");
+                 try {
+                     latch.await();
+                 } catch (InterruptedException e) {
+                     e.printStackTrace();
+                 }
+             }
+            Log.e("GetUserHandler:", user.getUsername());
+             Log.e("GetUserHandler:", Integer.toString(user.getUid()));
+            Log.e("UserGetCall", "About 2 bundle!!!");
+            // Creates new bundle to send info to fragments
+            Bundle userobj = new Bundle();
+            userobj.putParcelable(User.class.getSimpleName(), Parcels.wrap(user));
+            // Packs bundle to fragment
+
+            }
+        }.start();
     }
 
 

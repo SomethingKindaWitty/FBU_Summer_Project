@@ -85,7 +85,6 @@ public class DetailsActivity extends AppCompatActivity {
         rvRelated.setAdapter(relatedAdapter);
 
 
-
         parseNewsClient = new ParseNewsClient(getApplicationContext());
         final TopNewsClient topNewsClient = new TopNewsClient(this);
         try {
@@ -138,7 +137,6 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this, SwipeActivity.class);
-        i.putExtra("source", "DetailsActivity");
         i.putExtra("uid", userID);
         startActivity(i);
         finish();

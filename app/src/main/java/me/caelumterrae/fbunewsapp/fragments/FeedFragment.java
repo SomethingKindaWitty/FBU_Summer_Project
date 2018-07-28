@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class FeedFragment extends Fragment{
     FeedAdapter feedAdapter;
     private SwipeRefreshLayout swipeContainer;
     private int userID;
-    private User user;
+    public User user;
     private List<UserLiked> userLiked;
     private UserDatabase database;
     private final Object object = "hello";
@@ -51,12 +52,13 @@ public class FeedFragment extends Fragment{
 
         // TODO: POSSIBLE ABSTRACTION (NEW CLASS) FOR ALL DATABASE REQUESTS
         try {
-            user = Parcels.unwrap(getArguments().getParcelable("User"));
+            user = Parcels.unwrap(getArguments().getParcelable(User.class.getSimpleName()));
             userID = user.getUid();
         } catch (NullPointerException e){
             user = null;
         }
 
+       Log.e("Feedfragment", Integer.toString(user.getUid()));
 
 
         // set client
