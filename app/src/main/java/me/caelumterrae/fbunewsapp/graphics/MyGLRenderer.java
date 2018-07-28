@@ -6,7 +6,6 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +19,7 @@ import me.caelumterrae.fbunewsapp.utility.Format;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
     private ArrayList<Hexagon> hexagons;
+    private ArrayList<ArrayList<Hexagon>> hexagonMap;
     private HashMap<String, String> sourceBias;
 
 
@@ -47,8 +47,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         hexagons = new ArrayList<>();
+        //x and then y
+        hexagonMap = new ArrayList<ArrayList<Hexagon>>();
+
+
 
         for(int x = 0; x <=10; x++){
+            ArrayList<Hexagon> row = new ArrayList<>();
             for(int y = 0; y <= 14;y++){
                 Post post = new Post();
                 post.setTitle(Integer.toString(x) + " " + Integer.toString(y));
@@ -63,11 +68,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 post.setPoliticalBias(randomNum*25);
                 if(Math.abs(y) % 2==0){
                     //EVEN ROW
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF - (5*X_OFF),y*Y_OFF - (7*Y_OFF), post));
+                    row.add(new Hexagon(0.5f,x*X_OFF - (5*X_OFF),y*Y_OFF - (7*Y_OFF), post));
                 }else{
-                    hexagons.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF- (5*X_OFF),y*Y_OFF- (7*Y_OFF), post));
+                    row.add(new Hexagon(0.5f,x*X_OFF + ODD_X_OFF- (5*X_OFF),y*Y_OFF- (7*Y_OFF), post));
                 }
             }
+            hexagonMap.add(row);
         }
     }
 
@@ -96,11 +102,19 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0 ,mTranslationMatrix,0);
 
         // Draw shape
-        for (int i = 0; i < hexagons.size(); i++){
-            //hexagons.get(i).translate(mDistanceX, mDistanceY);
-            Log.i("abc", "translation");
-            hexagons.get(i).draw(scratch);
+
+        for(int x = 0; x < hexagonMap.size(); x++){
+            for(int y = 0; y < hexagonMap.get(0).size(); y++){
+                hexagonMap.get(x).get(y).draw(scratch);
+            }
         }
+
+
+//        for (int i = 0; i < hexagons.size(); i++){
+//            //hexagons.get(i).translate(mDistanceX, mDistanceY);
+//            Log.i("abc", "translation");
+//            hexagons.get(i).draw(scratch);
+//        }
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
@@ -142,8 +156,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void translate(float distanceX, float distanceY){
-        for (int i = 0; i < hexagons.size(); i++){
-            hexagons.get(i).translate(distanceX, distanceY);
+//        for (int i = 0; i < hexagons.size(); i++){
+//            hexagons.get(i).translate(distanceX, distanceY);
+//        }
+
+        for(int x = 0; x < hexagonMap.size(); x++){
+            for(int y = 0; y < hexagonMap.get(0).size(); y++){
+                hexagonMap.get(x).get(y).translate(distanceX, distanceY);
+            }
         }
     }
     public float getX(){
