@@ -1,12 +1,15 @@
 package me.caelumterrae.fbunewsapp.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 
 import org.json.JSONException;
 import org.parceler.Parcels;
@@ -30,6 +33,7 @@ public class SwipeActivity extends AppCompatActivity {
     private FragmentAdapter adapter;
     private int uid;
     private User user;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,9 @@ public class SwipeActivity extends AppCompatActivity {
             }
         }
 
+        // Grab reference to bottom navigation view and call create function
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        createBottomNavigationView();
         // Grab a reference to view pager.
         viewPager = findViewById(R.id.viewPager);
         // Instantiate our FragmentAdapter which we will use in our ViewPager
@@ -106,5 +113,28 @@ public class SwipeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    // Sets the bottom navigation view's OnItemSelectedListener, which changes the page view based on
+    // which item is clicked
+    public void createBottomNavigationView(){
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                switch(id){
+                    case R.id.user:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.feed:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.honeycomb:
+                        viewPager.setCurrentItem(2);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 }
