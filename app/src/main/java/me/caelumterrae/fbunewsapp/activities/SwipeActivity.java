@@ -83,16 +83,26 @@ public class SwipeActivity extends AppCompatActivity {
         adapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
         // Attach our adapter to our view pager.
         viewPager.setAdapter(adapter);
+        // Sets initial page to our feed page and initial item selection
+        // of bottomNavigationView to the correct icon
         viewPager.setCurrentItem(1);
+        bottomNavigationView.setSelectedItemId(R.id.feed);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
             }
 
+            // Switches item selected in bottomNavigationView based on current page
             @Override
             public void onPageSelected(int i) {
-
+                if (i == 0) {
+                    bottomNavigationView.setSelectedItemId(R.id.user);
+                } else if (i == 1) {
+                    bottomNavigationView.setSelectedItemId(R.id.feed);
+                } else {
+                    bottomNavigationView.setSelectedItemId(R.id.honeycomb);
+                }
             }
 
             @Override
