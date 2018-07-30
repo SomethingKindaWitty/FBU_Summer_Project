@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp.singleton;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 
@@ -25,18 +26,28 @@ public class CurrentUser {
     // Creates and populates a user given a UID. When done, will bring you to nextClass
     // Implementation fixes concurrency issues where you try to get the user before it's created
     // (Called in Login and Signuphandler)
-    public static void createUser(int uid, Context context, Class<?> nextClass) throws JSONException, UnsupportedEncodingException {
+    public static void createUser(int uid, Context context, Class<?> nextClass) {
         synchronized (lock) {
+            Log.e("CurrentUser", "Created User");
             myUser = new User();
             myUid = uid;
             myContext = context;
-
             parseNewsClient = new ParseNewsClient(context);
-            parseNewsClient.getUser(myUid, new GetUserHandler(myUser, myContext, nextClass));
+            try {
+                parseNewsClient.getUser(myUid, new GetUserHandler(myUser, myContext, nextClass));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static User getUser() throws InterruptedException {
+    public static void setUid(int myUid) {
+        CurrentUser.myUid = myUid;
+    }
+
+    public static User getUser() {
         synchronized (lock) {
             return myUser;
         }
@@ -46,10 +57,18 @@ public class CurrentUser {
         return myUid;
     }
 
-    public static void refreshUser() throws JSONException, UnsupportedEncodingException {
+
+
+    public static void refreshUser() {
         // network call to refresh user
         synchronized (lock) {
-            parseNewsClient.getUser(myUid, new GetUserHandler(myUser, myContext, null));
+            try {
+                parseNewsClient.getUser(myUid, new GetUserHandler(myUser, myContext, null));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -30,19 +30,13 @@ public class SwipeActivity extends AppCompatActivity {
     private final List<Fragment> fragments = new ArrayList<>();
     private ViewPager viewPager;
     private FragmentAdapter adapter;
-    private int uid;
-    public User user;
-    public Semaphore semaphore;
     ParseNewsClient parseNewsClient;
-    public Object lock = new Object();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
-        Bundle bundle = getIntent().getExtras();
-        String source = bundle.getString("source");
 
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());
@@ -50,11 +44,8 @@ public class SwipeActivity extends AppCompatActivity {
         fragments.add(new UserFragment());
 
         // Pulls uid from other activities
-        uid = bundle.getInt("uid");
-        Log.e("Uid", Integer.toString(uid));
         parseNewsClient = new ParseNewsClient(getApplicationContext());
 
-        semaphore = new Semaphore(0);
 
         // Grab a reference to view pager.
         viewPager = findViewById(R.id.viewPager);
@@ -87,7 +78,6 @@ public class SwipeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         CurrentUser.refreshUser();
-        user = User
     }
 
 

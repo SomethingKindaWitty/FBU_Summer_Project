@@ -29,7 +29,7 @@ import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 // This handler gets called in: Login Activity signup button handler
-// This handler: creates CurrentUser & moves user to Political Activity with UID packaged inside
+// This handler: Stores uid (for PoliticalActivity) and simply moves user to political activity
 public class SignupHandler extends JsonHttpResponseHandler {
 
     Context context;
@@ -42,16 +42,15 @@ public class SignupHandler extends JsonHttpResponseHandler {
         try {
             int UID = response.getInt("UID");
             if (UID != -1) {
-                // Create the master user and start next intent to Political Activity
-                CurrentUser.createUser(UID, context, PoliticalActivity.class);
+                CurrentUser.setUid(UID);
+                Intent intent = new Intent(context, PoliticalActivity.class);
+                context.startActivity(intent);
             }
             else {
                 Toast.makeText(context, "Signup Error - User already exists", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 

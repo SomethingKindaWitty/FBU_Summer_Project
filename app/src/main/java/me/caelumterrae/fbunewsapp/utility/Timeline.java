@@ -16,10 +16,12 @@ import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
+import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 // All functions relating to populating the timeline
 public class Timeline {
@@ -32,8 +34,7 @@ public class Timeline {
     public static void populateTimeline(ArrayList<Post> rawPosts, Context context,
                                         ArrayList<Post> posts, FeedAdapter feedAdapter) {
         // Creates Beta distribution based on on users affiliation number.
-        PoliticalAffData data = new PoliticalAffData(context);
-        double affiliation = data.getAffiliationNum();
+        double affiliation = CurrentUser.getUser().getPoliticalPreference();
         BetaDis betaDis = new BetaDis(affiliation);
         int size = rawPosts.size();
         Log.i("Handler", "Affiliation: " + affiliation);
@@ -44,6 +45,23 @@ public class Timeline {
             feedAdapter.notifyItemInserted(posts.size()-1);
         }
     }
+
+    // for related adapter
+    public static void populateTimeline(ArrayList<Post> rawPosts, Context context,
+                                        ArrayList<Post> posts, RelatedAdapter relatedAdapter) {
+        double affiliation = CurrentUser.getUser().getPoliticalPreference();
+        BetaDis betaDis = new BetaDis(affiliation);
+        int size = rawPosts.size();
+        Log.i("Handler", "Affiliation: " + affiliation);
+        for (int i = 0; i < size; i++) {
+            int category = betaDis.getCategory();
+            Post p = findPostWithCategory(rawPosts, category);
+            posts.add(p);
+            relatedAdapter.notifyItemInserted(posts.size()-1);
+        }
+    }
+
+
     // Finds a post within rawPosts with a given category [0, 25, 50, 75, 100].
     // Returns the post w/ matching category if found. Otherwise if not found,
     // returns the first post off the rawPosts list (basically a post w/ random category)

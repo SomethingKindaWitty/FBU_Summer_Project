@@ -29,7 +29,7 @@ public class GetUserHandler extends JsonHttpResponseHandler {
     Context context;
 
     // Refreshes/updates user object. If nextClass if valid, will bring the user to nextClass when done
-    public GetUserHandler(User user, Context context, Class<?> nextClass) throws JSONException {
+    public GetUserHandler(User user, Context context, Class<?> nextClass) {
         this.user = user;
         this.context = context;
         this.nextClass = nextClass;
@@ -37,17 +37,15 @@ public class GetUserHandler extends JsonHttpResponseHandler {
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
+        Log.e("GetUserHandler", "Got a response");
         try {
             User.fromJSON(user, response); // [!!] see here for converting response -> User
-            Log.e("GetUserHandler:", user.getUsername());
             if (nextClass != null) {
-                final Intent intent = new Intent(context, nextClass);
+                Intent intent = new Intent(context, nextClass);
                 context.startActivity(intent);
             }
 
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         }
 

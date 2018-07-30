@@ -44,8 +44,6 @@ public class LoginHandler extends JsonHttpResponseHandler {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
 
     }

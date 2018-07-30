@@ -41,7 +41,6 @@ public class PoliticalActivity extends AppCompatActivity {
 
         try {
             parseNewsClient.setAffiliation(uid, seekBar.getProgress(), new PoliticalAffHandler(getApplicationContext()));
-            CurrentUser.refreshUser();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {

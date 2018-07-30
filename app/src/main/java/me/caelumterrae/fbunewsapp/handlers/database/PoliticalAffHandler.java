@@ -12,12 +12,13 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class PoliticalAffHandler extends JsonHttpResponseHandler {
     Context context;
 
-    // This handler gets called in: ??
-    // This handler: Moves user to swipeactivity
+    // This handler gets called in: PoliticalActivity (on submit)
+    // This handler: Creates User and moves user to Swipeactivity -- handled in CurrentUser
     public PoliticalAffHandler(Context context) {
         this.context = context;
     }
@@ -25,10 +26,8 @@ public class PoliticalAffHandler extends JsonHttpResponseHandler {
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         try {
-            int UID = response.getInt("UID");
             if (response.getBoolean("isSet")) {
-                final Intent intent = new Intent(context, SwipeActivity.class);
-                context.startActivity(intent);
+                CurrentUser.createUser(response.getInt("UID"), context, SwipeActivity.class);
             }
             else {
                 Toast.makeText(context, "Setting Affiliation Error", Toast.LENGTH_LONG).show();

@@ -39,9 +39,6 @@ public class CreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        user = (User) Parcels.unwrap(getIntent().getParcelableExtra("newUser"));
-        //grabs current instance of database
-        database = UserDatabase.getInstance(getApplicationContext());
         if (database == null){
             Log.e("Database", "failed to create");
         }else{
