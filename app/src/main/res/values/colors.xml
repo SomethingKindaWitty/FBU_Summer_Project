@@ -87,7 +87,7 @@
     <color name="capture_textview_text_color">#feffffff</color>
     <color name="catalyst_redbox_background">#eecc0000</color>
     <color name="click_background">#33141823</color>
-    <color name="close_button_tint_color">#ff6a7180</color>
+    <color name="close_button_tint_color">#6a7180</color>
     <color name="common_google_signin_btn_text_dark_default">@android:color/white</color>
     <color name="common_google_signin_btn_text_dark_disabled">#1f000000</color>
     <color name="common_google_signin_btn_text_dark_focused">@android:color/black</color>

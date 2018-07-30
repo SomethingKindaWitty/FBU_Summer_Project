@@ -9,11 +9,11 @@
 
     <item
         android:id="@+id/feed"
-        android:icon="@drawable/homefeed"
+        android:icon="@drawable/newsfeed"
         android:title="Feed" />
     <item
         android:id="@+id/honeycomb"
-        android:icon="@drawable/heart_filled"
+        android:icon="@drawable/compass"
         android:title="Explore" />
 
 </menu>
