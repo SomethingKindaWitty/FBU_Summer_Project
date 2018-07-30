@@ -34,6 +34,7 @@ public class FeedFragment extends Fragment{
     ArrayList<Post> posts;
     RecyclerView rvPosts;
     FeedAdapter feedAdapter;
+    MediaPlayer mediaPlayer;
     private SwipeRefreshLayout swipeContainer;
     private int userID;
     private List<UserLiked> userLiked;
@@ -50,8 +51,8 @@ public class FeedFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TODO: POSSIBLE ABSTRACTION (NEW CLASS) FOR ALL DATABASE REQUESTS
         userID = CurrentUser.getUid();
+
 
        Log.e("Feedfragment", Integer.toString(userID));
 
@@ -71,7 +72,8 @@ public class FeedFragment extends Fragment{
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         //create our quacking refresh sound
-        final MediaPlayer quack_sound = MediaPlayer.create(getContext(),R.raw.quack);
+        mediaPlayer = MediaPlayer.create(getContext(),R.raw.quack);
+        final MediaPlayer quack_sound = mediaPlayer;
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -84,7 +86,6 @@ public class FeedFragment extends Fragment{
                 posts.clear();
                 client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, getContext()));
                 swipeContainer.setRefreshing(false);
-
             }
         });
         // Configure the refreshing colors

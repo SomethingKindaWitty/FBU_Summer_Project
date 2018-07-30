@@ -14,6 +14,7 @@ import java.nio.ShortBuffer;
 
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.model.User;
 
 public class Hexagon {
 
@@ -42,8 +43,7 @@ public class Hexagon {
     static final int COORDS_PER_VERTEX = 3;
     private float pentagonCoords[] = {
             0.0f,0.5f, 0.0f, // 0
-            -0.43301f,0.25f,
-            0.0f, // 1
+            -0.43301f,0.25f, 0.0f, // 1
             -0.43301f,-0.25f, 0.0f, // 2
             0.0f,0.5f, 0.0f, // 0
             -0.43301f,-0.25f, 0.0f, // 2
@@ -65,8 +65,13 @@ public class Hexagon {
     private short drawOrder[] = {0,1,2,3,4,5};
 
     // Set color with red, green, blue and alpha (opacity) values
-    float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    float altColor[] = {1.0f,0.0f,0.0f, 1.0f};
+    static float white[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    static float left[] = {239.f/255.f, 183.f/255.f, 66.f/255.f, 1.0f};
+    static float leftcenter[] = {245.f/255.f, 210.f/255.f, 146.f/255.f, 1.0f};
+    static float center[] = {252.f/255.f, 238.f/255.f, 227.f/255.f, 1.0f};
+    static float rightcenter[] = {162.f/255.f, 195.f/255.f, 222.f/255.f, 1.0f};
+    static float right[] = {73.f/255.f, 153.f/255.f, 218.f/255.f, 1.0f};
+    static float altColor[] = {1.0f,0.0f,0.0f, 1.0f};
 
     private Post post;
 
@@ -147,12 +152,37 @@ public class Hexagon {
         // get handle to fragment shader's vColor member
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
-        // Set color for drawing the triangle depending on location
-        if(offScreen()){
-            GLES20.glUniform4fv(mColorHandle, 1, altColor, 0);
-        }else{
-            GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+        // Set color for drawing the hexagon depending on location
+//        if(offScreen()){
+//            GLES20.glUniform4fv(mColorHandle, 1, altColor, 0);
+//        }else{
+//            GLES20.glUniform4fv(mColorHandle, 1, white, 0);
+//        }
+        // Set color for drawing the hexagon depending on politicalAffiliation
+
+        int bias = post.getPoliticalBias();
+        switch(bias){
+            case 100:
+                GLES20.glUniform4fv(mColorHandle, 1, right, 0);
+                break;
+            case 75:
+                GLES20.glUniform4fv(mColorHandle, 1, rightcenter, 0);
+                break;
+            case 50:
+                GLES20.glUniform4fv(mColorHandle, 1, center, 0);
+                break;
+            case 25:
+                GLES20.glUniform4fv(mColorHandle, 1, leftcenter, 0);
+                break;
+            case 0:
+                GLES20.glUniform4fv(mColorHandle, 1, left, 0);
+                break;
+            default:
+                GLES20.glUniform4fv(mColorHandle, 1, center, 0);
+                break;
         }
+
+
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 
@@ -168,16 +198,16 @@ public class Hexagon {
 
     public void translate(float x, float y){
         origin[0] -= x;
-        origin[1] -= y;
+        origin[1] += y;
     }
 
     public boolean offScreen(){
-        return origin[0] >2.6 || origin [0] < 0.5f || origin[1] >3.f || origin[1] < 0.5f;
+        return origin[0] < -0.75 || origin [0] > 0.75f || -1 * origin[1] > 1.0f || -1 * origin[1] < -1.0f;
     }
 
     public boolean inHexagon(float x, float y){
-        float xDistance = Math.abs(origin[0] - x);
-        float yDistance = Math.abs(origin[1] - y);
+        float xDistance = Math.abs((-1 * origin[0]) - x);
+        float yDistance = Math.abs((-1*origin[1]) - y);
         double originDistance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
         if(originDistance < radius) {
             Log.i("Touchevent", "Touch registered in origin x:" + origin[0] + "  y:" + origin[1]);
@@ -190,11 +220,16 @@ public class Hexagon {
         Intent i = new Intent(context, DetailsActivity.class);
         i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
         i.putExtra("source","Login");
-        i.putExtra("uid", userId);
+        i.putExtra(User.class.getSimpleName(), userId);
         context.startActivity(i);
     }
 
     public void logOrigin(){
         Log.i("Touchevent", "Origin at x:" + origin[0] + "  y:" + origin[1]);
+    }
+
+    public int getColor(){
+        // TODO: convert a political affiliation to the proper color.
+        return 0;
     }
 }

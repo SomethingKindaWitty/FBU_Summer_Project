@@ -1,14 +1,12 @@
 package me.caelumterrae.fbunewsapp.activities;
 
 import android.content.Intent;
-import android.os.UserManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.SeekBar;
 
 import org.json.JSONException;
-import org.parceler.Parcels;
 
 import java.io.UnsupportedEncodingException;
 

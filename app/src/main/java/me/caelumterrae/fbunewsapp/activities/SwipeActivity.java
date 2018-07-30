@@ -2,10 +2,15 @@ package me.caelumterrae.fbunewsapp.activities;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationMenu;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 
 import org.json.JSONException;
 import org.parceler.Parcels;
@@ -31,6 +36,7 @@ public class SwipeActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private FragmentAdapter adapter;
     ParseNewsClient parseNewsClient;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,26 +49,65 @@ public class SwipeActivity extends AppCompatActivity {
         fragments.add(new GraphicsFragment());
         fragments.add(new UserFragment());
 
-        // Pulls uid from other activities
-        parseNewsClient = new ParseNewsClient(getApplicationContext());
+//         // Pulls uid from other activities
+//         parseNewsClient = new ParseNewsClient(getApplicationContext());
+
+//         // If the source is from GetUserHandler
+//         // we have finished making our user call and now have the updated object
+//         if (source.equals("User")) {
+//             user = Parcels.unwrap(bundle.getParcelable("User"));
+//             // Creates new bundle to send info to fragments
+//             Bundle userobj = new Bundle();
+//             userobj.putParcelable("User", Parcels.wrap(user));
+//             // Packs bundle to fragment
+//             fragments.get(0).setArguments(userobj); // Feed Fragment
+//             fragments.get(1).setArguments(userobj); // Graphics fragment
+//             fragments.get(2).setArguments(userobj); // User fragment
+//         } else { // Every other call must trigger a call to receive the user obj
+//             // Pulls uid from other activities and calls ParseNewsClient
+//             uid = bundle.getInt("uid");
+//             Log.e("Uid", Integer.toString(uid));
+//             ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
+//             try {
+//                 parseNewsClient.getUser(uid, new GetUserHandler(getApplicationContext()));
+//                 Log.e("UserGetCall", "Got User");
+//             } catch (UnsupportedEncodingException e) {
+//                 e.printStackTrace();
+//             } catch (JSONException e) {
+//                 e.printStackTrace();
+//             }
+//         }
 
 
+        // Grab reference to bottom navigation view and call create function
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        createBottomNavigationView();
         // Grab a reference to view pager.
         viewPager = findViewById(R.id.viewPager);
         // Instantiate our FragmentAdapter which we will use in our ViewPager
         adapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
         // Attach our adapter to our view pager.
         viewPager.setAdapter(adapter);
+        // Sets initial page to our feed page and initial item selection
+        // of bottomNavigationView to the correct icon
         viewPager.setCurrentItem(1);
+        bottomNavigationView.setSelectedItemId(R.id.feed);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
             }
 
+            // Switches item selected in bottomNavigationView based on current page
             @Override
             public void onPageSelected(int i) {
-
+                if (i == 0) {
+                    bottomNavigationView.setSelectedItemId(R.id.user);
+                } else if (i == 1) {
+                    bottomNavigationView.setSelectedItemId(R.id.feed);
+                } else {
+                    bottomNavigationView.setSelectedItemId(R.id.honeycomb);
+                }
             }
 
             @Override
@@ -85,5 +130,28 @@ public class SwipeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    // Sets the bottom navigation view's OnItemSelectedListener, which changes the page view based on
+    // which item is clicked
+    public void createBottomNavigationView(){
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                switch(id){
+                    case R.id.user:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.feed:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.honeycomb:
+                        viewPager.setCurrentItem(2);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 }

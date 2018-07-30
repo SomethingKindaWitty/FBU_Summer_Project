@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/user"
+        android:icon="@drawable/user"
+        android:title="User" />
+
+    <item
+        android:id="@+id/feed"
+        android:icon="@drawable/homefeed"
+        android:title="Feed" />
+    <item
+        android:id="@+id/honeycomb"
+        android:icon="@drawable/heart_filled"
+        android:title="Explore" />
+
+</menu>

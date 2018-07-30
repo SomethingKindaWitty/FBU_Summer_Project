@@ -71,6 +71,7 @@
                 android:layout_alignStart="@+id/tvTitle"
                 android:layout_below="@+id/tvBody"
                 android:background="@color/transparent"
+                android:scaleType="centerCrop"
                 android:src="@drawable/upvote_button" />
 
             <ProgressBar

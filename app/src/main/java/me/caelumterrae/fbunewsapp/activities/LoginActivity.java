@@ -1,28 +1,20 @@
 package me.caelumterrae.fbunewsapp.activities;
 
 //import android.arch.persistence.room.Room;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.json.JSONException;
-import org.parceler.Parcels;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
-import me.caelumterrae.fbunewsapp.database.UserDatabase;
-import me.caelumterrae.fbunewsapp.handlers.NewsDataHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.LoginHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.SignupHandler;
-import me.caelumterrae.fbunewsapp.model.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -71,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
-
                 try {
                     parseNewsClient.signup(username, password, new SignupHandler(getApplicationContext()));
                 } catch (UnsupportedEncodingException e) {

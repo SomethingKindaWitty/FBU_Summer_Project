@@ -14,6 +14,8 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
+// This handler gets called in: PoliticalActivity onSubmit
+// This handler: uses intent to move user to SwipeActivity with UID and source name packaged inside
 public class PoliticalAffHandler extends JsonHttpResponseHandler {
     Context context;
 

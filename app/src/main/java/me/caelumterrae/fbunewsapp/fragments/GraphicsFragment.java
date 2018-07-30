@@ -12,6 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.parceler.Parcels;
+
+import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.graphics.MyGLRenderer;
 import me.caelumterrae.fbunewsapp.model.User;
 
@@ -22,6 +25,7 @@ public class GraphicsFragment extends Fragment {
     private GLSurfaceView mGLView;
     private User user;
     private int userID;
+    TopNewsClient client;
 
     public GraphicsFragment() {
         super();
@@ -35,6 +39,7 @@ public class GraphicsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        client = new TopNewsClient(getContext());
         mGLView = new MyGLSurfaceView(this.getActivity());
         return mGLView;
     }
@@ -42,8 +47,13 @@ public class GraphicsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        user = Parcels.unwrap(getArguments().getParcelable("User"));
-        userID = 6;
+
+        try {
+            user = Parcels.unwrap(getArguments().getParcelable("User"));
+            userID = user.getUid();
+        } catch (NullPointerException e){
+            user = null;
+        }
     }
 
     class MyGLSurfaceView extends GLSurfaceView {
@@ -57,7 +67,7 @@ public class GraphicsFragment extends Fragment {
             super(context);
             setEGLContextClientVersion(2);
             // Set the Renderer for drawing on the GLSurfaceView
-            mRenderer = new MyGLRenderer();
+            mRenderer = new MyGLRenderer(client.sourceBias);
             setRenderer(mRenderer);
 
             setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);

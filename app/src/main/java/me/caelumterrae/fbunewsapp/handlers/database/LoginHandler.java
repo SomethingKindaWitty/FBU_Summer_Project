@@ -39,7 +39,7 @@ public class LoginHandler extends JsonHttpResponseHandler {
                 CurrentUser.createUser(UID, context, SwipeActivity.class);
             }
             else {
-                Toast.makeText(context, "Login Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Invalid Login", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {
