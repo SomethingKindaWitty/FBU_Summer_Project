@@ -6,6 +6,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -183,9 +184,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void openHexagon(float x, float y, Context context, int userID){
-        for (int i = 0; i < hexagons.size(); i++){
-            if(hexagons.get(i).inHexagon(x,y)){
-                hexagons.get(i).open(context, userID);
+        //update openHexagon to check against all hexagons in the hexagonMap
+
+        for(int i = 0; i < hexagonMap.size(); i++){
+            for(int j = 0; j < hexagonMap.get(0).size(); j++){
+                if(hexagonMap.get(i).get(j).inHexagon(x,y)){
+                    Log.i("checking", "checking against hexagon");
+                    hexagonMap.get(i).get(j).open(context, userID);
+                }
             }
         }
     }
