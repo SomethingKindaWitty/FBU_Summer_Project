@@ -21,8 +21,7 @@ public class User {
     }
 
     // Populates everything from JSON except password and categories
-    public static User fromJSON(JSONObject jsonObject) throws JSONException, ParseException {
-        User user = new User();
+    public static void fromJSON(User user, JSONObject jsonObject) throws JSONException {
         user.setUid(jsonObject.getInt("UID"));
         user.setUsername(jsonObject.getString("username"));
         user.setPassword("password");
@@ -30,7 +29,6 @@ public class User {
         user.setPoliticalPreference(jsonObject.getDouble("politicalPreference"));
         user.setNumUpvoted(jsonObject.getInt("numUpvoted"));
         user.setCategories("categories");
-        return user;
     }
 
     @PrimaryKey

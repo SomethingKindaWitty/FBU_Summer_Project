@@ -18,7 +18,7 @@ import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utility.Format;
-import me.caelumterrae.fbunewsapp.utility.Related;
+import me.caelumterrae.fbunewsapp.utility.Timeline;
 
 public class RelatedHandler extends JsonHttpResponseHandler{
     String originalurl;
@@ -50,7 +50,7 @@ public class RelatedHandler extends JsonHttpResponseHandler{
                     rawPosts.add(post);
                 }
             }
-            Related.populateTimeline(rawPosts, context, posts, relatedAdapter);
+            Timeline.populateTimeline(rawPosts, context, posts, relatedAdapter);
             // TODO: populate the Related
             Log.i("TopNewsClient", String.format("Loaded %s posts", results.length()));
         } catch (JSONException e) {

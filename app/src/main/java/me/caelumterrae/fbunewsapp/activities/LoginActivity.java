@@ -35,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
 
         //checks to see if username/password combination already exists in database
         //if not, prompts invalid login
-        //TODO - toasts to explain login/signup denial
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

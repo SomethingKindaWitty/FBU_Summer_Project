@@ -35,6 +35,7 @@ import me.caelumterrae.fbunewsapp.handlers.database.AddRemoveLikeHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.GetLikeHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -61,8 +62,9 @@ public class DetailsActivity extends AppCompatActivity {
         // Populate the fields using an intent
         Bundle bundle = getIntent().getExtras();
         post = Parcels.unwrap(bundle.getParcelable(Post.class.getSimpleName()));
-        userID = bundle.getInt(User.class.getSimpleName());
-        Log.e("DetailsUid",Integer.toString(userID));
+
+        userID = CurrentUser.getUid();
+        Log.e("DetailsUid", Integer.toString(userID));
 
         upVote = findViewById(R.id.btnLike);
         tvTitle = findViewById(R.id.tvTitle);
@@ -81,7 +83,6 @@ public class DetailsActivity extends AppCompatActivity {
         final RelatedAdapter relatedAdapter = new RelatedAdapter(posts, userID);
         rvRelated.setLayoutManager(layoutManager);
         rvRelated.setAdapter(relatedAdapter);
-
 
 
         parseNewsClient = new ParseNewsClient(getApplicationContext());
@@ -135,8 +136,6 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this, SwipeActivity.class);
-        i.putExtra("source", "DetailsActivity");
-        i.putExtra("uid", userID);
         startActivity(i);
         finish();
     }

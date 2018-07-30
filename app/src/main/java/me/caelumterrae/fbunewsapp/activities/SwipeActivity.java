@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
@@ -17,6 +18,8 @@ import org.parceler.Parcels;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.adapters.FragmentAdapter;
@@ -26,13 +29,13 @@ import me.caelumterrae.fbunewsapp.fragments.GraphicsFragment;
 import me.caelumterrae.fbunewsapp.fragments.UserFragment;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class SwipeActivity extends AppCompatActivity {
     private final List<Fragment> fragments = new ArrayList<>();
     private ViewPager viewPager;
     private FragmentAdapter adapter;
-    private int uid;
-    private User user;
+    ParseNewsClient parseNewsClient;
     private BottomNavigationView bottomNavigationView;
 
     @Override
@@ -40,39 +43,41 @@ public class SwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
-        Bundle bundle = getIntent().getExtras();
-        String source = bundle.getString("source");
 
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());
         fragments.add(new GraphicsFragment());
         fragments.add(new UserFragment());
 
-        // If the source is from GetUserHandler
-        // we have finished making our user call and now have the updated object
-        if (source.equals("User")) {
-            user = Parcels.unwrap(bundle.getParcelable("User"));
-            // Creates new bundle to send info to fragments
-            Bundle userobj = new Bundle();
-            userobj.putParcelable("User", Parcels.wrap(user));
-            // Packs bundle to fragment
-            fragments.get(0).setArguments(userobj); // Feed Fragment
-            fragments.get(1).setArguments(userobj); // Graphics fragment
-            fragments.get(2).setArguments(userobj); // User fragment
-        } else { // Every other call must trigger a call to receive the user obj
-            // Pulls uid from other activities and calls ParseNewsClient
-            uid = bundle.getInt("uid");
-            Log.e("Uid", Integer.toString(uid));
-            ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
-            try {
-                parseNewsClient.getUser(uid, new GetUserHandler(getApplicationContext()));
-                Log.e("UserGetCall", "Got User");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+//         // Pulls uid from other activities
+//         parseNewsClient = new ParseNewsClient(getApplicationContext());
+
+//         // If the source is from GetUserHandler
+//         // we have finished making our user call and now have the updated object
+//         if (source.equals("User")) {
+//             user = Parcels.unwrap(bundle.getParcelable("User"));
+//             // Creates new bundle to send info to fragments
+//             Bundle userobj = new Bundle();
+//             userobj.putParcelable("User", Parcels.wrap(user));
+//             // Packs bundle to fragment
+//             fragments.get(0).setArguments(userobj); // Feed Fragment
+//             fragments.get(1).setArguments(userobj); // Graphics fragment
+//             fragments.get(2).setArguments(userobj); // User fragment
+//         } else { // Every other call must trigger a call to receive the user obj
+//             // Pulls uid from other activities and calls ParseNewsClient
+//             uid = bundle.getInt("uid");
+//             Log.e("Uid", Integer.toString(uid));
+//             ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
+//             try {
+//                 parseNewsClient.getUser(uid, new GetUserHandler(getApplicationContext()));
+//                 Log.e("UserGetCall", "Got User");
+//             } catch (UnsupportedEncodingException e) {
+//                 e.printStackTrace();
+//             } catch (JSONException e) {
+//                 e.printStackTrace();
+//             }
+//         }
+
 
         // Grab reference to bottom navigation view and call create function
         bottomNavigationView = findViewById(R.id.bottomNavigation);
@@ -111,11 +116,13 @@ public class SwipeActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        CurrentUser.refreshUser();
     }
 
 

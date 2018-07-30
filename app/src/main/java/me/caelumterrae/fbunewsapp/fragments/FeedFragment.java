@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.model.UserLiked;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class FeedFragment extends Fragment{
 
@@ -35,7 +37,6 @@ public class FeedFragment extends Fragment{
     MediaPlayer mediaPlayer;
     private SwipeRefreshLayout swipeContainer;
     private int userID;
-    private User user;
     private List<UserLiked> userLiked;
     private UserDatabase database;
     private final Object object = "hello";
@@ -50,13 +51,10 @@ public class FeedFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        try {
-            user = Parcels.unwrap(getArguments().getParcelable("User"));
-            userID = user.getUid();
-        } catch (NullPointerException e){
-            user = null;
-        }
+        userID = CurrentUser.getUid();
 
+
+       Log.e("Feedfragment", Integer.toString(userID));
 
 
         // set client

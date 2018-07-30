@@ -62,6 +62,7 @@ import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class UserFragment extends Fragment {
 
@@ -93,11 +94,7 @@ public class UserFragment extends Fragment {
 
         swipeContainer = view.findViewById(R.id.swipeContainer);
 
-        try {
-            user = Parcels.unwrap(getArguments().getParcelable("User"));
-        } catch (NullPointerException e) {
-            user = null;
-        }
+        user = CurrentUser.getUser();
 
         if (user != null){
             createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted());

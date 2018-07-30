@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp.handlers.database;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -10,12 +11,17 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 import cz.msebera.android.httpclient.Header;
+import me.caelumterrae.fbunewsapp.activities.LoginActivity;
+import me.caelumterrae.fbunewsapp.activities.PoliticalActivity;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 
 // This handler gets called in: LoginActivity login button handler
-// This handler: moves user to timeline intent with UID packaged inside
+// This handler: Creates Current User & moves user to timeline intent with UID packaged inside
 public class LoginHandler extends JsonHttpResponseHandler {
 
     Context context;
@@ -29,14 +35,10 @@ public class LoginHandler extends JsonHttpResponseHandler {
             int UID = response.getInt("UID");
             Log.e("uid",String.valueOf(UID));
             if (UID != -1) {
-                // start next intent to Swipeactivity
-                final Intent intent = new Intent(context, SwipeActivity.class);
-                intent.putExtra("uid", UID);
-                intent.putExtra("source","Login");
-                context.startActivity(intent);
+                // Create the master user and start next intent to Swipeactivity
+                CurrentUser.createUser(UID, context, SwipeActivity.class);
             }
             else {
-                // error!!
                 Toast.makeText(context, "Invalid Login", Toast.LENGTH_LONG).show();
             }
 
