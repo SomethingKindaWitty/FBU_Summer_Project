@@ -120,7 +120,4 @@ public class ParseNewsClient {
         Log.e("Backend user","accessed");
     }
 
-
-
-
 }
