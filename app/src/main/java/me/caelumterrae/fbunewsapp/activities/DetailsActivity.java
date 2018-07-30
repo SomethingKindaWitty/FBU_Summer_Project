@@ -34,6 +34,7 @@ import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.NewsDataHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.AddRemoveLikeHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.GetLikeHandler;
+import me.caelumterrae.fbunewsapp.model.Comment;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
@@ -122,7 +123,7 @@ public class DetailsActivity extends AppCompatActivity {
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //do nothing yet
+                onCommentsClick();
             }
         });
     }
@@ -140,6 +141,12 @@ public class DetailsActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void onCommentsClick() {
+        Intent intent = new Intent(this, CommentActivity.class);
+        intent.putExtra("URL", post.getUrl());
+        startActivity(intent);
     }
 
     @Override
