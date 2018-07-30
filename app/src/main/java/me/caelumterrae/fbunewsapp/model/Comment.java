@@ -22,6 +22,8 @@ public class Comment {
     @ColumnInfo(name = "comment")
     private String comment;
 
+    private String date;
+
     public Comment(){
         //For Parcel
     }
@@ -56,5 +58,13 @@ public class Comment {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
