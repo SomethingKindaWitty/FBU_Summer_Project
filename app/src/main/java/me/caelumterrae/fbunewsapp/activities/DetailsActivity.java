@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -44,6 +45,7 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvBody;
     ImageView ivMedia;
     ImageButton upVote;
+    Button commentButton;
     Post post;
     Drawable main;
     Drawable liked;
@@ -73,6 +75,7 @@ public class DetailsActivity extends AppCompatActivity {
         ivMedia = findViewById(R.id.ivMedia);
         upVote = findViewById(R.id.btnLike);
         pb = findViewById(R.id.progressBar);
+        commentButton = findViewById(R.id.commentButton);
         upVote.setVisibility(View.INVISIBLE); // Hide button until it loads in Getlikehandler
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -114,6 +117,12 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onUpvoteClick();
+            }
+        });
+        commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //do nothing yet
             }
         });
     }
