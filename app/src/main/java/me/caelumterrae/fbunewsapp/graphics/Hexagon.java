@@ -59,6 +59,10 @@ public class Hexagon {
     private float origin[] = {0.f,0.f};
     private float radius;
 
+    public static float X_OFF = 0.5f;//0th row
+    public static float Y_OFF = 0.45f;//multiply by difference to offset the y
+    public static float ODD_X_OFF = 0.25f; //add this to all x offsets if they are odd.
+
     private final float[] modelMatrix = new float[16];
     private final float[] translateMatrix = new float[16];
 

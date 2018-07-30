@@ -1,10 +1,13 @@
 package me.caelumterrae.fbunewsapp.fragments;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +17,10 @@ import android.view.ViewGroup;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
+import me.caelumterrae.fbunewsapp.graphics.Hexagon;
 import me.caelumterrae.fbunewsapp.graphics.MyGLRenderer;
 import me.caelumterrae.fbunewsapp.model.User;
 
@@ -26,6 +32,8 @@ public class GraphicsFragment extends Fragment {
     private User user;
     private int userID;
     TopNewsClient client;
+    ArrayList<ArrayList<Hexagon>> hexagonMap;
+
 
     public GraphicsFragment() {
         super();
@@ -36,6 +44,8 @@ public class GraphicsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,10 +73,15 @@ public class GraphicsFragment extends Fragment {
 
         private final MyGLRenderer mRenderer;
 
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         public MyGLSurfaceView(Context context) {
             super(context);
             setEGLContextClientVersion(2);
             // Set the Renderer for drawing on the GLSurfaceView
+            //x and then y
+
+
             mRenderer = new MyGLRenderer(client.sourceBias);
             setRenderer(mRenderer);
 

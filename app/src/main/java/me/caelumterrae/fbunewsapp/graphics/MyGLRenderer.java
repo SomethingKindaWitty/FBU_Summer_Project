@@ -19,10 +19,7 @@ import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utility.Format;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
-    private ArrayList<Hexagon> hexagons;
     private ArrayList<ArrayList<Hexagon>> hexagonMap;
-    private HashMap<String, String> sourceBias;
-
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -30,6 +27,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
     private float[] mTranslationMatrix = new float[16];
+
+    public HashMap<String, String> sourceBias;
 
     private float X_OFF = 0.5f;//0th row
     private float Y_OFF = 0.45f;//multiply by difference to offset the y
@@ -42,15 +41,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.sourceBias = sourceBias;
     }
 
+    public MyGLRenderer(ArrayList<ArrayList<Hexagon>> hexagonMap){
+        this.hexagonMap = hexagonMap;
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        hexagons = new ArrayList<>();
-        //x and then y
         hexagonMap = new ArrayList<ArrayList<Hexagon>>();
-
 
 
         for(int x = 0; x <=10; x++){
