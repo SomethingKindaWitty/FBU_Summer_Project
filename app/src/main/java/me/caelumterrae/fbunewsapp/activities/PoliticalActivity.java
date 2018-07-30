@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp.activities;
 
 import android.content.Intent;
+import android.os.UserManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import me.caelumterrae.fbunewsapp.handlers.database.PoliticalAffHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.SignupHandler;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class PoliticalActivity extends AppCompatActivity {
 
@@ -27,22 +29,19 @@ public class PoliticalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_political);
-
-        Bundle bundle = getIntent().getExtras();
-        uid = bundle.getInt("uid");
-
+        uid = CurrentUser.getUid();
         seekBar = findViewById(R.id.sbSeekBar); // ranges from 0 (liberal) to 100 (conservative)
 
     }
 
-    // Submit Button Handler - Saves data from button and brings user to activity main
+    // Submit Button Handler - Saves data from button and brings user to swipe activity
     public void onSubmit(View v) {
 
         ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
-        //TODO- make handler for setting political affiliation
         try {
             parseNewsClient.setAffiliation(uid, seekBar.getProgress(), new PoliticalAffHandler(getApplicationContext()));
+            CurrentUser.refreshUser();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {

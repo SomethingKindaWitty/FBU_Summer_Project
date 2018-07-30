@@ -24,6 +24,7 @@ import me.caelumterrae.fbunewsapp.fragments.GraphicsFragment;
 import me.caelumterrae.fbunewsapp.fragments.UserFragment;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class SwipeActivity extends AppCompatActivity {
     private final List<Fragment> fragments = new ArrayList<>();
@@ -85,41 +86,8 @@ public class SwipeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        user = new User();
-        user.setUsername("");
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        try {
-            parseNewsClient.getUser(uid, new GetUserHandler(user, latch));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        Log.e("Making", "new thread");
-        new Thread() {
-            @Override
-            public void run() {
-             while (user.getUsername().isEmpty()) {
-                 Log.e("username", "isempty");
-                 try {
-                     latch.await();
-                 } catch (InterruptedException e) {
-                     e.printStackTrace();
-                 }
-             }
-            Log.e("GetUserHandler:", user.getUsername());
-             Log.e("GetUserHandler:", Integer.toString(user.getUid()));
-            Log.e("UserGetCall", "About 2 bundle!!!");
-            // Creates new bundle to send info to fragments
-            Bundle userobj = new Bundle();
-            userobj.putParcelable(User.class.getSimpleName(), Parcels.wrap(user));
-            // Packs bundle to fragment
-
-            }
-        }.start();
+        CurrentUser.refreshUser();
+        user = User
     }
 
 

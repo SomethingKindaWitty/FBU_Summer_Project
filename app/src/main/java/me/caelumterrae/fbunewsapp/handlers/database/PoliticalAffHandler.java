@@ -16,6 +16,8 @@ import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 public class PoliticalAffHandler extends JsonHttpResponseHandler {
     Context context;
 
+    // This handler gets called in: ??
+    // This handler: Moves user to swipeactivity
     public PoliticalAffHandler(Context context) {
         this.context = context;
     }
@@ -23,19 +25,13 @@ public class PoliticalAffHandler extends JsonHttpResponseHandler {
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         try {
-            Boolean bool = response.getBoolean("isSet");
-            // TODO- change backend to also give back uid
             int UID = response.getInt("UID");
-            if (bool) {
-                // start next intent to Swipeactivity
+            if (response.getBoolean("isSet")) {
                 final Intent intent = new Intent(context, SwipeActivity.class);
-                intent.putExtra("uid", UID);
-                intent.putExtra("source","Political");
                 context.startActivity(intent);
             }
             else {
-                // error!!
-                Toast.makeText(context, "Setting Affiliation Error", Toast.LENGTH_LONG);
+                Toast.makeText(context, "Setting Affiliation Error", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {

@@ -24,15 +24,15 @@ import me.caelumterrae.fbunewsapp.model.User;
 public class GetUserHandler extends JsonHttpResponseHandler {
 
 
-    Semaphore semaphore;
     User user;
-    Object lock;
-    CountDownLatch latch;
+    Class<?> nextClass;
+    Context context;
 
-    public GetUserHandler(User user, CountDownLatch latch) throws JSONException {
+    // Refreshes/updates user object. If nextClass if valid, will bring the user to nextClass when done
+    public GetUserHandler(User user, Context context, Class<?> nextClass) throws JSONException {
         this.user = user;
-        this.latch = latch;
-        Log.e("GetUserHandler", "Instantiated");
+        this.context = context;
+        this.nextClass = nextClass;
     }
 
     @Override
@@ -40,7 +40,10 @@ public class GetUserHandler extends JsonHttpResponseHandler {
         try {
             User.fromJSON(user, response); // [!!] see here for converting response -> User
             Log.e("GetUserHandler:", user.getUsername());
-            latch.countDown();
+            if (nextClass != null) {
+                final Intent intent = new Intent(context, nextClass);
+                context.startActivity(intent);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

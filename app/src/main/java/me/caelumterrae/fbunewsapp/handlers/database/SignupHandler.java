@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,9 +25,11 @@ import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.RelatedHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 // This handler gets called in: Login Activity signup button handler
-// This handler: moves user to Political Activity with UID packaged inside
+// This handler: creates CurrentUser & moves user to Political Activity with UID packaged inside
 public class SignupHandler extends JsonHttpResponseHandler {
 
     Context context;
@@ -39,18 +42,16 @@ public class SignupHandler extends JsonHttpResponseHandler {
         try {
             int UID = response.getInt("UID");
             if (UID != -1) {
-                // start next intent to Political Activity
-                // TODO extract uid from bundle
-                final Intent intent = new Intent(context, PoliticalActivity.class);
-                intent.putExtra("uid", UID);
-                context.startActivity(intent);
+                // Create the master user and start next intent to Political Activity
+                CurrentUser.createUser(UID, context, PoliticalActivity.class);
             }
             else {
-                // error!!
-                Toast.makeText(context, "Signup Error - User already exists", Toast.LENGTH_LONG);
+                Toast.makeText(context, "Signup Error - User already exists", Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 

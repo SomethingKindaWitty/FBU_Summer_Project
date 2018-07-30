@@ -38,7 +38,7 @@ public class AddRemoveLikeHandler extends JsonHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         Log.e("AddRemoveLikeHandler", "Successful response");
 
-        // new Handler uses main thread to update UI || allows us to process each click in line
+        // new Handler uses main thread to update UI || allows us to process each click linearly
         new Handler().post(new Runnable() {
             @Override
             public void run() {
