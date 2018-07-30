@@ -1,22 +1,22 @@
-package me.caelumterrae.fbunewsapp.adapters;
-
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import java.util.List;
-
-import me.caelumterrae.fbunewsapp.R;
-import me.caelumterrae.fbunewsapp.model.Comment;
-import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.model.User;
-import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
+//package me.caelumterrae.fbunewsapp.adapters;
+//
+//import android.content.Context;
+//import android.support.annotation.NonNull;
+//import android.support.v7.widget.RecyclerView;
+//import android.view.LayoutInflater;
+//import android.view.View;
+//import android.view.ViewGroup;
+//import android.widget.ImageView;
+//import android.widget.ProgressBar;
+//import android.widget.TextView;
+//
+//import java.util.List;
+//
+//import me.caelumterrae.fbunewsapp.R;
+//import me.caelumterrae.fbunewsapp.model.Comment;
+//import me.caelumterrae.fbunewsapp.model.Post;
+//import me.caelumterrae.fbunewsapp.model.User;
+//import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 //
 //public class CommentAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 //    List<Comment> mComments;
