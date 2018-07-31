@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ public class ParseNewsClient {
     public final static String TAG = "ParseNewsClient";
     public final static String API_BASE_URL = "https://fbu-api.herokuapp.com";
     public final static String ARTICLE_URL_KEY = "url";
+    public final static String GET_ARTICLE_COMMENTS_KEY = "articleUrl";
     Context context;
 
     AsyncHttpClient client;
@@ -118,6 +120,25 @@ public class ParseNewsClient {
         entity = new StringEntity(jsonObject.toString());
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
         Log.e("Backend user","accessed");
+    }
+
+    public void getComments(final String articleUrl, JsonHttpResponseHandler jsonHttpResponseHandler){
+        String url = API_BASE_URL + "/comment";
+        RequestParams params = new RequestParams();
+        params.put(GET_ARTICLE_COMMENTS_KEY, articleUrl);
+        client.get(url, params, jsonHttpResponseHandler);
+    }
+
+    public void postComment(int UID, String body, String articleUrl, JsonHttpResponseHandler jsonHttpResponseHandler) throws JSONException, UnsupportedEncodingException {
+        String url = API_BASE_URL + "/comment";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("UID", UID);
+        jsonObject.put("body", body);
+        jsonObject.put("articleUrl", articleUrl);
+        entity = new StringEntity(jsonObject.toString());
+        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+        Log.e("Backend comment", "posted");
     }
 
 
