@@ -10,19 +10,18 @@ import org.parceler.Parcel;
 @Parcel
 public class Comment {
 
-    @PrimaryKey
+
     private int id;
 
-    @ColumnInfo(name = "UserID")
     private int uid;
 
-    @ColumnInfo(name = "url")
     private String url;
 
-    @ColumnInfo(name = "comment")
     private String comment;
 
     private String date;
+
+    private String username;
 
     public Comment(){
         //For Parcel
@@ -66,5 +65,13 @@ public class Comment {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
