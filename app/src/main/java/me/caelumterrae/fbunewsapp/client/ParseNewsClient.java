@@ -123,6 +123,7 @@ public class ParseNewsClient {
     }
 
     public void getComments(final String articleUrl, JsonHttpResponseHandler jsonHttpResponseHandler){
+        Log.e("getComments", articleUrl);
         String url = API_BASE_URL + "/comment";
         RequestParams params = new RequestParams();
         params.put(GET_ARTICLE_COMMENTS_KEY, articleUrl);

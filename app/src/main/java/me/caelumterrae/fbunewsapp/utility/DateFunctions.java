@@ -15,6 +15,10 @@ public class DateFunctions {
         return dateFormat.format(cal.getTime());
     }
 
+    public static Date getCurrentDate()  {
+        return new Date();
+    }
+
     public static String getPreviousDate(int daysBack) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
@@ -27,4 +31,5 @@ public class DateFunctions {
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         return format.parse(tempTime);
     }
+
 }
