@@ -1,17 +1,21 @@
 package me.caelumterrae.fbunewsapp.model;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+//import android.arch.persistence.room.ColumnInfo;
+//import android.arch.persistence.room.Entity;
+//import android.arch.persistence.room.PrimaryKey;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.parceler.Parcel;
 
-@Entity
+import java.text.ParseException;
+import java.util.Date;
+
+import me.caelumterrae.fbunewsapp.utility.DateFunctions;
+
 @Parcel
 public class Comment {
-
-
-    private int id;
 
     private int uid;
 
@@ -19,20 +23,22 @@ public class Comment {
 
     private String comment;
 
-    private String date;
+    private Date date;
 
     private String username;
 
+    public static Comment fromJSON(JSONObject jsonObject) throws JSONException, ParseException {
+        Comment comment = new Comment();
+        comment.setDate(DateFunctions.getRelativeDate(jsonObject.getString("createdAt")));
+        comment.setUrl(jsonObject.getString("articleUrl"));
+        comment.setComment(jsonObject.getString("body"));
+        comment.setUsername(jsonObject.getString("username"));
+        comment.setUid(jsonObject.getInt("uid"));
+        return comment;
+    }
+
     public Comment(){
         //For Parcel
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int uid) {
-        this.id = id;
     }
 
     public int getUid() {
@@ -59,11 +65,11 @@ public class Comment {
         this.comment = comment;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -73,5 +79,10 @@ public class Comment {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRelativeTime() {
+        PrettyTime p = new PrettyTime();
+        return p.format(date);
     }
 }

@@ -18,7 +18,6 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
-import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;

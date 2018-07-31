@@ -34,28 +34,28 @@ public class CommentActivity extends AppCompatActivity {
         // set adapter
         rvComments.setAdapter(commentAdapter);
 
-        Comment c1 = new Comment();
-        c1.setComment("educated, thoughtful comment");
-        c1.setDate("yesterday");
-        c1.setId(1);
-        c1.setUid(123);
-        c1.setUrl("nothing");
-        comments.add(0, c1);
-        commentAdapter.notifyItemChanged(0);
-
-        Comment c2 = new Comment();
-        c2.setComment("poo");
-        c2.setDate("yesterday");
-        c2.setId(2);
-        c2.setUid(123);
-        c2.setUrl("nothing");
-        comments.add(0, c2);
-        commentAdapter.notifyItemChanged(0);
-
-        for(int i = 0;  i <30; i++) {
-            comments.add(0, c2);
-            commentAdapter.notifyItemChanged(0);
-        }
+//        Comment c1 = new Comment();
+//        c1.setComment("educated, thoughtful comment");
+//        c1.setDate("yesterday");
+//        c1.setId(1);
+//        c1.setUid(123);
+//        c1.setUrl("nothing");
+//        comments.add(0, c1);
+//        commentAdapter.notifyItemChanged(0);
+//
+//        Comment c2 = new Comment();
+//        c2.setComment("poo");
+//        c2.setDate("yesterday");
+//        c2.setId(2);
+//        c2.setUid(123);
+//        c2.setUrl("nothing");
+//        comments.add(0, c2);
+//        commentAdapter.notifyItemChanged(0);
+//
+//        for(int i = 0;  i <30; i++) {
+//            comments.add(0, c2);
+//            commentAdapter.notifyItemChanged(0);
+//        }
 
 
 
