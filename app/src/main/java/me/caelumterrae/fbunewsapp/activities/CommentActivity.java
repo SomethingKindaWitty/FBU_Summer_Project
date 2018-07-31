@@ -34,14 +34,14 @@ public class CommentActivity extends AppCompatActivity {
         // set adapter
         rvComments.setAdapter(commentAdapter);
 
-
         Comment c1 = new Comment();
-        c1.setComment("poop");
+        c1.setComment("educated, thoughtful comment");
         c1.setDate("yesterday");
         c1.setId(1);
         c1.setUid(123);
         c1.setUrl("nothing");
         comments.add(c1);
+        commentAdapter.notifyDataSetChanged();
         commentAdapter.notifyItemChanged(0);
 
     }

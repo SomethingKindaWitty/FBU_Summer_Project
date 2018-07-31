@@ -59,7 +59,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mComments.size();
     }
 
     // Clean all elements of the recycler
