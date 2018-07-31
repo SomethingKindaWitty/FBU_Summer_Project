@@ -8,21 +8,24 @@
 
     <ImageView
         android:id="@+id/tvProfileImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
         app:srcCompat="@drawable/backgroundprofile" />
 
     <EditText
         android:id="@+id/etComment"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:layout_toEndOf="@+id/tvProfileImage"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Add a public comment..." />
+        android:hint="Add a public comment..."
+        android:inputType="textPersonName" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvComments"

@@ -48,7 +48,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         Comment comment = mComments.get(i);
 
         viewHolder.tvComment.setText(comment.getComment());
-        viewHolder.tvUsername.setText(comment.getUid());
+        viewHolder.tvUsername.setText(user.getUsername());
         viewHolder.tvDate.setText(comment.getDate());
 
         Glide.with(context)
