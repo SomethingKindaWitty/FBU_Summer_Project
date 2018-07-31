@@ -7,6 +7,13 @@ import android.opengl.Matrix;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
@@ -14,6 +21,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import cz.msebera.android.httpclient.Header;
+import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utility.Format;
 
@@ -33,7 +42,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private float X_OFF = 0.5f;//0th row
     private float Y_OFF = 0.45f;//multiply by difference to offset the y
     private float ODD_X_OFF = 0.25f; //add this to all x offsets if they are odd.
-
+    private TopNewsClient client;
     public MyGLRenderer() {
     }
 
@@ -45,12 +54,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+        client = new TopNewsClient();
         hexagons = new ArrayList<>();
         //x and then y
         hexagonMap = new ArrayList<ArrayList<Hexagon>>();
-
-
 
         for(int x = 0; x <=10; x++){
             ArrayList<Hexagon> row = new ArrayList<>();
@@ -75,6 +82,34 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             }
             hexagonMap.add(row);
         }
+
+        client.getTopNews(new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try{
+                    JSONArray results = response.getJSONArray(TopNewsClient.ROOT_NODE);
+                    final ArrayList<Post> rawPosts = new ArrayList<>();
+                    for (int i = 0; i < results.length(); i++){
+                        Post post = Post.fromJSON(results.getJSONObject(i));
+                        String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
+                        post.setPoliticalBias(Format.biasToNum(bias));
+                        rawPosts.add(post);
+                    }
+
+                    //Put the posts into their respective proper hexagons.
+
+                }catch (JSONException e){
+
+                }catch (ParseException e){
+
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 
     public void onDrawFrame(GL10 unused) {

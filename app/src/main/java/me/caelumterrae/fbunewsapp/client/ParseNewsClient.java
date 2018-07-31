@@ -140,8 +140,4 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
         Log.e("Backend comment", "posted");
     }
-
-
-
-
 }

@@ -44,6 +44,11 @@ public class TopNewsClient extends AppCompatActivity {
         context = c;
     }
 
+    public TopNewsClient() {
+        client = new AsyncHttpClient(); // TODO: close
+        sourceBias = Timeline.populateBiasHashMap(client);
+    }
+
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
     public void getTopNews(JsonHttpResponseHandler jsonHttpResponseHandler) {
