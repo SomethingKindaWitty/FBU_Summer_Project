@@ -29,7 +29,7 @@ public class Comment {
 
     public static Comment fromJSON(JSONObject jsonObject) throws JSONException, ParseException {
         Comment comment = new Comment();
-        comment.setDate(DateFunctions.getRelativeDate(jsonObject.getString("createdAt")));
+        comment.setDate(DateFunctions.getRelativeDateComment(jsonObject.getString("createdAt")));
         comment.setUrl(jsonObject.getString("articleUrl"));
         comment.setComment(jsonObject.getString("body"));
         comment.setUsername(jsonObject.getString("username"));
