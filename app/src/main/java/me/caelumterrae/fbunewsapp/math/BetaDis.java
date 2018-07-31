@@ -12,9 +12,10 @@ public class BetaDis {
     /* Takes in the user's political affiliation number to gives us the political category we should
      * draw from
      */
-
-    private static final double ALPHA_CONST = 62.00051;
-    private static final double BETA_CONST = 37.99949;
+    private static final int ALPHA_YOFFSET = 1; // old 62.00051;
+    private static final int BETA_YOFFSET = 2; // old 37.99949;
+    private static final double ALPHA_OFFSET = 0.06333333; // old 62.00051;
+    private static final double BETA_OFFSET = 0.04333333; // old 37.99949;
     public double alpha;
     public double beta;
     private BetaDistribution betaDis;
@@ -25,8 +26,9 @@ public class BetaDis {
      * the probabilities of each of the 5 political categories
      */
     public BetaDis(double affiliation) {
-        alpha = getGaussianValue(affiliation, ALPHA_CONST);
-        beta = getGaussianValue(affiliation, BETA_CONST);
+        alpha = quarticRegressionToParameter(affiliation, ALPHA_OFFSET, ALPHA_YOFFSET);
+        beta = quarticRegressionToParameter(affiliation, BETA_OFFSET, BETA_YOFFSET);
+        Log.e("Beta", String.format("Affilliation %f, Alpha %f, Beta %f", affiliation, alpha, beta));
 
         betaDis = new BetaDistribution(alpha, beta);
 
@@ -58,6 +60,12 @@ public class BetaDis {
 
     private static double getGaussianValue(double affiliation, double offset) {
         return 2.980524*Math.exp(-Math.pow(affiliation - offset,2)/2186.24326502);
+    }
+
+    private static double quarticRegressionToParameter(double affiliation, double offset, int yOffset) {
+        return yOffset + offset*affiliation - 0.002666667*Math.pow(affiliation,2) + 0.00004266667
+                * Math.pow(affiliation,3) - 2.133333*Math.pow(10,-7)*Math.pow(affiliation,4);
+
     }
 
 }
