@@ -53,7 +53,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         Glide.with(context)
             .load(R.drawable.duckie)
-                .apply(RequestOptions.centerCropTransform())
+                .apply(new RequestOptions().fitCenter())
                 .into(viewHolder.ivProfileImage);
     }
 
