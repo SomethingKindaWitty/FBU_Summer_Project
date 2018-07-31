@@ -49,7 +49,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         viewHolder.tvComment.setText(comment.getComment());
         viewHolder.tvUsername.setText(user.getUsername());
-        viewHolder.tvDate.setText(comment.getDate());
+        viewHolder.tvDate.setText(comment.getRelativeTime());
 
         Glide.with(context)
             .load(R.drawable.duckie)
