@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -39,6 +40,8 @@ public class GetCommentsHandler extends JsonHttpResponseHandler {
             }
             Log.e("GetCommentsHandler", String.format("Loaded %s comments", results.length()));
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
