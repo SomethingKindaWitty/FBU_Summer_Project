@@ -15,7 +15,6 @@ import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.database.PoliticalAffHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.SignupHandler;
 import me.caelumterrae.fbunewsapp.model.User;
-import me.caelumterrae.fbunewsapp.file.PoliticalAffData;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class PoliticalActivity extends AppCompatActivity {

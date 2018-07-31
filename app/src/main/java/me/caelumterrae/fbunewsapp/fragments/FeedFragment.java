@@ -21,11 +21,9 @@ import java.util.List;
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
-import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
-import me.caelumterrae.fbunewsapp.model.UserLiked;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class FeedFragment extends Fragment{
@@ -37,9 +35,6 @@ public class FeedFragment extends Fragment{
     MediaPlayer mediaPlayer;
     private SwipeRefreshLayout swipeContainer;
     private int userID;
-    private List<UserLiked> userLiked;
-    private UserDatabase database;
-    private final Object object = "hello";
 
     @Nullable
     @Override

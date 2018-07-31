@@ -1,18 +1,19 @@
 package me.caelumterrae.fbunewsapp.model;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+//import android.arch.persistence.room.ColumnInfo;
+//import android.arch.persistence.room.Entity;
+//import android.arch.persistence.room.PrimaryKey;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.parceler.Parcel;
 
 import java.text.ParseException;
 
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 
-@Entity
+//@Entity
 @Parcel
 public class User {
 
@@ -31,26 +32,26 @@ public class User {
         user.setCategories("categories");
     }
 
-    @PrimaryKey
+//    @PrimaryKey
     int uid;
-
-    @ColumnInfo(name = "username")
+//
+//    @ColumnInfo(name = "username")
     String username;
-
-    @ColumnInfo(name = "password")
+//
+//    @ColumnInfo(name = "password")
     String password;
 
-    @ColumnInfo(name = "profileImage")
+//    @ColumnInfo(name = "profileImage")
     String profileUrl;
 
     //stored as a String separated by spaces due to database limitations
-    @ColumnInfo(name = "categories")
+//    @ColumnInfo(name = "categories")
     String categories;
 
-    @ColumnInfo(name = "politicalPreference")
+//    @ColumnInfo(name = "politicalPreference")
     double politicalPreference;
 
-    @ColumnInfo(name = "numUpvoted")
+//    @ColumnInfo(name = "numUpvoted")
     int numUpvoted;
 
     public int getUid() {
@@ -108,4 +109,5 @@ public class User {
     public void setNumUpvoted(int numUpvoted) {
         this.numUpvoted = numUpvoted;
     }
+
 }

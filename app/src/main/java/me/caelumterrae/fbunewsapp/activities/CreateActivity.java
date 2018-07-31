@@ -14,7 +14,6 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import me.caelumterrae.fbunewsapp.R;
-import me.caelumterrae.fbunewsapp.database.UserDatabase;
 import me.caelumterrae.fbunewsapp.model.User;
 
 public class CreateActivity extends AppCompatActivity {
@@ -31,18 +30,12 @@ public class CreateActivity extends AppCompatActivity {
     public ArrayList<String> categories;
     public String categoryString = "";
     private User user;
-    private UserDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        if (database == null){
-            Log.e("Database", "failed to create");
-        }else{
-            Log.e("Database", "created");
-        }
 
         business = findViewById(R.id.business);
         entertainment = findViewById(R.id.entertainment);
@@ -70,18 +63,6 @@ public class CreateActivity extends AppCompatActivity {
                         categoryString += categories.get(i) + " ";
                     }
                     user.setCategories(categoryString);
-                    Intent i = new Intent(CreateActivity.this, SwipeActivity.class);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            database.userDao().insertUser(user);
-                            Log.e("User","inserted");
-                        }
-                    }).start();
-                    i.putExtra("uid", user.getUid());
-                    startActivity(i);
-                    finish();
-                    Log.e("Intent","started");
                 }
             }
         });
