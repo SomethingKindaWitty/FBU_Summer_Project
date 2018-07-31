@@ -7,6 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONException;
 import org.parceler.Parcels;
@@ -34,6 +38,7 @@ public class CommentActivity extends AppCompatActivity {
     EditText etComment;
     String url;
     ParseNewsClient parseNewsClient;
+    ImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,9 @@ public class CommentActivity extends AppCompatActivity {
 
         rvComments = findViewById(R.id.rvComments);
         ibSend = findViewById(R.id.ibSend);
+        profileImage = findViewById(R.id.tvProfileImage);
         etComment = findViewById(R.id.etComment);
+
         // init the ArrayList (data source)
         comments = new ArrayList<>();
         // construct adapter from data source
@@ -57,6 +64,11 @@ public class CommentActivity extends AppCompatActivity {
         // set adapter
         rvComments.setAdapter(commentAdapter);
 
+        Glide.with(getApplicationContext())
+                .load(R.drawable.duckie)
+                .apply(new RequestOptions().fitCenter())
+                .into(profileImage);
+
         parseNewsClient.getComments(url, new GetCommentsHandler(getApplicationContext(), commentAdapter,
                 comments));
 
@@ -64,8 +76,10 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Manually add comment to feed and then post it to server
+                // and reset EditText
                 Comment c = new Comment();
                 c.setComment(etComment.getText().toString());
+                etComment.setText("");
                 c.setDate(DateFunctions.getCurrentDate());
                 c.setUid(CurrentUser.getUid());
                 c.setUrl(url);
@@ -83,31 +97,6 @@ public class CommentActivity extends AppCompatActivity {
                 }
             }
         });
-
-//        Comment c1 = new Comment();
-//        c1.setComment("educated, thoughtful comment");
-//        c1.setDate("yesterday");
-//        c1.setId(1);
-//        c1.setUid(123);
-//        c1.setUrl("nothing");
-//        comments.add(0, c1);
-//        commentAdapter.notifyItemChanged(0);
-//
-//        Comment c2 = new Comment();
-//        c2.setComment("poo");
-//        c2.setDate("yesterday");
-//        c2.setId(2);
-//        c2.setUid(123);
-//        c2.setUrl("nothing");
-//        comments.add(0, c2);
-//        commentAdapter.notifyItemChanged(0);
-//
-//        for(int i = 0;  i <30; i++) {
-//            comments.add(0, c2);
-//            commentAdapter.notifyItemChanged(0);
-//        }
-
-
 
     }
 }
