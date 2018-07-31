@@ -228,6 +228,10 @@ public class Hexagon {
         Log.i("Touchevent", "Origin at x:" + origin[0] + "  y:" + origin[1]);
     }
 
+    public void setPost(Post post){
+        this.post = post;
+    }
+
     public int getColor(){
         // TODO: convert a political affiliation to the proper color.
         return 0;

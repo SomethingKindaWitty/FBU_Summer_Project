@@ -1,16 +1,19 @@
 package me.caelumterrae.fbunewsapp.model;
 
+import android.content.Context;
+import android.content.Intent;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.parceler.Parcel;
+import org.parceler.Parcels;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
 
+import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 
 @Parcel
@@ -146,5 +149,13 @@ public class Post {
 
     public void setUpvoted(boolean upvoted) {
         isUpvoted = upvoted;
+    }
+
+    public void open(Context context, int userId){
+        Intent i = new Intent(context, DetailsActivity.class);
+        i.putExtra(Post.class.getSimpleName(), Parcels.wrap(this));
+        i.putExtra("source","Login");
+        i.putExtra(User.class.getSimpleName(), userId);
+        context.startActivity(i);
     }
 }
