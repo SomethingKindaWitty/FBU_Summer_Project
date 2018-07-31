@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -43,17 +44,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Comment comment = mComments.get(i);
 
         viewHolder.tvComment.setText(comment.getComment());
         viewHolder.tvUsername.setText(comment.getUid());
         viewHolder.tvDate.setText(comment.getDate());
 
-//        Glide.with(context) {
-//            .load(R.drawable.duckie)
-//
-//        }
+        Glide.with(context)
+            .load(R.drawable.duckie)
+                .apply(RequestOptions.centerCropTransform())
+                .into(viewHolder.ivProfileImage);
     }
 
     @Override
