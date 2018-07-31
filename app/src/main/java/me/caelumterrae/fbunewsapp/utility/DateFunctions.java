@@ -32,4 +32,10 @@ public class DateFunctions {
         return format.parse(tempTime);
     }
 
+    public static Date getRelativeDateComment(String tempTime) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS");
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return format.parse(tempTime);
+    }
+
 }
