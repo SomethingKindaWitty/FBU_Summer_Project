@@ -4,11 +4,8 @@
     android:id="@+id/cvCommentRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     android:padding="3dp"
-    android:layout_marginLeft="@dimen/grid_margin"
-    android:layout_marginRight="@dimen/grid_margin"
-    android:layout_marginTop="@dimen/cell_margin"
+    android:layout_margin="2dp"
     android:background="@android:color/white"
     card_view:cardCornerRadius="2dp"
     card_view:cardElevation="2dp">
@@ -60,14 +57,6 @@
                 android:layout_margin="5dp"
                 android:text="Date"
                 android:textColor="@android:color/darker_gray" />
-
-            <ProgressBar
-                android:id="@+id/pb"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="265dp" />
 
         </RelativeLayout>
     </LinearLayout>
