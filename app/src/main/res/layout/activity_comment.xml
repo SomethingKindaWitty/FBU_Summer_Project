@@ -38,10 +38,9 @@
         android:id="@+id/ibSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="3dp"
-        android:layout_toEndOf="@+id/etComment"
         android:background="@android:color/transparent"
         android:tint="@color/sea_blue"
         app:srcCompat="@drawable/send" />

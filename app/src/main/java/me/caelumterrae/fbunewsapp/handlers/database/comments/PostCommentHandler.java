@@ -15,7 +15,7 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.PoliticalActivity;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
-// This handler gets called in:
+// This handler gets called in: CommentActivity
 // This handler: Toasts if comment is successfully posted or failed to post
 public class PostCommentHandler extends JsonHttpResponseHandler  {
 
