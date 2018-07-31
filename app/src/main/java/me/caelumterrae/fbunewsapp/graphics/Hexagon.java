@@ -134,7 +134,7 @@ public class Hexagon {
     private final int vertexCount = pentagonCoords.length / COORDS_PER_VERTEX;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
-    public void draw(float[] mvpMatrix) {
+    public void draw(float[] mvpMatrix, int bias) {
         // Add program to OpenGL ES environment
         GLES20.glUseProgram(mProgram);
 
@@ -160,7 +160,7 @@ public class Hexagon {
 //        }
         // Set color for drawing the hexagon depending on politicalAffiliation
 
-        int bias = post.getPoliticalBias();
+
         switch(bias){
             case 100:
                 GLES20.glUniform4fv(mColorHandle, 1, right, 0);
