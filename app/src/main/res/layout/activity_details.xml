@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activities.DetailsActivity">
 
     <ScrollView
@@ -52,6 +53,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/placeholder_text"
                 android:textAlignment="textStart"
+                android:textColor="#212121"
                 android:textSize="15sp" />
 
             <android.support.v7.widget.RecyclerView
@@ -86,9 +88,11 @@
                 android:id="@+id/commentButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/progressBar"
                 android:layout_below="@+id/tvBody"
-                android:text="View comments" />
+                android:layout_toEndOf="@+id/btnLike"
+                android:text="View Comments"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/sea_blue" />
 
         </RelativeLayout>
     </ScrollView>

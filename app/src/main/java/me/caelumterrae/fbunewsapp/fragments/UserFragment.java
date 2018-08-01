@@ -210,7 +210,7 @@ public class UserFragment extends Fragment {
                     .into(profileImage);
         }
 
-        // Sets up beta distribution graph ---- TODO: replace affiliation w/ real affiliation - done
+        // Sets up beta distribution graph ---
         // TODO put this in another function
         BetaDis betaDis = new BetaDis(politicalRounded);
         LineChart betachart = view.findViewById(R.id.betachart);
@@ -262,10 +262,6 @@ public class UserFragment extends Fragment {
         SparseIntArray values = new SparseIntArray(5);
         ArrayList<RadarEntry> radarEntries = new ArrayList<>();
         ArrayList<IRadarDataSet> radarDataSets = new ArrayList<>();
-        radarChart.getLegend().setEnabled(false);
-        Description desc2 = new Description();
-        desc2.setText("# of posts you upvoted across the political spectrum");
-        radarChart.setDescription(desc2);
 
 
         affiliation.append(1, R.string.left);
@@ -305,7 +301,7 @@ public class UserFragment extends Fragment {
         for (int i = 1; i <= 5; i++) {
             radarEntries.add(new RadarEntry(values.get(i)));
         }
-        RadarDataSet dataSet2 = new RadarDataSet(radarEntries, "");
+        RadarDataSet dataSet2 = new RadarDataSet(radarEntries, "# of posts you upvoted across the political spectrum");
         dataSet2.setDrawFilled(true);
         radarDataSets.add(dataSet2);
         RadarData data = new RadarData(radarDataSets);
