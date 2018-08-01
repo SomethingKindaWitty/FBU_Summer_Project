@@ -73,6 +73,17 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
+    public void setProfileImage(final int uid, final String url,
+                                JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+        String baseurl = API_BASE_URL + "/setimage";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("UID", uid);
+        jsonObject.put("image", url);
+        entity = new StringEntity(jsonObject.toString());
+        client.post(context, baseurl, entity, "application/json", jsonHttpResponseHandler);
+    }
+
     public void addLike(final int uid, final double postBias, final String postUrl,
                         JsonHttpResponseHandler jsonHttpResponseHandler) throws
             UnsupportedEncodingException, JSONException {
