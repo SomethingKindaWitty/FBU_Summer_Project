@@ -76,4 +76,6 @@ public class TopNewsClient extends AppCompatActivity {
         params.put(KEYWORD_KEY_PARAM, category);
         client.get(url, params, jsonHttpResponseHandler);
     }
+
+    public void fillCell(int x, int y)
 }
