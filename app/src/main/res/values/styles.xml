@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/yellow_duck</item>
         <item name="android:colorControlActivated">@color/sea_blue</item>
         <item name="android:colorControlNormal">@color/yellow_duck</item>
+        <item name="android:textColorHint">@color/white_80_transparent</item>
     </style>
 
     <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">

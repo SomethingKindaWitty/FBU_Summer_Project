@@ -4,29 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_5_transparent"
+    android:background="@drawable/gradient_blue_to_gold"
     tools:context=".activities.LoginActivity">
 
     <EditText
         android:id="@+id/username"
         android:layout_width="298dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_height="38dp"
+        android:layout_above="@+id/password"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="89dp"
+        android:layout_marginBottom="-135dp"
+        android:background="@drawable/edittext_background"
         android:ems="10"
-        android:hint="Username"
+        android:hint="  Username"
         android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="298dp"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="155dp"
+        android:background="@drawable/edittext_background"
         android:ems="10"
-        android:hint="Password"
+        android:hint="  Password"
         android:inputType="textPassword" />
 
     <Button
@@ -38,7 +40,8 @@
         android:layout_marginTop="221dp"
         android:background="@drawable/login_background"
         android:text="Login"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/white_90_transparent"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/signup"
@@ -49,7 +52,8 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/signup_background"
         android:text="SIGN UP"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@color/white_90_transparent"
+        android:textSize="18sp" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -57,7 +61,7 @@
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@color/white"
+        android:background="@color/transparent"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme">
 
@@ -66,9 +70,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="120dp"
-            android:fontFamily="serif"
+            android:fontFamily="sans-serif"
             android:text="Quack"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white_90_transparent"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -82,8 +86,6 @@
             android:background="@drawable/duckie" />
 
     </android.support.v7.widget.Toolbar>
-
-
 
 
 </RelativeLayout>

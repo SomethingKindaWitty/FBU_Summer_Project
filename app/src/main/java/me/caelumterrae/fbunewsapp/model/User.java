@@ -27,10 +27,10 @@ public class User {
         user.setUid(jsonObject.getInt("UID"));
         user.setUsername(jsonObject.getString("username"));
         user.setPassword("password");
-        user.setProfileUrl(jsonObject.getString("categories"));
+        user.setProfileUrl(jsonObject.getString("url"));
         user.setPoliticalPreference(jsonObject.getDouble("politicalPreference"));
         user.setNumUpvoted(jsonObject.getInt("numUpvoted"));
-        user.setCategories("url");
+        user.setCategories("categories");
     }
 
 //    @PrimaryKey
