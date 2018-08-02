@@ -358,7 +358,7 @@ public class UserFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(takenImage, 246, 150, true);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(takenImage, 150, 150, true);
                 Drawable d = new BitmapDrawable(getResources(), scaledBitmap);
 
                 Glide.with(getContext())
@@ -368,6 +368,7 @@ public class UserFragment extends Fragment {
 
                 user.setProfileUrl(photoFile.getAbsolutePath());
                 Log.e("url", user.getProfileUrl());
+                Log.e("imagePath", imagePath);
 
                 // Make call to database to update user
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getContext());

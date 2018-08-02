@@ -21,15 +21,16 @@ public class User {
         //for Parcel
     }
 
-    // Populates everything from JSON except password and categories
+    // Populates everything from JSON except categories
+    // Categories and url are flipped temporarily TODO- edit backend to change flip
     public static void fromJSON(User user, JSONObject jsonObject) throws JSONException {
         user.setUid(jsonObject.getInt("UID"));
         user.setUsername(jsonObject.getString("username"));
         user.setPassword("password");
-        user.setProfileUrl(jsonObject.getString("url"));
+        user.setProfileUrl(jsonObject.getString("categories"));
         user.setPoliticalPreference(jsonObject.getDouble("politicalPreference"));
         user.setNumUpvoted(jsonObject.getInt("numUpvoted"));
-        user.setCategories("categories");
+        user.setCategories("url");
     }
 
 //    @PrimaryKey
