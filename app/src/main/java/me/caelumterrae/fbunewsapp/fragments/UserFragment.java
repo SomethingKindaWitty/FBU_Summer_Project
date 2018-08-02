@@ -95,7 +95,7 @@ public class UserFragment extends Fragment {
     // For taking/storing profile image upon Camera intent
     public final String APP_TAG = "NewsApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 219;
-    public String photoFileName = "photo.jpg";
+    public String photoFileName;
     private String imagePath = null;
     File photoFile;
 
@@ -120,6 +120,7 @@ public class UserFragment extends Fragment {
 
         if (user != null){
             Log.e("url", user.getProfileUrl());
+             photoFileName = user.getUsername() + "photo.jpg";
             createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl());
             //create our quacking refresh sound
             final View view1 = view;

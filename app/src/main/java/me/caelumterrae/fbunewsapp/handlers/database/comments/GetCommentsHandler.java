@@ -34,6 +34,9 @@ public class GetCommentsHandler extends JsonHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, JSONArray results) {
         Log.e("GetCommentsHandler", "Got a response of size " + Integer.toString(results.length()));
         try {
+            // Prevents same comments from being added to the overall list
+            comments.clear();
+            commentAdapter.clear();
             for (int i = 0; i < results.length(); i++) {
                 Log.e("GCH", results.getJSONObject(i).getString("body"));
                 Comment comment = Comment.fromJSON(results.getJSONObject(i));

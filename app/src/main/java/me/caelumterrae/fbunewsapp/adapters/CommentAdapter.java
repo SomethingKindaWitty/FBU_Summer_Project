@@ -13,9 +13,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
+import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.Comment;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
@@ -25,10 +30,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     List<Comment> mComments;
     Context context;
     User user;
+    User newUser;
 
     public CommentAdapter(List<Comment> comments) {
         mComments = comments;
         user = CurrentUser.getUser();
+        newUser = new User();
     }
 
     @NonNull
@@ -51,9 +58,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         viewHolder.tvUsername.setText(comment.getUsername());
         viewHolder.tvDate.setText(comment.getRelativeTime());
 
+        ParseNewsClient parseNewsClient = new ParseNewsClient(context);
+
+        try {
+            parseNewsClient.getUser(comment.getUid(), new GetUserHandler(newUser, context, null));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         Glide.with(context)
-            .load(R.drawable.duckie)
-                .apply(new RequestOptions().fitCenter())
+            .load(newUser.getProfileUrl())
+                .apply(new RequestOptions().circleCrop().placeholder(R.drawable.duckie))
                 .into(viewHolder.ivProfileImage);
     }
 
