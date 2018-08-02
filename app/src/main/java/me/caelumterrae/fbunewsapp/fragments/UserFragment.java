@@ -119,6 +119,7 @@ public class UserFragment extends Fragment {
         user = CurrentUser.getUser();
 
         if (user != null){
+            Log.e("url", user.getProfileUrl());
             createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl());
             //create our quacking refresh sound
             final View view1 = view;
@@ -142,6 +143,7 @@ public class UserFragment extends Fragment {
                     // once the network request has completed successfully.
                     quack_sound.start();
                     createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl());
+                    Log.e("url", user.getProfileUrl());
                     swipeContainer.setRefreshing(false);
                 }
             });
@@ -352,7 +354,7 @@ public class UserFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(takenImage, 246, 150, true);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(takenImage, 150, 150, true);
                 Drawable d = new BitmapDrawable(getResources(), scaledBitmap);
 
                 Glide.with(getContext())
@@ -361,6 +363,8 @@ public class UserFragment extends Fragment {
                         .into(profileImage);
 
                 user.setProfileUrl(photoFile.getAbsolutePath());
+                Log.e("url", user.getProfileUrl());
+                Log.e("imagePath", imagePath);
 
                 // Make call to database to update user
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getContext());

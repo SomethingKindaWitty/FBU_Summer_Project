@@ -82,6 +82,7 @@ public class ParseNewsClient {
         jsonObject.put("image", url);
         entity = new StringEntity(jsonObject.toString());
         client.post(context, baseurl, entity, "application/json", jsonHttpResponseHandler);
+        Log.e("ParseNewsClient", "just posted image url");
     }
 
     public void addLike(final int uid, final double postBias, final String postUrl,
