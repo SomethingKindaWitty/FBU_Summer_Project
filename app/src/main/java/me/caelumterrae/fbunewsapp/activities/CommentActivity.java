@@ -1,9 +1,12 @@
 package me.caelumterrae.fbunewsapp.activities;
 
+import android.media.MediaPlayer;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,6 +42,8 @@ public class CommentActivity extends AppCompatActivity {
     String url;
     ParseNewsClient parseNewsClient;
     ImageView profileImage;
+    private SwipeRefreshLayout swipeContainer;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +55,15 @@ public class CommentActivity extends AppCompatActivity {
 
         parseNewsClient = new ParseNewsClient(getApplicationContext());
 
+        swipeContainer = findViewById(R.id.swipeContainer);
         rvComments = findViewById(R.id.rvComments);
         ibSend = findViewById(R.id.ibSend);
         profileImage = findViewById(R.id.tvProfileImage);
         etComment = findViewById(R.id.etComment);
+
+        //create our quacking refresh sound
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.quack);
+        final MediaPlayer quack_sound = mediaPlayer;
 
         // init the ArrayList (data source)
         comments = new ArrayList<>();
@@ -65,8 +75,8 @@ public class CommentActivity extends AppCompatActivity {
         rvComments.setAdapter(commentAdapter);
 
         Glide.with(getApplicationContext())
-                .load(R.drawable.duckie)
-                .apply(new RequestOptions().fitCenter())
+                .load(CurrentUser.getUser().getProfileUrl())
+                .apply(new RequestOptions().circleCrop().placeholder(R.drawable.duckie))
                 .into(profileImage);
 
         parseNewsClient.getComments(url, new GetCommentsHandler(getApplicationContext(), commentAdapter,
@@ -97,6 +107,23 @@ public class CommentActivity extends AppCompatActivity {
                 }
             }
         });
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                quack_sound.start();
+                parseNewsClient.getComments(url, new GetCommentsHandler(getApplicationContext(), commentAdapter,
+                        comments));
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(R.color.duck_beak,
+                R.color.sea_blue, R.color.yellow_duck,
+                R.color.sea_blue_light);
 
     }
 }
