@@ -58,25 +58,24 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         viewHolder.tvUsername.setText(comment.getUsername());
         viewHolder.tvDate.setText(comment.getRelativeTime());
 
-        ParseNewsClient parseNewsClient = new ParseNewsClient(context);
-
-        try {
-            parseNewsClient.getUser(comment.getUid(), new GetUserHandler(newUser, context, null));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Log.e("User url", newUser.getProfileUrl());
-        } catch (NullPointerException e) {
-            Log.e("User url", "null");
-        }
-
+//        ParseNewsClient parseNewsClient = new ParseNewsClient(context);
+//
+//        try {
+//            parseNewsClient.getUser(comment.getUid(), new GetUserHandler(newUser, context, null));
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            Log.e("User url", newUser.getProfileUrl());
+//        } catch (NullPointerException e) {
+//            Log.e("User url", "null");
+//        }
 
         Glide.with(context)
-            .load(newUser.getProfileUrl())
+            .load(comment.getUserUrl())
                 .apply(new RequestOptions().circleCrop().placeholder(R.drawable.duckie))
                 .into(viewHolder.ivProfileImage);
     }
