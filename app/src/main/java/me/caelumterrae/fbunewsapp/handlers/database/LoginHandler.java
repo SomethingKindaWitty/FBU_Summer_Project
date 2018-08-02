@@ -43,11 +43,11 @@ public class LoginHandler extends JsonHttpResponseHandler {
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         try {
-            showSplashScreen();
             int UID = response.getInt("UID");
             Log.e("uid",String.valueOf(UID));
             if (UID != -1) {
                 // Create the master user and start next intent to Swipeactivity
+                showSplashScreen();
                 CurrentUser.createUser(UID, context, SwipeActivity.class);
             }
             else {
