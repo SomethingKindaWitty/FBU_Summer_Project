@@ -51,6 +51,8 @@
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
+        android:backgroundTint="@color/sea_blue"
+        android:backgroundTintMode="multiply"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -58,7 +60,7 @@
         android:background="@drawable/login_background"
         android:onClick="onSubmit"
         android:text="Submit"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/sea_blue" />
 
     <TextView
         android:id="@+id/tvModerate"

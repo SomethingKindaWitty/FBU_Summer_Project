@@ -7,6 +7,7 @@
     android:background="@drawable/gradient_blue_to_gold"
     tools:context=".activities.LoginActivity">
 
+
     <EditText
         android:id="@+id/username"
         android:layout_width="278dp"
@@ -110,5 +111,14 @@
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/edittext_background" />
 
+
+    <ImageView
+        android:id="@+id/splashScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/splash" />
 
 </RelativeLayout>
