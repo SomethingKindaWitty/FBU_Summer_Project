@@ -9,6 +9,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
@@ -77,5 +78,18 @@ public class TopNewsClient extends AppCompatActivity {
         client.get(url, params, jsonHttpResponseHandler);
     }
 
-    public void fillCell(int x, int y)
+    public void getSpecificRelated(ArrayList<String> keywords, JsonHttpResponseHandler jsonHttpResponseHandler){
+        String url = API_BASE_URL + "/everything";
+        String date = DateFunctions.getPreviousDate(DAYS_BACK);
+        RequestParams params = new RequestParams();
+        params.put(LANGUAGE_PARAM, LANGUAGE);
+        params.put(SOURCES_PARAM, SOURCES);
+        params.put(FROM_PARAM, date);
+        params.put(API_KEY_PARAM, API_KEY);
+        for(int i = 0; i < keywords.size(); i++){
+            params.put(KEYWORD_KEY_PARAM, keywords.get(i));
+        }
+        client.get(url, params, jsonHttpResponseHandler);
+    }
+
 }

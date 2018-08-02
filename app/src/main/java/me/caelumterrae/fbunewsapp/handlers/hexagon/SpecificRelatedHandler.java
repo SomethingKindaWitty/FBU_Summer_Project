@@ -1,7 +1,5 @@
 package me.caelumterrae.fbunewsapp.handlers.hexagon;
 
-import android.content.Context;
-
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -19,17 +17,18 @@ import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utility.Format;
 
-public class InitialHandler extends JsonHttpResponseHandler{
+public class SpecificRelatedHandler extends JsonHttpResponseHandler{
     private ArrayList<ArrayList<Post>> postMap;
     private HashMap<String, String> sourceBias;
     ParseNewsClient client;
-    TopNewsClient topNewsClient;
+    int x, y;
 
-    public InitialHandler(ArrayList<ArrayList<Post>> postMap, HashMap<String, String> sourceBias, Context context){
+    public SpecificRelatedHandler(ArrayList<ArrayList<Post>> postMap, HashMap<String, String> sourceBias, ParseNewsClient client, int x, int y){
         this.postMap = postMap;
         this.sourceBias = sourceBias;
-        this.client = new ParseNewsClient(context);
-        this.topNewsClient = new TopNewsClient();
+        this.client = client;
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -38,9 +37,7 @@ public class InitialHandler extends JsonHttpResponseHandler{
         // add the Post object to the arraylist
         try {
             JSONArray results = response.getJSONArray(TopNewsClient.ROOT_NODE);
-
-            // rawPosts will get the raw data from the request. We will then order the posts based
-            // on the user's political affiliation and put that in posts.
+            // rawPosts will get the raw data from the request. Put the thing in the right place and update the posts.
             final ArrayList<Post> rawPosts = new ArrayList<>();
             for (int i = 0; i < results.length(); i++) {
                 Post post = Post.fromJSON(results.getJSONObject(i));
@@ -51,16 +48,8 @@ public class InitialHandler extends JsonHttpResponseHandler{
                 // Add to rawPosts
                 rawPosts.add(post);
             }
-            //now add the posts to the original 4
-            postMap.get(5).set(7, rawPosts.get(0));
-            postMap.get(5).set(6, rawPosts.get(1));
-            postMap.get(5).set(8, rawPosts.get(2));
-            postMap.get(4).set(7, rawPosts.get(3));
-            //generate posts for the surrounding
-            Post.generatePost(client, topNewsClient, postMap, 4, 8);
-            Post.generatePost(client, topNewsClient, postMap, 4, 6);
-            Post.generatePost(client, topNewsClient, postMap, 6, 6);
-            Post.generatePost(client, topNewsClient, postMap, 6, 8);
+            //After adding the post, call the function on all surrounding posts, just this for now though.
+            postMap.get(x).set(y, rawPosts.get(0));
         } catch (JSONException e) {
         } catch (ParseException e) {
             e.printStackTrace();

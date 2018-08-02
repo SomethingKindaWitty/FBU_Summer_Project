@@ -37,11 +37,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private float Y_OFF = 0.45f;//multiply by difference to offset the y
     private float ODD_X_OFF = 0.25f; //add this to all x offsets if they are odd.
     private TopNewsClient client;
+    Context context;
     public MyGLRenderer() {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public MyGLRenderer(HashMap<String, String> sourceBias) {
+    public MyGLRenderer(HashMap<String, String> sourceBias, Context context) {
+        this.context = context;
         this.sourceBias = sourceBias;
         client = new TopNewsClient();
 
@@ -75,16 +77,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             generated.add(boolRow);
         }
 
-        client.getTopNews(new InitialHandler(postMap, client.sourceBias));
+        client.getTopNews(new InitialHandler(postMap, client.sourceBias, context));
         for(int i = 6;i <=8; i++){
 
         }
 
-    }
-
-    public MyGLRenderer(HashMap<String, String> sourceBias, TopNewsClient client) {
-        this.sourceBias = sourceBias;
-        this.client = client;
     }
 
 

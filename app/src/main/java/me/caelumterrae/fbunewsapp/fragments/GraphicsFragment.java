@@ -76,7 +76,7 @@ public class GraphicsFragment extends Fragment {
             super(context);
             setEGLContextClientVersion(2);
             // Set the Renderer for drawing on the GLSurfaceView
-            mRenderer = new MyGLRenderer(client.sourceBias);
+            mRenderer = new MyGLRenderer(client.sourceBias, context);
             renderer = mRenderer;
             setRenderer(mRenderer);
 

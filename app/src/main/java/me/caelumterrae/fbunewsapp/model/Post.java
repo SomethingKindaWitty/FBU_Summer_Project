@@ -3,17 +3,25 @@ package me.caelumterrae.fbunewsapp.model;
 import android.content.Context;
 import android.content.Intent;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.parceler.Parcel;
 import org.parceler.Parcels;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
+import me.caelumterrae.fbunewsapp.client.TopNewsClient;
+import me.caelumterrae.fbunewsapp.handlers.hexagon.SpecificRelatedHandler;
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 
 @Parcel
@@ -25,6 +33,7 @@ public class Post {
     String body;
     String summary;
     ArrayList<Post> relatedPosts;
+    ArrayList<String> keywords;
     int politicalBias; // 0 to 100, 0 = liberal, 100 = conservative.
     Date date;
     String url;
@@ -32,7 +41,7 @@ public class Post {
   
     //for Parceler if used
     public Post(){
-
+        keywords = new ArrayList<String>();
     }
 
     public static Post fromJSON(JSONObject jsonObject) throws JSONException, ParseException {
@@ -157,5 +166,61 @@ public class Post {
         i.putExtra("source","Login");
         i.putExtra(User.class.getSimpleName(), userId);
         context.startActivity(i);
+    }
+
+    public void getKeywords(ParseNewsClient client) throws UnsupportedEncodingException, JSONException {
+        client.getKeywords(this, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONArray keywordsResponse = response.getJSONArray("keywords");
+                    for(int i = 0; i < keywordsResponse.length(); i++){
+                        keywords.add(keywordsResponse.getString(i));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+
+    public static void generatePost(ParseNewsClient parseclient, TopNewsClient client, ArrayList<ArrayList<Post>> postmap, int x, int y){
+        ArrayList<String> keywords = new ArrayList<String>();
+        if(x < 5){
+            if(y>=7){
+                //look to the lower left (reference gavins diagram in his notebook)
+                //upper right quadrant of hexagons
+
+                //I use the min to ensure we get only one word if it is there. If it isn't, then don't add anything.
+                keywords.addAll(postmap.get(x+1).get(y-1).keywords.subList(0,Math.min(2,postmap.get(x+1).get(y-1).keywords.size())));
+                keywords.addAll(postmap.get(x+1).get(y).keywords.subList(0,Math.min(2,postmap.get(x+1).get(y).keywords.size())));
+                keywords.addAll(postmap.get(x).get(y-1).keywords.subList(0,Math.min(2,postmap.get(x).get(y-1).keywords.size())));
+
+            }else{
+                //lower right quadrant of hexagons
+                keywords.addAll(postmap.get(x+1).get(y+1).keywords.subList(0,Math.min(2,postmap.get(x+1).get(y+1).keywords.size())));
+                keywords.addAll(postmap.get(x+1).get(y).keywords.subList(0,Math.min(2,postmap.get(x+1).get(y).keywords.size())));
+                keywords.addAll(postmap.get(x).get(y+1).keywords.subList(0,Math.min(2,postmap.get(x).get(y+1).keywords.size())));
+            }
+        }else{
+            if(y>=7){
+                //upper left quadrant of hexagons
+                keywords.addAll(postmap.get(x-1).get(y-1).keywords.subList(0,Math.min(2,postmap.get(x-1).get(y-1).keywords.size())));
+                keywords.addAll(postmap.get(x-1).get(y).keywords.subList(0,Math.min(2,postmap.get(x-1).get(y).keywords.size())));
+                keywords.addAll(postmap.get(x).get(y-1).keywords.subList(0,Math.min(2,postmap.get(x).get(y-1).keywords.size())));
+            }else{
+                //lower left quadrant of hexagons
+                keywords.addAll(postmap.get(x-1).get(y+1).keywords.subList(0,Math.min(2,postmap.get(x-1).get(y+1).keywords.size())));
+                keywords.addAll(postmap.get(x-1).get(y).keywords.subList(0,Math.min(2,postmap.get(x-1).get(y).keywords.size())));
+                keywords.addAll(postmap.get(x).get(y+1).keywords.subList(0,Math.min(2,postmap.get(x).get(y+1).keywords.size())));
+            }
+        }
+        //after getting the keywords from the posts, generate a post using a new endpoint that I have to create shoot.
+        client.getSpecificRelated(keywords, new SpecificRelatedHandler(postmap, client.sourceBias, parseclient, x, y));
     }
 }

@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import cz.msebera.android.httpclient.entity.StringEntity;
+import me.caelumterrae.fbunewsapp.model.Post;
 
 
 public class ParseNewsClient {
@@ -139,5 +140,14 @@ public class ParseNewsClient {
         entity = new StringEntity(jsonObject.toString());
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
         Log.e("Backend comment", "posted");
+    }
+
+    public void getKeywords(Post post, JsonHttpResponseHandler jsonHttpResponseHandler) throws JSONException, UnsupportedEncodingException {
+        String url = API_BASE_URL + "/getKeywords";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("url", post.getUrl());
+        entity = new StringEntity(jsonObject.toString());
+        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 }
