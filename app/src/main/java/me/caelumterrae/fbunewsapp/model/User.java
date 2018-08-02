@@ -103,8 +103,10 @@ public class User {
         this.politicalPreference = politicalPreference;
     }
 
+    // Returns scaled numUpvoted to reflect what the user has actually upvoted without
+    // taking away the scale of the political affiliation
     public int getNumUpvoted() {
-        return numUpvoted;
+        return numUpvoted-10;
     }
 
     public void setNumUpvoted(int numUpvoted) {
