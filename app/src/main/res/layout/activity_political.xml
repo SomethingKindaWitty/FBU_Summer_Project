@@ -55,7 +55,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
-        android:background="@drawable/login_background"
+        android:background="@drawable/signup_background"
         android:onClick="onSubmit"
         android:text="Submit"
         android:textColor="@android:color/white" />
