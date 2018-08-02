@@ -31,6 +31,7 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:selectAllOnFocus="false"
         android:textColor="@android:color/white" />
 
     <Button
