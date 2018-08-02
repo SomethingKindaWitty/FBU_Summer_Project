@@ -63,6 +63,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -70,6 +71,7 @@ import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.UserProfileImageHandler;
+import me.caelumterrae.fbunewsapp.handlers.database.comments.GetNumCommentsHandler;
 import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
@@ -85,12 +87,16 @@ public class UserFragment extends Fragment {
     public TextView politicalAffiliation;
     public TextView otherPoliticalAffiliation;
     public TextView numUpvoted;
+    public TextView numCommented;
     public ImageButton takePicture;
     private SwipeRefreshLayout swipeContainer;
     MediaPlayer mediaPlayer;
 
     public GraphView graph;
     private User user;
+    private  ArrayList<Integer> num = new ArrayList<>(Arrays.asList(0));
+    private int numComments;
+    private ParseNewsClient parseNewsClient;
 
     // For taking/storing profile image upon Camera intent
     public final String APP_TAG = "NewsApp";
@@ -119,9 +125,10 @@ public class UserFragment extends Fragment {
         user = CurrentUser.getUser();
 
         if (user != null){
+            getNumComments();
             Log.e("url", user.getProfileUrl());
-             photoFileName = user.getUsername() + "photo.jpg";
-            createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl());
+            photoFileName = user.getUsername() + "photo.jpg";
+            createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl(), num.get(0));
             //create our quacking refresh sound
             final View view1 = view;
             //create our quacking refresh sound
@@ -135,15 +142,12 @@ public class UserFragment extends Fragment {
                 }
             });
 
-
             swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    // Your code to refresh the list here.
-                    // Make sure you call swipeContainer.setRefreshing(false)
-                    // once the network request has completed successfully.
                     quack_sound.start();
-                    createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl());
+                    getNumComments();
+                    createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl(), num.get(0));
                     Log.e("url", user.getProfileUrl());
                     swipeContainer.setRefreshing(false);
                 }
@@ -156,7 +160,7 @@ public class UserFragment extends Fragment {
 
     }
 
-    public void createUser(View view, String name, double politicalAff, int numVotes, String profileUrl) {
+    public void createUser(View view, String name, double politicalAff, int numVotes, String profileUrl, int numComments) {
 
         int pol_num = (int) politicalAff;
 
@@ -173,9 +177,11 @@ public class UserFragment extends Fragment {
         politicalAffiliation = view.findViewById(R.id.politicalNum);
         numUpvoted = view.findViewById(R.id.numUpvoted);
         otherPoliticalAffiliation = view.findViewById(R.id.affiliationScore2);
+        numCommented = view.findViewById(R.id.numComments);
 
         username.setText(name);
         numUpvoted.setText(String.valueOf(numVotes));
+        numCommented.setText(String.valueOf(numComments));
 
         // Rounds politicalAff to two decimal places
         DecimalFormat df = new DecimalFormat("#.##");
@@ -382,5 +388,20 @@ public class UserFragment extends Fragment {
                 Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    // Sends a reference to an arraylist which will contain the number of comments a user
+    // has posted to the client/handler
+    public void getNumComments(){
+        parseNewsClient = new ParseNewsClient(getContext());
+        try {
+            Log.e("num before", Integer.toString(num.get(0)));
+            parseNewsClient.getNumComments(user.getUid(), new GetNumCommentsHandler(getContext(), num));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }

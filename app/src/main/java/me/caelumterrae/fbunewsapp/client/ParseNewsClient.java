@@ -154,6 +154,17 @@ public class ParseNewsClient {
         Log.e("Backend comment", "posted");
     }
 
+    public void getNumComments(int UID, JsonHttpResponseHandler jsonHttpResponseHandler) throws
+            UnsupportedEncodingException, JSONException {
+        Log.e("getNumComments UID", Integer.toString(UID));
+        String url = API_BASE_URL + "/getcomments";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("UID", UID);
+        entity = new StringEntity(jsonObject.toString());
+        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+    }
+
 
 
 
