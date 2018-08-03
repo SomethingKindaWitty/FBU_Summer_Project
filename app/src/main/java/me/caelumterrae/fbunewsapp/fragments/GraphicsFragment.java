@@ -17,6 +17,7 @@ import org.parceler.Parcels;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.graphics.MyGLRenderer;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 
 
 public class GraphicsFragment extends Fragment {
@@ -67,7 +68,7 @@ public class GraphicsFragment extends Fragment {
             super(context);
             setEGLContextClientVersion(2);
             // Set the Renderer for drawing on the GLSurfaceView
-            mRenderer = new MyGLRenderer(client.sourceBias);
+            mRenderer = new MyGLRenderer(BiasHashMap.getSourceBias());
             setRenderer(mRenderer);
 
             setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);

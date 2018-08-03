@@ -80,6 +80,7 @@ import me.caelumterrae.fbunewsapp.handlers.database.comments.GetNumCommentsHandl
 import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 import me.caelumterrae.fbunewsapp.utility.Format;
 import me.caelumterrae.fbunewsapp.utility.Timeline;
@@ -99,7 +100,7 @@ public class UserFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     MediaPlayer mediaPlayer;
     private ArrayList<Integer> biasNums;
-    private HashMap <String, String> sourcebias = Timeline.sourceBias;
+    private HashMap <String, String> sourcebias;
 
     public GraphView graph;
     private User user;
@@ -126,6 +127,7 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sourcebias = BiasHashMap.getSourceBias();
 
         swipeContainer = view.findViewById(R.id.swipeContainer);
         takePicture = view.findViewById(R.id.camera);
@@ -216,12 +218,7 @@ public class UserFragment extends Fragment {
 
         // Checks to see if the user has already set a profile image
         // and loads appropriate image
-        if (profileUrl.equals("null")) {
-            Glide.with(getContext())
-                    .load(R.drawable.duckie)
-                    .apply(new RequestOptions(). circleCrop())
-                    .into(profileImage);
-        } else {
+        if (!profileUrl.equals("null")) {
             Log.e("URL", profileUrl);
             Glide.with(getContext())
                     .load(profileUrl)

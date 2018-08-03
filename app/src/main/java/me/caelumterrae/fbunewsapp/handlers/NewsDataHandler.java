@@ -26,7 +26,6 @@ public class NewsDataHandler extends JsonHttpResponseHandler {
     TopNewsClient topNewsClient;
     ProgressBar pb;
     String articleUrl;
-    HashMap<String, String> sourceBias;
     Context context;
 
     public NewsDataHandler(String articleUrl, TextView tvBody, RelatedAdapter relatedAdapter, ArrayList<Post> posts, TopNewsClient topNewsClient, ProgressBar pb, Context context) {
@@ -35,7 +34,6 @@ public class NewsDataHandler extends JsonHttpResponseHandler {
         this.relatedAdapter = relatedAdapter;
         this.posts = posts;
         this.topNewsClient = topNewsClient;
-        this.sourceBias = topNewsClient.sourceBias;
         this.pb = pb;
         this.context = context;
         pb.setVisibility(ProgressBar.VISIBLE);
@@ -53,7 +51,7 @@ public class NewsDataHandler extends JsonHttpResponseHandler {
             tvBody.setText(text);
             pb.setVisibility(ProgressBar.INVISIBLE);
 
-            topNewsClient.getRelatedNews(fullKey, new RelatedHandler(articleUrl,relatedAdapter, posts, sourceBias, context));
+            topNewsClient.getRelatedNews(fullKey, new RelatedHandler(articleUrl,relatedAdapter, posts, context));
         } catch (JSONException e) {
             e.printStackTrace();
         }
