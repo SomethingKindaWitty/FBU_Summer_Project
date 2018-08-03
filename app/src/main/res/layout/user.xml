@@ -338,7 +338,7 @@
                     android:layout_marginTop="30dp"
                     android:background="@drawable/circle_drop_shadow"
                     android:padding="7dp"
-                    app:srcCompat="@drawable/profile_duckie" />
+                    app:srcCompat="@drawable/duckie" />
 
                 <ImageView
                     android:id="@+id/middlepanel"
