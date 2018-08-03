@@ -28,9 +28,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_margin="5dp"
                 android:layout_toEndOf="@+id/ivProfileImage"
+                android:fontFamily="@font/opensans_light"
                 android:text="Username"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/tvComment"
@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/tvUsername"
                 android:layout_below="@+id/tvUsername"
+                android:fontFamily="@font/opensans"
                 android:text="Comment" />
 
             <ImageView
@@ -58,6 +59,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="5dp"
+                android:fontFamily="@font/opensans"
                 android:text="Date"
                 android:textColor="@android:color/darker_gray" />
 
