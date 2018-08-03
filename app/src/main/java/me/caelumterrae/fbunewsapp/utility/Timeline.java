@@ -103,7 +103,7 @@ public class Timeline {
                         String value = valueObject.getString("bias");
                         if (response.get(key) instanceof JSONObject ) {
                             sourceBias.put(key, value);
-                             // Log.i("BOOP", key + " : " + value);
+                              Log.i("BOOP", key + " : " + value);
                         }
                     }
                 } catch (JSONException e) {
