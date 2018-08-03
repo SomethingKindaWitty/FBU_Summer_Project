@@ -53,6 +53,7 @@ import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.loopj.android.http.AsyncHttpClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,18 +65,24 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
+import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
+import me.caelumterrae.fbunewsapp.handlers.database.GetLikesHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.UserProfileImageHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.comments.GetNumCommentsHandler;
 import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
+import me.caelumterrae.fbunewsapp.utility.Format;
+import me.caelumterrae.fbunewsapp.utility.Timeline;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -91,11 +98,12 @@ public class UserFragment extends Fragment {
     public ImageButton takePicture;
     private SwipeRefreshLayout swipeContainer;
     MediaPlayer mediaPlayer;
+    private ArrayList<Integer> biasNums;
+    private HashMap <String, String> sourcebias = Timeline.sourceBias;
 
     public GraphView graph;
     private User user;
     private  ArrayList<Integer> num = new ArrayList<>(Arrays.asList(0));
-    private int numComments;
     private ParseNewsClient parseNewsClient;
 
     // For taking/storing profile image upon Camera intent
@@ -123,8 +131,10 @@ public class UserFragment extends Fragment {
         takePicture = view.findViewById(R.id.camera);
 
         user = CurrentUser.getUser();
+        // This ArrayList will later hold the respective number of articles liked per bias category
+        biasNums = new ArrayList<Integer>(Arrays.asList(0,0,0,0,0));
 
-        if (user != null){
+        if (user != null && sourcebias != null){
             getNumComments();
             Log.e("url", user.getProfileUrl());
             photoFileName = user.getUsername() + "photo.jpg";
@@ -164,7 +174,7 @@ public class UserFragment extends Fragment {
 
         int pol_num = (int) politicalAff;
 
-        // Sets progress circle thing
+        // Sets progress circle
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
         ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, pol_num); // see this max value coming back here, we animate towards that value
         animation.setDuration(5000); // in milliseconds
@@ -184,7 +194,7 @@ public class UserFragment extends Fragment {
         numCommented.setText(String.valueOf(numComments));
 
         // Rounds politicalAff to two decimal places
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("#.#");
         df.setRoundingMode(RoundingMode.CEILING);
         double politicalRounded = Double.parseDouble(df.format(politicalAff));
 
@@ -219,103 +229,15 @@ public class UserFragment extends Fragment {
                     .into(profileImage);
         }
 
-        // Sets up beta distribution graph ---
-        // TODO put this in another function
-        BetaDis betaDis = new BetaDis(politicalRounded);
-        LineChart betachart = view.findViewById(R.id.betachart);
-        Description desc = new Description();
-        desc.setText("Beta Distribution: Alpha: " + Integer.toString((int)betaDis.getAlpha())
-        + ", Beta: " + Integer.toString((int)betaDis.getBeta()));
-        betachart.setDescription(desc);
-        XAxis x = betachart.getXAxis();
-        x.setDrawGridLines(false);
-        x.setLabelCount(10, false);
-        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+        // Sets up beta distribution graph
+        setBetaDistribution(view, politicalRounded);
 
-        YAxis y = betachart.getAxisLeft();
-        y.setEnabled(false);
+        // Sets ArrayList containing number of articles in each bias category
+        // for the radar chart graph
+        getNumData(biasNums, sourcebias);
 
-        betachart.getAxisRight().setEnabled(false);
-
-        List<Entry> beta_entries = new ArrayList<Entry>();
-        for(float i = 0; i <= 1; i+=.02) {
-            beta_entries.add(new Entry(i*100, (float)betaDis.getPDF(i)));
-        }
-        LineDataSet beta_dataSet = new LineDataSet(beta_entries, "PDF evaluated at given political affiliation");
-        beta_dataSet.setDrawCircles(false);
-        beta_dataSet.setLineWidth(1.8f);
-        beta_dataSet.setCircleRadius(4f);
-        beta_dataSet.setCircleColor(Color.BLACK);
-        beta_dataSet.setHighLightColor(Color.rgb(244, 117, 117));
-        beta_dataSet.setColor(Color.BLACK);
-        beta_dataSet.setFillColor(Color.BLACK);
-        beta_dataSet.setFillAlpha(100);
-        beta_dataSet.setDrawHorizontalHighlightIndicator(false);
-        beta_dataSet.setFillFormatter(new IFillFormatter() {
-            @Override
-            public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
-                return -10;
-            }
-        });
-
-        LineData beta_lineData = new LineData(beta_dataSet);
-        beta_lineData.setDrawValues(false);
-        betachart.setData(beta_lineData);
-        betachart.animateXY(2000, 2000);
-        betachart.invalidate();
-
-        // set up RadarChart - TODO replace values with actual # of how many upvoted per category
-        // TODO put this in another function
-        RadarChart radarChart = view.findViewById(R.id.radarchart);
-        final SparseIntArray affiliation = new SparseIntArray(5);
-        SparseIntArray values = new SparseIntArray(5);
-        ArrayList<RadarEntry> radarEntries = new ArrayList<>();
-        ArrayList<IRadarDataSet> radarDataSets = new ArrayList<>();
-
-
-        affiliation.append(1, R.string.left);
-        affiliation.append(2, R.string.leftmoderate);
-        affiliation.append(3, R.string.moderate);
-        affiliation.append(4, R.string.rightmoderate);
-        affiliation.append(5, R.string.right);
-
-        XAxis xAxis = radarChart.getXAxis();
-        xAxis.setXOffset(0f);
-        xAxis.setYOffset(0f);
-        xAxis.setTextSize(9f);
-        xAxis.setValueFormatter(new IAxisValueFormatter() {
-
-            private String[] mFactors = new String[]{getString(affiliation.get(1)), getString(affiliation.get(2)),
-                    getString(affiliation.get(3)), getString(affiliation.get(4)), getString(affiliation.get(5))};
-
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return mFactors[(int) value % mFactors.length];
-            }
-
-        });
-
-        YAxis yAxis = radarChart.getYAxis();
-        yAxis.setDrawLabels(false);
-
-        radarChart.animateXY(2400, 2400, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
-
-        values.append(1, 18);
-        values.append(2, 26);
-        values.append(3, 35);
-        values.append(4, 40);
-        values.append(5, 48);
-
-        radarEntries.clear();
-        for (int i = 1; i <= 5; i++) {
-            radarEntries.add(new RadarEntry(values.get(i)));
-        }
-        RadarDataSet dataSet2 = new RadarDataSet(radarEntries, "# of posts you upvoted across the political spectrum");
-        dataSet2.setDrawFilled(true);
-        radarDataSets.add(dataSet2);
-        RadarData data = new RadarData(radarDataSets);
-        radarChart.setData(data);
-        radarChart.invalidate();
+        // Sets up radar chart graph
+        setRadarChart(view, biasNums);
     }
 
     // Creates the intent to the camera object of the phone and
@@ -403,5 +325,117 @@ public class UserFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    public void setBetaDistribution(View view, double politicalRounded) {
+        BetaDis betaDis = new BetaDis(politicalRounded);
+        LineChart betachart = view.findViewById(R.id.betachart);
+        Description desc = new Description();
+        desc.setText("Beta Distribution: Alpha: " + Integer.toString((int)betaDis.getAlpha())
+                + ", Beta: " + Integer.toString((int)betaDis.getBeta()));
+        betachart.setDescription(desc);
+        XAxis x = betachart.getXAxis();
+        x.setDrawGridLines(false);
+        x.setLabelCount(10, false);
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis y = betachart.getAxisLeft();
+        y.setEnabled(false);
+
+        betachart.getAxisRight().setEnabled(false);
+
+        List<Entry> beta_entries = new ArrayList<Entry>();
+        for(float i = 0; i <= 1; i+=.02) {
+            beta_entries.add(new Entry(i*100, (float)betaDis.getPDF(i)));
+        }
+        LineDataSet beta_dataSet = new LineDataSet(beta_entries, "PDF evaluated at given political affiliation");
+        beta_dataSet.setDrawCircles(false);
+        beta_dataSet.setLineWidth(1.8f);
+        beta_dataSet.setCircleRadius(4f);
+        beta_dataSet.setCircleColor(Color.BLACK);
+        beta_dataSet.setHighLightColor(Color.rgb(244, 117, 117));
+        beta_dataSet.setColor(Color.BLACK);
+        beta_dataSet.setFillColor(Color.BLACK);
+        beta_dataSet.setFillAlpha(100);
+        beta_dataSet.setDrawHorizontalHighlightIndicator(false);
+        beta_dataSet.setFillFormatter(new IFillFormatter() {
+            @Override
+            public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                return -10;
+            }
+        });
+
+        LineData beta_lineData = new LineData(beta_dataSet);
+        beta_lineData.setDrawValues(false);
+        betachart.setData(beta_lineData);
+        betachart.animateXY(2000, 2000);
+        betachart.invalidate();
+    }
+
+    public void setRadarChart(View view, ArrayList<Integer> biasNums) {
+        RadarChart radarChart = view.findViewById(R.id.radarchart);
+        final SparseIntArray affiliation = new SparseIntArray(5);
+        SparseIntArray values = new SparseIntArray(5);
+        ArrayList<RadarEntry> radarEntries = new ArrayList<>();
+        ArrayList<IRadarDataSet> radarDataSets = new ArrayList<>();
+
+
+        affiliation.append(1, R.string.left);
+        affiliation.append(2, R.string.leftmoderate);
+        affiliation.append(3, R.string.moderate);
+        affiliation.append(4, R.string.rightmoderate);
+        affiliation.append(5, R.string.right);
+
+        XAxis xAxis = radarChart.getXAxis();
+        xAxis.setXOffset(0f);
+        xAxis.setYOffset(0f);
+        xAxis.setTextSize(9f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+
+            private String[] mFactors = new String[]{getString(affiliation.get(1)), getString(affiliation.get(2)),
+                    getString(affiliation.get(3)), getString(affiliation.get(4)), getString(affiliation.get(5))};
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mFactors[(int) value % mFactors.length];
+            }
+
+        });
+
+        YAxis yAxis = radarChart.getYAxis();
+        yAxis.setDrawLabels(false);
+
+        radarChart.animateXY(2400, 2400, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
+
+        // Appends values to respective axes
+        values.append(1, biasNums.get(0));
+        values.append(2, biasNums.get(1));
+        values.append(3, biasNums.get(2));
+        values.append(4, biasNums.get(3));
+        values.append(5, biasNums.get(4));
+
+        radarEntries.clear();
+        for (int i = 1; i <= 5; i++) {
+            radarEntries.add(new RadarEntry(values.get(i)));
+        }
+        RadarDataSet dataSet2 = new RadarDataSet(radarEntries, "# of posts you upvoted across the political spectrum");
+        dataSet2.setDrawFilled(true);
+        radarDataSets.add(dataSet2);
+        RadarData data = new RadarData(radarDataSets);
+        radarChart.setData(data);
+        radarChart.invalidate();
+    }
+
+    // Makes a call to the backend and passes in the ArrayList of integers to be altered
+    // based on the bias of what the user has liked
+    public void getNumData(ArrayList<Integer> upVotes, HashMap<String, String> sourcebias) {
+        ParseNewsClient parseNewsClient = new ParseNewsClient(getContext());
+        try {
+            parseNewsClient.getNumLikes(user.getUid(), new GetLikesHandler(upVotes, sourcebias));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
