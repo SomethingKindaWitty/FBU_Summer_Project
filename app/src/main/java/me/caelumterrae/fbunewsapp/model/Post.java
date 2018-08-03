@@ -243,7 +243,7 @@ public class Post {
         if(x == 0 || x == 10 || y == 0 || y == 14){
             return;
         }
-        
+
         ArrayList<String> keywords = new ArrayList<String>();
         if(x < 5){
             if(y>=7){

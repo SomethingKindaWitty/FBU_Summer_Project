@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,16 +54,16 @@ public class InitialHandler extends JsonHttpResponseHandler{
             postMap.get(5).set(6, rawPosts.get(1));
             postMap.get(5).set(8, rawPosts.get(2));
             postMap.get(4).set(7, rawPosts.get(3));
-            //get the keywords for these four and then after generating keywords attempt to populate surrounding.
-            postMap.get(5).get(7).getKeywords(client, topNewsClient, postMap, 5, 7);
-            postMap.get(5).get(6).getKeywords(client, topNewsClient, postMap, 5, 6);
-            postMap.get(5).get(8).getKeywords(client, topNewsClient, postMap, 5, 8);
-            postMap.get(4).get(7).getKeywords(client, topNewsClient, postMap, 4, 7);
+//            //get the keywords for these four and then after generating keywords attempt to populate surrounding.
+//            postMap.get(5).get(7).getKeywords(client, topNewsClient, postMap, 5, 7);
+//            postMap.get(5).get(6).getKeywords(client, topNewsClient, postMap, 5, 6);
+//            postMap.get(5).get(8).getKeywords(client, topNewsClient, postMap, 5, 8);
+//            postMap.get(4).get(7).getKeywords(client, topNewsClient, postMap, 4, 7);
         } catch (JSONException e) {
         } catch (ParseException e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
         }
     }
 }
