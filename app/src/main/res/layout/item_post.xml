@@ -32,6 +32,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_toLeftOf="@id/image"
+                android:fontFamily="@font/opensans"
                 android:text="TextView"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
@@ -46,7 +47,10 @@
                 android:layout_below="@id/title"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="3dp"
-                android:text="TextView" />
+                android:fontFamily="@font/opensans_light"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/image"
@@ -64,6 +68,7 @@
                 android:layout_below="@id/body"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="3dp"
+                android:fontFamily="@font/opensans"
                 android:text="TextView"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="12sp" />
