@@ -88,7 +88,11 @@ public class LoginHandler extends JsonHttpResponseHandler {
     }
 
     private void showSplashScreen() {
-        Keyboard.hideSoftKeyboard(activity);
+        try {
+            Keyboard.hideSoftKeyboard(activity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         AnimationSet animation = new AnimationSet(true);
         animation.addAnimation(new AlphaAnimation(0.0F, 1.0F));
         animation.addAnimation(new ScaleAnimation(0.8f, 1, 0.8f, 1)); // Change args as desired
