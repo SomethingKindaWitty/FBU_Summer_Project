@@ -21,6 +21,7 @@ import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.database.LoginHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.SignupHandler;
+import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.utility.Keyboard;
 
 public class LoginActivity extends AppCompatActivity {
@@ -41,9 +42,13 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login);
         signUpButton = findViewById(R.id.signup);
         splash = findViewById(R.id.splashScreen);
-        
-        //checks to see if username/password combination already exists in database
-        //if not, prompts invalid login
+
+        // generates the source bias hashmap which will be used throughout
+        BiasHashMap.generateSourceBias();
+
+
+        // checks to see if username/password combination already exists in database
+        // if not, prompts invalid login
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -65,8 +70,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //checks to see if username/password combination already exists in database
-        //if yes, denies sign up
+        // checks to see if username/password combination already exists in database
+        // if yes, denies sign up
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

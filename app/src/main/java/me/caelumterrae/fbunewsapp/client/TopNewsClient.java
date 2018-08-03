@@ -11,6 +11,7 @@ import org.json.JSONException;
 
 import java.util.HashMap;
 
+import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 import me.caelumterrae.fbunewsapp.utility.Timeline;
 
@@ -33,14 +34,12 @@ public class TopNewsClient extends AppCompatActivity {
     public final static int NUM_RESPONSES = 100;
   
     AsyncHttpClient client;
-    public HashMap<String, String> sourceBias;
     Context context;
 
 
     // Instantiates new Top News Client that extracts hottest news posts from NewsApi.org
     public TopNewsClient(Context c) {
         client = new AsyncHttpClient(); // TODO: close
-        sourceBias = Timeline.populateBiasHashMap(client);
         context = c;
     }
 

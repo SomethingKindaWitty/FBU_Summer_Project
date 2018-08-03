@@ -79,7 +79,7 @@ public class FeedFragment extends Fragment{
                 quack_sound.start();
                 feedAdapter.clear();
                 posts.clear();
-                client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, getContext()));
+                client.getTopNews(new TimelineHandler( posts, feedAdapter, getContext()));
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -88,7 +88,7 @@ public class FeedFragment extends Fragment{
                 R.color.sea_blue, R.color.yellow_duck,
                 R.color.sea_blue_light);
 
-        client.getTopNews(new TimelineHandler(client.sourceBias, posts, feedAdapter, getContext()));
+        client.getTopNews(new TimelineHandler(posts, feedAdapter, getContext()));
     }
 
 }
