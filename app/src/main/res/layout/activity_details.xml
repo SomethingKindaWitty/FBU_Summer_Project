@@ -76,6 +76,7 @@
                 android:layout_height="50dp"
                 android:layout_alignStart="@+id/tvTitle"
                 android:layout_below="@+id/tvBody"
+                android:layout_marginRight="15dp"
                 android:background="@color/transparent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/upvote_button" />
@@ -91,7 +92,9 @@
                 android:fontFamily="@font/opensans"
                 android:text="View Comments"
                 android:textAllCaps="false"
-                android:textColor="@color/sea_blue" />
+                android:textColor="@color/sea_blue"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
