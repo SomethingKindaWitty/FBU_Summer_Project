@@ -34,6 +34,7 @@
                 android:layout_toLeftOf="@id/image"
                 android:fontFamily="@font/opensans"
                 android:text="TextView"
+                android:textAlignment="textStart"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -47,10 +48,10 @@
                 android:layout_below="@id/title"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="3dp"
-                android:fontFamily="@font/opensans_light"
+                android:fontFamily="@font/opensans"
                 android:text="TextView"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textAlignment="textStart"
+                android:textSize="11sp" />
 
             <ImageView
                 android:id="@+id/image"
@@ -70,8 +71,9 @@
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/opensans"
                 android:text="TextView"
+                android:textAlignment="textStart"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <ProgressBar
                 android:id="@+id/pb"

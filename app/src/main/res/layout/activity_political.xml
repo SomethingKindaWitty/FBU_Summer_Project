@@ -14,7 +14,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="189dp"
-        android:fontFamily="@font/opensans"
+        android:fontFamily="@font/opensans_light"
         android:text="@string/political_affiliation"
         android:textAlignment="center"
         android:textColor="@color/browser_secondary_text"

@@ -36,6 +36,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/tvProfileImage"
                 android:ems="10"
+                android:fontFamily="@font/opensans"
                 android:hint="Add a public comment..."
                 android:inputType="textPersonName" />
 
