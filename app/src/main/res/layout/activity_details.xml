@@ -9,7 +9,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -77,13 +80,6 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/upvote_button" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tvBody"
-                android:layout_centerHorizontal="true" />
 
             <Button
                 android:id="@+id/commentButton"
@@ -92,11 +88,9 @@
                 android:layout_below="@+id/tvBody"
                 android:layout_toEndOf="@+id/btnLike"
                 android:background="@drawable/blue_border_button"
-                android:backgroundTint="@color/white"
                 android:fontFamily="@font/opensans"
                 android:text="View Comments"
-                android:textAllCaps="false"
-                android:textColor="@color/sea_blue" />
+                android:textAllCaps="false" />
 
         </RelativeLayout>
     </ScrollView>
