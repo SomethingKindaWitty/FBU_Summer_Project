@@ -2,7 +2,6 @@ package me.caelumterrae.fbunewsapp.handlers.database;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -16,12 +15,9 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.activities.LoginActivity;
-import me.caelumterrae.fbunewsapp.activities.PoliticalActivity;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
+import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 import me.caelumterrae.fbunewsapp.utility.Keyboard;
 
@@ -46,9 +42,10 @@ public class LoginHandler extends JsonHttpResponseHandler {
             int UID = response.getInt("UID");
             Log.e("uid",String.valueOf(UID));
             if (UID != -1) {
+                User user = User.fromJSON(response);
                 // Create the master user and start next intent to Swipeactivity
                 showSplashScreen();
-                CurrentUser.createUser(UID, context, SwipeActivity.class);
+                CurrentUser.createUser(user, context, SwipeActivity.class);
             }
             else {
                 Toast.makeText(context, "Invalid Login", Toast.LENGTH_LONG).show();
