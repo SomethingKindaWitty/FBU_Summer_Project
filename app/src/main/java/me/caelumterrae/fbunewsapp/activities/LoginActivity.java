@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login);
         signUpButton = findViewById(R.id.signup);
         splash = findViewById(R.id.splashScreen);
+        
         //checks to see if username/password combination already exists in database
         //if not, prompts invalid login
         loginButton.setOnClickListener(new View.OnClickListener(){

@@ -24,8 +24,9 @@ import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 import me.caelumterrae.fbunewsapp.utility.Keyboard;
 
 
-// This handler gets called in: LoginActivity login button handler
-// This handler: Creates Current User & moves user to timeline intent with UID packaged inside
+// This handler gets called in: LoginActivity login button on click listener and signup button on click listener
+// This handler: Creates Current User & moves user to timeline intent with UID packaged inside OR moves to political
+// activity with username and password
 public class LoginHandler extends JsonHttpResponseHandler {
 
     private Context context;

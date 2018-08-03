@@ -25,10 +25,8 @@ import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
-// This handler gets called in: Login Activity signup button handler
-// This handler: Stores uid (for PoliticalActivity) and simply moves user to political activity
-// This handler gets called in: LoginActivity onSubmit of sign up button
-// This handler: uses intent to move user to PoliticalActivity with UID packaged inside
+// This handler gets called in: Political Activity in on submit button listener
+// This handler: creates user from Json and sets to current user, and then moves to Swipe Activity
 public class SignupHandler extends JsonHttpResponseHandler {
 
     Context context;
