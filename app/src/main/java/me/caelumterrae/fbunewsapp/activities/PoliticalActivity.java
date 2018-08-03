@@ -22,14 +22,16 @@ public class PoliticalActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
     private int uid;
+    private String username;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_political);
-        uid = CurrentUser.getUid();
+        username = getIntent().getExtras().getString("username");
+        password = getIntent().getExtras().getString("password");
         seekBar = findViewById(R.id.sbSeekBar); // ranges from 0 (liberal) to 100 (conservative)
-
     }
 
     // Submit Button Handler - Saves data from button and brings user to swipe activity
@@ -38,7 +40,7 @@ public class PoliticalActivity extends AppCompatActivity {
         ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
         try {
-            parseNewsClient.setAffiliation(uid, seekBar.getProgress(), new PoliticalAffHandler(getApplicationContext()));
+            parseNewsClient.signup(username, password, seekBar.getProgress(), new SignupHandler(getApplicationContext()));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {

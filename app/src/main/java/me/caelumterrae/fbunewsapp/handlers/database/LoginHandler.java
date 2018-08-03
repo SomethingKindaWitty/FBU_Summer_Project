@@ -2,6 +2,7 @@ package me.caelumterrae.fbunewsapp.handlers.database;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -16,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import me.caelumterrae.fbunewsapp.activities.PoliticalActivity;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
@@ -29,11 +31,17 @@ public class LoginHandler extends JsonHttpResponseHandler {
     private Context context;
     private Activity activity;
     private ImageView splash;
+    private Boolean bool;
+    private String username;
+    private String password;
 
-    public LoginHandler(Context context, Activity activity, ImageView splash) {
+    public LoginHandler(Boolean bool,String username, String password, Context context, Activity activity, ImageView splash) {
         this.context = context;
         this.activity = activity;
         this.splash = splash;
+        this.bool = bool;
+        this.username = username;
+        this.password = password;
     }
 
     @Override
@@ -41,14 +49,30 @@ public class LoginHandler extends JsonHttpResponseHandler {
         try {
             int UID = response.getInt("UID");
             Log.e("uid",String.valueOf(UID));
-            if (UID != -1) {
-                User user = User.fromJSON(response);
-                // Create the master user and start next intent to Swipeactivity
-                showSplashScreen();
-                CurrentUser.createUser(user, context, SwipeActivity.class);
-            }
-            else {
-                Toast.makeText(context, "Invalid Login", Toast.LENGTH_LONG).show();
+            // If from login button
+            if (bool) {
+                if (UID != -1) {
+                    User user = User.fromJSON(response);
+                    // Create the master user and start next intent to Swipeactivity
+                    showSplashScreen();
+                    CurrentUser.createUser(user, context, SwipeActivity.class);
+                }
+                else {
+                    Toast.makeText(context, "Invalid Login", Toast.LENGTH_LONG).show();
+                }
+            // If from signup button
+            } else {
+                if (UID != -1) {
+                    Toast.makeText(context, "User already exists", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    // Create the master user and start next intent to PoliticalActivity
+                    showSplashScreen();
+                    Intent i = new Intent(context, PoliticalActivity.class);
+                    i.putExtra("username", username);
+                    i.putExtra("password", password);
+                    context.startActivity(i);
+                }
             }
 
         } catch (JSONException e) {
