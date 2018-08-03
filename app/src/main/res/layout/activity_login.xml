@@ -17,6 +17,7 @@
         android:layout_marginBottom="-135dp"
         android:background="@color/transparent"
         android:ems="10"
+        android:fontFamily="@font/opensans"
         android:hint="Username"
         android:inputType="textPersonName"
         android:textColor="@android:color/white"
@@ -31,11 +32,12 @@
         android:layout_marginTop="158dp"
         android:background="@color/transparent"
         android:ems="10"
+        android:fontFamily="@font/opensans"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textSize="14sp"
         android:selectAllOnFocus="false"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/login"
@@ -45,6 +47,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="221dp"
         android:background="@drawable/login_background"
+        android:fontFamily="@font/opensans"
         android:text="Log In"
         android:textAllCaps="false"
         android:textColor="@color/white_90_transparent"
@@ -58,6 +61,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_background"
+        android:fontFamily="@font/opensans"
         android:text="Sign Up"
         android:textAllCaps="false"
         android:textColor="@color/white_90_transparent"
@@ -78,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="120dp"
-            android:fontFamily="sans-serif"
+            android:fontFamily="@font/opensans_bold"
             android:text="Quack"
             android:textColor="@color/white_90_transparent"
             android:textSize="30sp"

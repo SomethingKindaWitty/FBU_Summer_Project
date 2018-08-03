@@ -14,6 +14,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="189dp"
+        android:fontFamily="@font/opensans"
         android:text="@string/political_affiliation"
         android:textAlignment="center"
         android:textColor="@color/browser_secondary_text"
@@ -36,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/sbSeekBar"
         android:layout_below="@+id/sbSeekBar"
+        android:fontFamily="@font/opensans_light"
         android:text="@string/liberal"
         android:textColor="@color/browser_secondary_text" />
 
@@ -45,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/sbSeekBar"
         android:layout_below="@+id/sbSeekBar"
+        android:fontFamily="@font/opensans_light"
         android:text="@string/conservative"
         android:textColor="@color/browser_secondary_text" />
 
@@ -56,6 +59,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
         android:background="@drawable/blue_border_button"
+        android:fontFamily="@font/opensans"
         android:onClick="onSubmit"
         android:text="Submit"
         android:textAllCaps="false"
@@ -67,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sbSeekBar"
         android:layout_centerHorizontal="true"
+        android:fontFamily="@font/opensans_light"
         android:text="Moderate"
         android:textColor="@color/browser_secondary_text" />
 

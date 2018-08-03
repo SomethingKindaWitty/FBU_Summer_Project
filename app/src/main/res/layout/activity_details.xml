@@ -23,7 +23,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="30dp"
-                android:fontFamily="serif"
+                android:fontFamily="@font/opensans"
                 android:gravity="center_horizontal"
                 android:text="Title"
                 android:textAlignment="center"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTitle"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 app:srcCompat="@android:drawable/ic_menu_camera" />
 
             <TextView
@@ -48,13 +48,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivMedia"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/opensans"
                 android:text="@string/placeholder_text"
                 android:textAlignment="textStart"
                 android:textColor="#212121"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvRelated"
@@ -90,8 +91,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvBody"
                 android:layout_toEndOf="@+id/btnLike"
-                android:text="View Comments"
+                android:background="@drawable/blue_border_button"
                 android:backgroundTint="@color/white"
+                android:fontFamily="@font/opensans"
+                android:text="View Comments"
+                android:textAllCaps="false"
                 android:textColor="@color/sea_blue" />
 
         </RelativeLayout>
