@@ -13,8 +13,8 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-// This handler gets called in: TODO
-// This handler: sets number of comments posted to the user object
+// This handler gets called in User Fragment in getNumComments()
+// This handler: puts the number of comments posted into the List
 public class GetNumCommentsHandler extends JsonHttpResponseHandler {
 
     Context context;

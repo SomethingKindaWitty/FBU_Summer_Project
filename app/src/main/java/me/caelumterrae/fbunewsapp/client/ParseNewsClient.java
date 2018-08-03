@@ -165,7 +165,14 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-
-
+    public void getNumLikes(int UID,JsonHttpResponseHandler jsonHttpResponseHandler) throws
+            UnsupportedEncodingException, JSONException {
+        String url = API_BASE_URL + "/getlikes";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("UID", UID);
+        entity = new StringEntity(jsonObject.toString());
+        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+    }
 
 }

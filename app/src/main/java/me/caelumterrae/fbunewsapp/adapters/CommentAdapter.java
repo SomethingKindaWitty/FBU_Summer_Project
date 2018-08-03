@@ -3,6 +3,7 @@ package me.caelumterrae.fbunewsapp.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +31,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     List<Comment> mComments;
     Context context;
     User user;
-    User newUser;
 
     public CommentAdapter(List<Comment> comments) {
         mComments = comments;
         user = CurrentUser.getUser();
-        newUser = new User();
     }
 
     @NonNull
@@ -53,23 +52,30 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Comment comment = mComments.get(i);
+        User newUser = new User();
 
         viewHolder.tvComment.setText(comment.getComment());
         viewHolder.tvUsername.setText(comment.getUsername());
         viewHolder.tvDate.setText(comment.getRelativeTime());
 
-        ParseNewsClient parseNewsClient = new ParseNewsClient(context);
-
-        try {
-            parseNewsClient.getUser(comment.getUid(), new GetUserHandler(newUser, context, null));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        ParseNewsClient parseNewsClient = new ParseNewsClient(context);
+//
+//        try {
+//            parseNewsClient.getUser(comment.getUid(), new GetUserHandler(newUser, context, null));
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            Log.e("User url", newUser.getProfileUrl());
+//        } catch (NullPointerException e) {
+//            Log.e("User url", "null");
+//        }
 
         Glide.with(context)
-            .load(newUser.getProfileUrl())
+            .load(comment.getUserUrl())
                 .apply(new RequestOptions().circleCrop().placeholder(R.drawable.duckie))
                 .into(viewHolder.ivProfileImage);
     }

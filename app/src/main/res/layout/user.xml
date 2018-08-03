@@ -328,6 +328,7 @@
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
+
                 <ImageView
                     android:id="@+id/profImage"
                     android:layout_width="110dp"
