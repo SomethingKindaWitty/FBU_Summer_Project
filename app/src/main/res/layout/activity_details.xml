@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivMedia"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="15dp"
@@ -72,11 +73,11 @@
 
             <ImageButton
                 android:id="@+id/btnLike"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignStart="@+id/tvTitle"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignStart="@+id/tvBody"
                 android:layout_below="@+id/tvBody"
-                android:layout_marginRight="15dp"
+                android:layout_marginTop="0dp"
                 android:background="@color/transparent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/upvote_button" />
@@ -84,16 +85,18 @@
 
             <Button
                 android:id="@+id/commentButton"
-                android:layout_width="129dp"
-                android:layout_height="wrap_content"
+                android:layout_width="145dp"
+                android:layout_height="37dp"
+                android:layout_alignBottom="@+id/btnLike"
                 android:layout_below="@+id/tvBody"
-                android:layout_toEndOf="@+id/btnLike"
-                android:background="@drawable/blue_border_button"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="-2dp"
+                android:background="@color/transparent"
                 android:fontFamily="@font/opensans"
                 android:text="View Comments"
                 android:textAllCaps="false"
                 android:textColor="@color/sea_blue"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <ProgressBar
