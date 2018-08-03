@@ -240,6 +240,10 @@ public class Post {
 
     public static void generatePost(ParseNewsClient parseclient, TopNewsClient client, ArrayList<ArrayList<Post>> postmap, int x, int y){
 
+        if(x == 0 || x == 10 || y == 0 || y == 14){
+            return;
+        }
+        
         ArrayList<String> keywords = new ArrayList<String>();
         if(x < 5){
             if(y>=7){
@@ -271,6 +275,6 @@ public class Post {
             }
         }
         //after getting the keywords from the posts, generate a post using a new endpoint that I have to create shoot.
-        client.getSpecificRelated(keywords, new SpecificRelatedHandler(postmap, client.sourceBias, parseclient, x, y));
+        client.getSpecificRelated(keywords, new SpecificRelatedHandler(postmap, client.sourceBias, parseclient, client, x, y));
     }
 }

@@ -21,12 +21,22 @@ public class SpecificRelatedHandler extends JsonHttpResponseHandler{
     private ArrayList<ArrayList<Post>> postMap;
     private HashMap<String, String> sourceBias;
     ParseNewsClient client;
+    TopNewsClient topNewsClient;
     int x, y;
 
     public SpecificRelatedHandler(ArrayList<ArrayList<Post>> postMap, HashMap<String, String> sourceBias, ParseNewsClient client, int x, int y){
         this.postMap = postMap;
         this.sourceBias = sourceBias;
         this.client = client;
+        this.x = x;
+        this.y = y;
+    }
+
+    public SpecificRelatedHandler(ArrayList<ArrayList<Post>> postMap, HashMap<String, String> sourceBias, ParseNewsClient client, TopNewsClient topNewsClient, int x, int y){
+        this.postMap = postMap;
+        this.sourceBias = sourceBias;
+        this.client = client;
+        this.topNewsClient = topNewsClient;
         this.x = x;
         this.y = y;
     }
@@ -50,6 +60,7 @@ public class SpecificRelatedHandler extends JsonHttpResponseHandler{
             }
             //After adding the post, call the function on all surrounding posts, just this for now though.
             postMap.get(x).set(y, rawPosts.get(0));
+            postMap.get(x).get(y).getKeywords(client, topNewsClient, postMap, x, y);
         } catch (JSONException e) {
         } catch (ParseException e) {
             e.printStackTrace();
