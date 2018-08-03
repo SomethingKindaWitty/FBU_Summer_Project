@@ -168,7 +168,7 @@ public class Post {
         context.startActivity(i);
     }
 
-    public void getKeywords(ParseNewsClient client) throws UnsupportedEncodingException, JSONException {
+    public void getKeywords(final ParseNewsClient client) throws UnsupportedEncodingException, JSONException {
         client.getKeywords(this, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -176,6 +176,55 @@ public class Post {
                     JSONArray keywordsResponse = response.getJSONArray("keywords");
                     for(int i = 0; i < keywordsResponse.length(); i++){
                         keywords.add(keywordsResponse.getString(i));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+
+    public void getKeywords(final ParseNewsClient client, final TopNewsClient topNewsClient, final ArrayList<ArrayList<Post>> postmap, final int x, final int y) throws UnsupportedEncodingException, JSONException {
+        client.getKeywords(this, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONArray keywordsResponse = response.getJSONArray("keywords");
+                    for(int i = 0; i < keywordsResponse.length(); i++){
+                        keywords.add(keywordsResponse.getString(i));
+                    }
+                    //Okay now i have the keywords, call generate post on the necessary places on the map by passing the proper values.
+                    if(x < 5){
+                        if(y>=7){
+                            //look to the upper right (reference gavins diagram in his notebook)
+                            //upper right quadrant of hexagons
+                            generatePost(client,topNewsClient, postmap, x-1, y+1);
+                            generatePost(client,topNewsClient, postmap, x-1, y);
+                            generatePost(client,topNewsClient, postmap, x, y+1);
+                        }else{
+                            //lower right quadrant of hexagons, look to the upper left
+                            generatePost(client,topNewsClient, postmap, x-1, y-1);
+                            generatePost(client,topNewsClient, postmap, x-1, y);
+                            generatePost(client,topNewsClient, postmap, x, y-1);
+                        }
+                    }else{
+                        if(y>=7){
+                            //upper left quadrant of hexagons, look to lower right
+                            generatePost(client,topNewsClient, postmap, x+1, y+1);
+                            generatePost(client,topNewsClient, postmap, x+1, y);
+                            generatePost(client,topNewsClient, postmap, x, y+1);
+                        }else{
+                            //lower left quadrant of hexagons, look to upper right
+                            generatePost(client,topNewsClient, postmap, x+1, y-1);
+                            generatePost(client,topNewsClient, postmap, x+1, y);
+                            generatePost(client,topNewsClient, postmap, x, y-1);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -190,6 +239,7 @@ public class Post {
     }
 
     public static void generatePost(ParseNewsClient parseclient, TopNewsClient client, ArrayList<ArrayList<Post>> postmap, int x, int y){
+
         ArrayList<String> keywords = new ArrayList<String>();
         if(x < 5){
             if(y>=7){

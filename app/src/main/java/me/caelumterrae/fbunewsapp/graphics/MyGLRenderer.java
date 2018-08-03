@@ -78,9 +78,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         }
 
         client.getTopNews(new InitialHandler(postMap, client.sourceBias, context));
-        for(int i = 6;i <=8; i++){
-
-        }
 
     }
 

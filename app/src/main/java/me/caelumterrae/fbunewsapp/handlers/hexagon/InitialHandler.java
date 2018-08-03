@@ -47,7 +47,6 @@ public class InitialHandler extends JsonHttpResponseHandler{
                 // Sets the political bias of a source like "cnbc.com" to 0(left)-100(right)
                 String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
                 post.setPoliticalBias(Format.biasToNum(bias));
-                post.getKeywords(client);
                 // Add to rawPosts
                 rawPosts.add(post);
             }
@@ -56,11 +55,11 @@ public class InitialHandler extends JsonHttpResponseHandler{
             postMap.get(5).set(6, rawPosts.get(1));
             postMap.get(5).set(8, rawPosts.get(2));
             postMap.get(4).set(7, rawPosts.get(3));
-            //generate posts for the surrounding
-            Post.generatePost(client, topNewsClient, postMap, 4, 8);
-            Post.generatePost(client, topNewsClient, postMap, 4, 6);
-            Post.generatePost(client, topNewsClient, postMap, 6, 6);
-            Post.generatePost(client, topNewsClient, postMap, 6, 8);
+            //get the keywords for these four and then after generating keywords attempt to populate surrounding.
+            postMap.get(5).get(7).getKeywords(client, topNewsClient, postMap, 5, 7);
+            postMap.get(5).get(6).getKeywords(client, topNewsClient, postMap, 5, 6);
+            postMap.get(5).get(8).getKeywords(client, topNewsClient, postMap, 5, 8);
+            postMap.get(4).get(7).getKeywords(client, topNewsClient, postMap, 4, 7);
         } catch (JSONException e) {
         } catch (ParseException e) {
             e.printStackTrace();
