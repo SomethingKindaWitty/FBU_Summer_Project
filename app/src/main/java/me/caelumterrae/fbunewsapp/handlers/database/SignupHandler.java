@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.PoliticalActivity;
+import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.RelatedHandler;
@@ -40,9 +41,8 @@ public class SignupHandler extends JsonHttpResponseHandler {
         try {
             int UID = response.getInt("UID");
             if (UID != -1) {
-                CurrentUser.setUid(UID);
-                Intent intent = new Intent(context, PoliticalActivity.class);
-                context.startActivity(intent);
+                User user = User.fromJSON(response);
+                CurrentUser.createUser(user, context, SwipeActivity.class);
             }
             else {
                 Toast.makeText(context, "Signup Error - User already exists", Toast.LENGTH_LONG).show();

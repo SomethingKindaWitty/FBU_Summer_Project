@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
                 try {
-                    parseNewsClient.login(username, password, new LoginHandler(getApplicationContext(), LoginActivity.this,
+                    parseNewsClient.login(username, password, new LoginHandler(true, username, password, getApplicationContext(), LoginActivity.this,
                             splash));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 final String password = passwordInput.getText().toString();
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
                 try {
-                    parseNewsClient.signup(username, password, new SignupHandler(getApplicationContext()));
+                    parseNewsClient.login(username, password, new LoginHandler(false, username, password, getApplicationContext(), LoginActivity.this, splash));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

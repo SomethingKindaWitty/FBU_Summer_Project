@@ -51,13 +51,14 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void signup(final String username, final String password, JsonHttpResponseHandler
+    public void signup(final String username, final String password, final double politicalPreference, JsonHttpResponseHandler
             jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/signin";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
         jsonObject.put("username", username);
         jsonObject.put("password", password);
+        jsonObject.put("bias", politicalPreference);
         entity = new StringEntity(jsonObject.toString());
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
