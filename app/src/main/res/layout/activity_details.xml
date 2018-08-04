@@ -26,11 +26,10 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/opensans"
+                android:fontFamily="@font/opensans_light"
                 android:gravity="center_horizontal"
                 android:text="Title"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="56dp"
@@ -54,11 +53,10 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/opensans"
                 android:text="@string/placeholder_text"
                 android:textAlignment="textStart"
-                android:textColor="#212121"
                 android:textSize="14sp" />
 
             <android.support.v7.widget.RecyclerView
@@ -73,8 +71,8 @@
 
             <ImageButton
                 android:id="@+id/btnLike"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignStart="@+id/tvBody"
                 android:layout_below="@+id/tvBody"
                 android:layout_marginTop="0dp"
@@ -89,15 +87,14 @@
                 android:layout_height="37dp"
                 android:layout_alignBottom="@+id/btnLike"
                 android:layout_below="@+id/tvBody"
-                android:layout_marginLeft="60dp"
+                android:layout_marginLeft="40dp"
                 android:layout_marginTop="-2dp"
                 android:background="@color/transparent"
-                android:fontFamily="@font/opensans"
+                android:fontFamily="@font/opensans_light"
                 android:text="View Comments"
                 android:textAllCaps="false"
                 android:textColor="@color/sea_blue"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="14sp" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
