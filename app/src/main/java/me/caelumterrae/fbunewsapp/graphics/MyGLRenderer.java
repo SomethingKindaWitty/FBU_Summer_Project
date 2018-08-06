@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -62,9 +63,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
                 post.setPoliticalBias(Format.biasToNum(bias));
 
-//                //TESTING
-//                int randomNum = ThreadLocalRandom.current().nextInt(0, 6);
-//                post.setPoliticalBias(randomNum*25);
+                //TESTING
+                int randomNum = ThreadLocalRandom.current().nextInt(0, 6);
+                post.setPoliticalBias(randomNum*25);
                 if(Math.abs(y) % 2==0){
                     //EVEN ROW
                     row.add(post);
