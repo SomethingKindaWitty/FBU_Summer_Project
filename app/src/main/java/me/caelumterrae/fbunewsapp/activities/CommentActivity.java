@@ -94,6 +94,7 @@ public class CommentActivity extends AppCompatActivity {
                 c.setUid(CurrentUser.getUid());
                 c.setUrl(url);
                 c.setUsername(CurrentUser.getUser().getUsername());
+                c.setUserUrl(CurrentUser.getUser().getProfileUrl());
                 comments.add(0, c);
                 commentAdapter.notifyItemInserted(0);
 

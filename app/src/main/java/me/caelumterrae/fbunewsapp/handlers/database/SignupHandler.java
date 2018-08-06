@@ -38,8 +38,10 @@ public class SignupHandler extends JsonHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         try {
             int UID = response.getInt("UID");
+            Log.e("UID", Integer.toString(UID));
             if (UID != -1) {
                 User user = User.fromJSON(response);
+                Log.e("User", "created");
                 CurrentUser.createUser(user, context, SwipeActivity.class);
             }
             else {

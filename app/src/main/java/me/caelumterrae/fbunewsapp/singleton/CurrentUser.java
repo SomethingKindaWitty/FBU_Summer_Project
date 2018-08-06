@@ -45,6 +45,7 @@ public class CurrentUser {
     }
 
     public static void createUser(User user, Context context, Class<?> nextClass) {
+        Log.e( "CurrentUser","User being created");
         myUid = user.getUid();
         myUser = user;
         parseNewsClient = new ParseNewsClient(myContext);
