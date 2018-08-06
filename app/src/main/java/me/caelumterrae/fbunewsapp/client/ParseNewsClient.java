@@ -52,13 +52,14 @@ public class ParseNewsClient {
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
 
-    public void signup(final String username, final String password, JsonHttpResponseHandler
+    public void signup(final String username, final String password, final double politicalPreference, JsonHttpResponseHandler
             jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
         String url = API_BASE_URL + "/signin";
         JSONObject jsonObject = new JSONObject();
         StringEntity entity;
         jsonObject.put("username", username);
         jsonObject.put("password", password);
+        jsonObject.put("bias", politicalPreference);
         entity = new StringEntity(jsonObject.toString());
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
@@ -72,6 +73,18 @@ public class ParseNewsClient {
         jsonObject.put("aff", affiliation);
         entity = new StringEntity(jsonObject.toString());
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+    }
+
+    public void setProfileImage(final int uid, final String url,
+                                JsonHttpResponseHandler jsonHttpResponseHandler) throws UnsupportedEncodingException, JSONException {
+        String baseurl = API_BASE_URL + "/setimage";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("UID", uid);
+        jsonObject.put("image", url);
+        entity = new StringEntity(jsonObject.toString());
+        client.post(context, baseurl, entity, "application/json", jsonHttpResponseHandler);
+        Log.e("ParseNewsClient", "just posted image url");
     }
 
     public void addLike(final int uid, final double postBias, final String postUrl,
@@ -124,6 +137,7 @@ public class ParseNewsClient {
     }
 
     public void getComments(final String articleUrl, JsonHttpResponseHandler jsonHttpResponseHandler){
+        Log.e("getComments", articleUrl);
         String url = API_BASE_URL + "/comment";
         RequestParams params = new RequestParams();
         params.put(GET_ARTICLE_COMMENTS_KEY, articleUrl);
@@ -150,4 +164,26 @@ public class ParseNewsClient {
         entity = new StringEntity(jsonObject.toString());
         client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
     }
+
+    public void getNumComments(int UID, JsonHttpResponseHandler jsonHttpResponseHandler) throws
+            UnsupportedEncodingException, JSONException {
+        Log.e("getNumComments UID", Integer.toString(UID));
+        String url = API_BASE_URL + "/getcomments";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("UID", UID);
+        entity = new StringEntity(jsonObject.toString());
+        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+    }
+
+    public void getNumLikes(int UID,JsonHttpResponseHandler jsonHttpResponseHandler) throws
+            UnsupportedEncodingException, JSONException {
+        String url = API_BASE_URL + "/getlikes";
+        JSONObject jsonObject = new JSONObject();
+        StringEntity entity;
+        jsonObject.put("UID", UID);
+        entity = new StringEntity(jsonObject.toString());
+        client.post(context, url, entity, "application/json", jsonHttpResponseHandler);
+    }
+
 }

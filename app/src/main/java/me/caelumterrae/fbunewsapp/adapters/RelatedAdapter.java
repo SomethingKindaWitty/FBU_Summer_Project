@@ -54,7 +54,7 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
         RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10,10));
 
         // Initialize the fields of all the required parts
-        holder.tvTitle.setText(post.getTitle(25));
+        holder.tvTitle.setText(post.getTitle(40));
         Glide.with(context)
                 .load(post.getImageUrl())
                 .apply(cropOptions)

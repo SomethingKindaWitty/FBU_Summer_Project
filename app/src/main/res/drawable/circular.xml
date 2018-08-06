@@ -8,8 +8,8 @@
         <shape
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="ring"
-            android:innerRadiusRatio="2.3"
-            android:thickness="8sp"
+            android:innerRadiusRatio="2.8"
+            android:thickness="15sp"
             android:useLevel="false">
 
 
@@ -22,9 +22,9 @@
     <item android:id="@android:id/progress">
 
             <shape android:useLevel="true"
-                android:innerRadiusRatio="2.3"
+                android:innerRadiusRatio="2.8"
                 android:shape="ring"
-                android:thickness="8sp"
+                android:thickness="15sp"
                 xmlns:android="http://schemas.android.com/apk/res/android">
                 <solid android:color="@color/sea_blue" />
             </shape>

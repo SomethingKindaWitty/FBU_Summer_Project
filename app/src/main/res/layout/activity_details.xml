@@ -4,11 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activities.DetailsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -22,11 +26,10 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="30dp"
-                android:fontFamily="serif"
+                android:fontFamily="@font/opensans_light"
                 android:gravity="center_horizontal"
                 android:text="Title"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="56dp"
@@ -38,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTitle"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 app:srcCompat="@android:drawable/ic_menu_camera" />
 
             <TextView
@@ -47,12 +50,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivMedia"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/opensans"
                 android:text="@string/placeholder_text"
                 android:textAlignment="textStart"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvRelated"
@@ -66,13 +71,30 @@
 
             <ImageButton
                 android:id="@+id/btnLike"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignStart="@+id/tvTitle"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignStart="@+id/tvBody"
                 android:layout_below="@+id/tvBody"
+                android:layout_marginTop="0dp"
                 android:background="@color/transparent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/upvote_button" />
+
+
+            <Button
+                android:id="@+id/commentButton"
+                android:layout_width="145dp"
+                android:layout_height="37dp"
+                android:layout_alignBottom="@+id/btnLike"
+                android:layout_below="@+id/tvBody"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="-2dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/opensans_light"
+                android:text="View Comments"
+                android:textAllCaps="false"
+                android:textColor="@color/sea_blue"
+                android:textSize="14sp" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -81,14 +103,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tvBody"
                 android:layout_centerHorizontal="true" />
-
-            <Button
-                android:id="@+id/commentButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/progressBar"
-                android:layout_below="@+id/tvBody"
-                android:text="View comments" />
 
         </RelativeLayout>
     </ScrollView>

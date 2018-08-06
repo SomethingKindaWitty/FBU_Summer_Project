@@ -27,13 +27,16 @@ public class Comment {
 
     private String username;
 
+    private String userUrl;
+
     public static Comment fromJSON(JSONObject jsonObject) throws JSONException, ParseException {
         Comment comment = new Comment();
-        comment.setDate(DateFunctions.getRelativeDate(jsonObject.getString("createdAt")));
+        comment.setDate(DateFunctions.getRelativeDateComment(jsonObject.getString("createdAt")));
         comment.setUrl(jsonObject.getString("articleUrl"));
         comment.setComment(jsonObject.getString("body"));
         comment.setUsername(jsonObject.getString("username"));
         comment.setUid(jsonObject.getInt("uid"));
+        comment.setUserUrl(jsonObject.getString("profileImage"));
         return comment;
     }
 
@@ -84,5 +87,13 @@ public class Comment {
     public String getRelativeTime() {
         PrettyTime p = new PrettyTime();
         return p.format(date);
+    }
+
+    public String getUserUrl() {
+        return userUrl;
+    }
+
+    public void setUserUrl(String userUrl) {
+        this.userUrl = userUrl;
     }
 }

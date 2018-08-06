@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp.singleton;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -41,6 +42,16 @@ public class CurrentUser {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void createUser(User user, Context context, Class<?> nextClass) {
+        Log.e( "CurrentUser","User being created");
+        myUid = user.getUid();
+        myUser = user;
+        parseNewsClient = new ParseNewsClient(myContext);
+        myContext = context;
+        Intent intent = new Intent(context, nextClass);
+        context.startActivity(intent);
     }
 
     public static void setUid(int myUid) {

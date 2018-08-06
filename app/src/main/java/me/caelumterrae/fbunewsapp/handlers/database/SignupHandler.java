@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.PoliticalActivity;
+import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.RelatedHandler;
@@ -24,10 +25,8 @@ import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
-// This handler gets called in: Login Activity signup button handler
-// This handler: Stores uid (for PoliticalActivity) and simply moves user to political activity
-// This handler gets called in: LoginActivity onSubmit of sign up button
-// This handler: uses intent to move user to PoliticalActivity with UID packaged inside
+// This handler gets called in: Political Activity in on submit button listener
+// This handler: creates user from Json and sets to current user, and then moves to Swipe Activity
 public class SignupHandler extends JsonHttpResponseHandler {
 
     Context context;
@@ -39,10 +38,11 @@ public class SignupHandler extends JsonHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         try {
             int UID = response.getInt("UID");
+            Log.e("UID", Integer.toString(UID));
             if (UID != -1) {
-                CurrentUser.setUid(UID);
-                Intent intent = new Intent(context, PoliticalActivity.class);
-                context.startActivity(intent);
+                User user = User.fromJSON(response);
+                Log.e("User", "created");
+                CurrentUser.createUser(user, context, SwipeActivity.class);
             }
             else {
                 Toast.makeText(context, "Signup Error - User already exists", Toast.LENGTH_LONG).show();

@@ -22,6 +22,7 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 // This handler gets called in: DetailsActivity in oncreate
 // This handler: will adjust the upvote button to be selected if user previously liked it
@@ -47,7 +48,7 @@ public class GetLikeHandler extends JsonHttpResponseHandler {
                 try {
                     if (response.getBoolean("isLiked")) {
                         button.setSelected(true);
-                        Log.e("GetLikeHandler", "User has liked this post before");
+                        Log.e("GetLikeHandler", "User has liked this post before.");
                     } else {
                         Log.e("GetLikeHandler", "User has NOT liked this post before");
                     }

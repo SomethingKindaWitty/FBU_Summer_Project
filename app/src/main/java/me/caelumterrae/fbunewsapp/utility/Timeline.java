@@ -26,8 +26,6 @@ import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 public class Timeline {
 
 
-    public static HashMap<String, String> sourceBias;
-
     // Orders posts based on user's political affiliation. Takes in rawPosts (list of all raw posts)
     // and context. Updates post & adapter with the curated posts
     public static void populateTimeline(ArrayList<Post> rawPosts, Context context,
@@ -84,38 +82,4 @@ public class Timeline {
         return p;
     }
 
-    /* Populates sourceBias hashmap with key=URL and value=bias.
-     * Example output { `
-     *  nytimes.com : leftcenter
-     *  democracynow.org : left
-     *  }
-     */
-    public static HashMap<String, String> populateBiasHashMap(AsyncHttpClient client) {
-        sourceBias = new HashMap<>();
-        client.get(TopNewsClient.MEDIA_BIAS_URL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    Iterator<?> keys = response.keys();
-                    while (keys.hasNext()) { // iterate over JSONObject
-                        String key = (String)keys.next();
-                        JSONObject valueObject = response.getJSONObject(key);
-                        String value = valueObject.getString("bias");
-                        if (response.get(key) instanceof JSONObject ) {
-                            sourceBias.put(key, value);
-                             // Log.i("BOOP", key + " : " + value);
-                        }
-                    }
-                } catch (JSONException e) {
-                    Log.e("HashMap", "Failed to parse top posts", e);
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e("HashMap", "Failed to get data from now playing endpoint", throwable);
-            }
-        });
-        return sourceBias;
-    }
 }

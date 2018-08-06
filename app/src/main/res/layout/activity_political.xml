@@ -4,78 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    android:background="@color/white"
     tools:context=".activities.PoliticalActivity">
 
-    <TextView
-        android:id="@+id/tvTitle"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="189dp"
-        android:text="@string/political_affiliation"
-        android:textAlignment="center"
-        android:textColor="@color/browser_secondary_text"
-        android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:layout_margin="20dp">
 
-    <SeekBar
-        android:id="@+id/sbSeekBar"
-        style="@style/MySeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:progress="50"
-        android:progressTint="#D7D7D7"
-        android:thumbTint="@android:color/darker_gray" />
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-    <TextView
-        android:id="@+id/tvLiberal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/sbSeekBar"
-        android:layout_below="@+id/sbSeekBar"
-        android:text="@string/liberal"
-        android:textColor="@color/browser_secondary_text" />
+            android:layout_marginTop="189dp"
+            android:fontFamily="@font/opensans_light"
+            android:text="@string/political_affiliation"
+            android:textAlignment="center"
+            android:textColor="@color/browser_secondary_text"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/tvConservative"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/sbSeekBar"
-        android:layout_below="@+id/sbSeekBar"
-        android:text="@string/conservative"
-        android:textColor="@color/browser_secondary_text" />
+        <SeekBar
+            android:id="@+id/sbSeekBar"
+            style="@style/MySeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:progress="50"
+            android:thumbTint="@android:color/darker_gray" />
 
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/login_background"
-        android:onClick="onSubmit"
-        android:text="Submit"
-        android:textColor="@android:color/white" />
+        <TextView
+            android:id="@+id/tvLiberal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/sbSeekBar"
+            android:layout_below="@+id/sbSeekBar"
+            android:fontFamily="@font/opensans_light"
+            android:text="@string/liberal"
+            android:textColor="@color/browser_secondary_text" />
 
-    <TextView
-        android:id="@+id/tvModerate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sbSeekBar"
-        android:layout_centerHorizontal="true"
-        android:text="Moderate"
-        android:textColor="@color/browser_secondary_text" />
+        <TextView
+            android:id="@+id/tvConservative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/sbSeekBar"
+            android:layout_below="@+id/sbSeekBar"
+            android:fontFamily="@font/opensans_light"
+            android:text="@string/conservative"
+            android:textColor="@color/browser_secondary_text" />
 
-    <ImageView
-        android:id="@+id/duck"
-        android:layout_width="100dp"
-        android:layout_height="95dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        app:srcCompat="@drawable/duckie" />
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/blue_border_button"
+            android:fontFamily="@font/opensans"
+            android:onClick="onSubmit"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/sea_blue" />
+
+        <TextView
+            android:id="@+id/tvModerate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sbSeekBar"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/opensans_light"
+            android:text="Moderate"
+            android:textColor="@color/browser_secondary_text" />
+
+        <ImageView
+            android:id="@+id/duck"
+            android:layout_width="100dp"
+            android:layout_height="95dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="75dp"
+            app:srcCompat="@drawable/duckie" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

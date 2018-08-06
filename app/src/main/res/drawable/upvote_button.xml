@@ -2,8 +2,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- NOTE: order is important (the first matching state(s) is what is rendered) -->
     <item
+        android:state_focused="false"
         android:state_selected="true"
         android:drawable="@drawable/upvoted" />
     <item
+        android:state_focused="false"
+        android:state_selected="false"
         android:drawable="@drawable/upvote" />
 </selector>

@@ -43,7 +43,6 @@ public class SwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
-
         // Create the placeholder fragments to be passed to the ViewPager
         fragments.add(new FeedFragment());
         fragments.add(new GraphicsFragment());

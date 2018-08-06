@@ -20,6 +20,7 @@ import org.parceler.Parcels;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.graphics.MyGLRenderer;
 import me.caelumterrae.fbunewsapp.model.User;
+import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 
 
 public class GraphicsFragment extends Fragment {

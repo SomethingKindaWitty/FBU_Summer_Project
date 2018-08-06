@@ -4,10 +4,19 @@
 
     <!-- Allows us to access internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Allows us to access camera and related functionality -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- Allows us to use OpenGL -->
     <uses-feature
         android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <!-- Camera Required -->
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <application
@@ -27,6 +36,17 @@
         <activity android:name=".activities.DetailsActivity" />
         <activity android:name=".activities.PoliticalActivity" />
         <activity android:name=".activities.SwipeActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="me.caelumterrae.fbunewsapp"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+
+        </provider>
         <activity android:name=".activities.CreateActivity" />
         <activity android:name=".activities.CommentActivity"></activity>
     </application>

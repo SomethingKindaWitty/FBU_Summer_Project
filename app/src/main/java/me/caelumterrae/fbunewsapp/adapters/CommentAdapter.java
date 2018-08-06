@@ -3,6 +3,7 @@ package me.caelumterrae.fbunewsapp.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
+import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
 import me.caelumterrae.fbunewsapp.model.Comment;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
@@ -46,14 +52,31 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Comment comment = mComments.get(i);
+        User newUser = new User();
 
         viewHolder.tvComment.setText(comment.getComment());
-        viewHolder.tvUsername.setText(user.getUsername());
+        viewHolder.tvUsername.setText(comment.getUsername());
         viewHolder.tvDate.setText(comment.getRelativeTime());
 
+//        ParseNewsClient parseNewsClient = new ParseNewsClient(context);
+//
+//        try {
+//            parseNewsClient.getUser(comment.getUid(), new GetUserHandler(newUser, context, null));
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            Log.e("User url", newUser.getProfileUrl());
+//        } catch (NullPointerException e) {
+//            Log.e("User url", "null");
+//        }
+
         Glide.with(context)
-            .load(R.drawable.duckie)
-                .apply(new RequestOptions().fitCenter())
+            .load(comment.getUserUrl())
+                .apply(new RequestOptions().circleCrop().placeholder(R.drawable.duckie))
                 .into(viewHolder.ivProfileImage);
     }
 

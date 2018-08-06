@@ -4,14 +4,11 @@ package me.caelumterrae.fbunewsapp.model;
 //import android.arch.persistence.room.Entity;
 //import android.arch.persistence.room.PrimaryKey;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.ocpsoft.prettytime.PrettyTime;
 import org.parceler.Parcel;
-
-import java.text.ParseException;
-
-import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 
 //@Entity
 @Parcel
@@ -21,7 +18,22 @@ public class User {
         //for Parcel
     }
 
-    // Populates everything from JSON except password and categories
+    public static User fromJSON(JSONObject jsonObject) throws JSONException {
+        User user = new User();
+        Log.e("User", "begun creation");
+        user.setUid(jsonObject.getInt("UID"));
+        user.setUsername(jsonObject.getString("username"));
+        user.setPassword("password");
+        user.setProfileUrl(jsonObject.getString("url"));
+        user.setPoliticalPreference(jsonObject.getDouble("politicalPreference"));
+        user.setNumUpvoted(jsonObject.getInt("numUpvoted"));
+        user.setCategories("categories");
+        Log.e("url", user.getProfileUrl());
+        return user;
+    }
+
+    // Populates everything from JSON except categories
+    // Categories and url are flipped temporarily TODO- edit backend to change flip
     public static void fromJSON(User user, JSONObject jsonObject) throws JSONException {
         user.setUid(jsonObject.getInt("UID"));
         user.setUsername(jsonObject.getString("username"));
@@ -102,8 +114,10 @@ public class User {
         this.politicalPreference = politicalPreference;
     }
 
+    // Returns scaled numUpvoted to reflect what the user has actually upvoted without
+    // taking away the scale of the political affiliation
     public int getNumUpvoted() {
-        return numUpvoted;
+        return numUpvoted-10;
     }
 
     public void setNumUpvoted(int numUpvoted) {

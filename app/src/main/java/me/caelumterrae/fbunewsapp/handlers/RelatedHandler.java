@@ -17,6 +17,7 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.utility.Format;
 import me.caelumterrae.fbunewsapp.utility.Timeline;
 
@@ -24,14 +25,12 @@ public class RelatedHandler extends JsonHttpResponseHandler{
     String originalurl;
     RelatedAdapter relatedAdapter;
     ArrayList<Post> posts;
-    HashMap<String, String> sourceBias;
     Context context;
 
-    public RelatedHandler(String originalurl, RelatedAdapter relatedAdapter, ArrayList<Post> posts, HashMap<String, String> sourceBias, Context context) {
+    public RelatedHandler(String originalurl, RelatedAdapter relatedAdapter, ArrayList<Post> posts, Context context) {
         this.originalurl = originalurl;
         this.relatedAdapter = relatedAdapter;
         this.posts = posts;
-        this.sourceBias = sourceBias;
         this.context = context;
     }
 
@@ -45,13 +44,12 @@ public class RelatedHandler extends JsonHttpResponseHandler{
             for (int i = 0; i < results.length(); i++) {
                 Post post = Post.fromJSON(results.getJSONObject(i));
                 if (!post.getUrl().equals(originalurl)) {
-                    String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
+                    String bias = BiasHashMap.getSourceBias().get(Format.trimUrl(post.getUrl()));
                     post.setPoliticalBias(Format.biasToNum(bias));
                     rawPosts.add(post);
                 }
             }
             Timeline.populateTimeline(rawPosts, context, posts, relatedAdapter);
-            // TODO: populate the Related
             Log.i("TopNewsClient", String.format("Loaded %s posts", results.length()));
         } catch (JSONException e) {
             Log.e("TopNewsClient", "Failed to parse top posts", e);

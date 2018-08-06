@@ -17,18 +17,17 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
+import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.utility.Format;
 import me.caelumterrae.fbunewsapp.utility.Timeline;
 
 public class TimelineHandler extends JsonHttpResponseHandler{
-    HashMap<String, String> sourceBias;
     ArrayList<Post> posts;
     FeedAdapter feedAdapter;
     Context context;
     public final static String TAG = "TimelineHandler";
 
-    public TimelineHandler(HashMap<String, String> sourceBias, ArrayList<Post> posts, FeedAdapter feedAdapter, Context context) {
-        this.sourceBias = sourceBias;
+    public TimelineHandler(ArrayList<Post> posts, FeedAdapter feedAdapter, Context context) {
         this.posts = posts;
         this.feedAdapter = feedAdapter;
         this.context = context;
@@ -48,7 +47,7 @@ public class TimelineHandler extends JsonHttpResponseHandler{
             for (int i = 0; i < results.length(); i++) {
                 Post post = Post.fromJSON(results.getJSONObject(i));
                 // Sets the political bias of a source like "cnbc.com" to 0(left)-100(right)
-                String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
+                String bias = BiasHashMap.getSourceBias().get(Format.trimUrl(post.getUrl()));
                 post.setPoliticalBias(Format.biasToNum(bias));
                 Log.i(TAG, Format.trimUrl(post.getUrl()) + " " + Integer.toString(Format.biasToNum(bias)) + " " + bias);
                 // Add to rawPosts. afterwards, populate timeline based on affiliation
