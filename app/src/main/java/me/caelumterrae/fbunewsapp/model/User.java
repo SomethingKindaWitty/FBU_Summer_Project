@@ -4,6 +4,8 @@ package me.caelumterrae.fbunewsapp.model;
 //import android.arch.persistence.room.Entity;
 //import android.arch.persistence.room.PrimaryKey;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -18,6 +20,7 @@ public class User {
 
     public static User fromJSON(JSONObject jsonObject) throws JSONException {
         User user = new User();
+        Log.e("User", "begun creation");
         user.setUid(jsonObject.getInt("UID"));
         user.setUsername(jsonObject.getString("username"));
         user.setPassword("password");
@@ -25,6 +28,7 @@ public class User {
         user.setPoliticalPreference(jsonObject.getDouble("politicalPreference"));
         user.setNumUpvoted(jsonObject.getInt("numUpvoted"));
         user.setCategories("categories");
+        Log.e("url", user.getProfileUrl());
         return user;
     }
 
