@@ -156,9 +156,8 @@
                     android:id="@+id/middlepanel"
                     android:layout_width="match_parent"
                     android:layout_height="1124dp"
-                    android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginBottom="113dp"
+                    android:layout_marginTop="235dp"
                     android:background="#F4F7F8" />
 
 
