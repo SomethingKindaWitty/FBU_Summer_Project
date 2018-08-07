@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -86,6 +87,7 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
             i.putExtra(User.class.getSimpleName(), userID);
             i.putExtra("source", "RelatedAdapter");
             context.startActivity(i);
+            ((Activity)context).finish();
         }
     }
 

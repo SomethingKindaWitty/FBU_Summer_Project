@@ -25,4 +25,8 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="OpenSansLight">
+        <item name="android:fontFamily">@font/opensans_light</item>
+    </style>
+
 </resources>

@@ -1,20 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cvCommentRoot"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="3dp"
-    android:layout_marginTop="1dp"
-    android:background="@android:color/white"
-    card_view:cardCornerRadius="2dp"
-    card_view:cardElevation="2dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/relative"
@@ -26,43 +10,56 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/ivProfileImage"
                 android:fontFamily="@font/opensans_light"
-                android:text="Username"
-                android:textColor="@android:color/black" />
+                android:text="Username" />
 
-            <TextView
-                android:id="@+id/tvComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tvUsername"
-                android:layout_below="@+id/tvUsername"
-                android:fontFamily="@font/opensans"
-                android:text="Comment" />
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvUsername"
+        android:layout_below="@+id/tvUsername"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:fontFamily="@font/opensans"
+        android:text="Comment"
+        android:textSize="12dp" />
 
-            <ImageView
-                android:id="@+id/ivProfileImage"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/backgroundprofile" />
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/circle_drop_shadow"
+        android:padding="3dp"
+        app:srcCompat="@drawable/backgroundprofile" />
 
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="5dp"
-                android:fontFamily="@font/opensans"
-                android:text="Date"
-                android:textColor="@android:color/darker_gray" />
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/opensans"
+        android:text="Date"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#e1e1e1" />
 
         </RelativeLayout>
-    </LinearLayout>
-</android.support.v7.widget.CardView>
