@@ -1,12 +1,15 @@
 package me.caelumterrae.fbunewsapp.activities;
 
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -60,6 +63,18 @@ public class CommentActivity extends AppCompatActivity {
         ibSend = findViewById(R.id.ibSend);
         profileImage = findViewById(R.id.tvProfileImage);
         etComment = findViewById(R.id.etComment);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Comments");
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setTitleTextAppearance(this, R.style.OpenSansLight);
+
+        setSupportActionBar(toolbar);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         //create our quacking refresh sound
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.quack);
@@ -126,5 +141,16 @@ public class CommentActivity extends AppCompatActivity {
                 R.color.sea_blue, R.color.yellow_duck,
                 R.color.sea_blue_light);
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
