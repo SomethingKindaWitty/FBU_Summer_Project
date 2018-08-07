@@ -81,6 +81,7 @@ import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
+import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -152,7 +153,7 @@ public class UserFragment extends Fragment {
         if (user != null){
             getNumComments();
             Log.e("url", user.getProfileUrl());
-            photoFileName = user.getUsername() + "photo.jpg";
+            photoFileName = user.getUsername() + DateFunctions.getTodaysTimeAndDate() + "photo.jpg";
             createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl(), num.get(0));
             //create our quacking refresh sound
             final View view1 = view;
