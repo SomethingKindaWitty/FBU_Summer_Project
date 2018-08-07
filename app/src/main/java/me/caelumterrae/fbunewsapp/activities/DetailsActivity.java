@@ -46,6 +46,7 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvBody;
     ImageView ivMedia;
     ImageButton upVote;
+    ImageButton share;
     Button commentButton;
     Post post;
     Drawable main;
@@ -77,6 +78,7 @@ public class DetailsActivity extends AppCompatActivity {
         upVote = findViewById(R.id.btnLike);
         pb = findViewById(R.id.progressBar);
         commentButton = findViewById(R.id.commentButton);
+        share = findViewById(R.id.btnShare);
         upVote.setVisibility(View.INVISIBLE); // Hide button until it loads in Getlikehandler
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -126,6 +128,12 @@ public class DetailsActivity extends AppCompatActivity {
                 onCommentsClick();
             }
         });
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onShareClick();
+            }
+        });
     }
 
     private void onUpvoteClick() {
@@ -147,6 +155,14 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CommentActivity.class);
         intent.putExtra("URL", post.getUrl());
         startActivity(intent);
+    }
+
+    private void onShareClick() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, post.getUrl());
+        intent.setType("text/plain");
+        startActivity(Intent.createChooser(intent, "Share Article URL"));
     }
 
     @Override

@@ -105,6 +105,17 @@
                         android:textColor="@color/sea_blue"
                         android:textSize="14sp" />
 
+                    <ImageButton
+                        android:id="@+id/btnShare"
+                        android:layout_width="44dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"
+                        android:tint="@color/sea_blue"
+                        app:srcCompat="@drawable/share" />
+
                     <ProgressBar
                         android:id="@+id/progressBar"
                         style="?android:attr/progressBarStyle"
