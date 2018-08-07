@@ -53,12 +53,12 @@
     <color name="blueteal_5">#ff1eb1e5</color>
     <color name="blueteal_5_10_transparent">#1a1eb1e5</color>
     <color name="blueteal_5_20_transparent">#331eb1e5</color>
-    <color name="blueteal_6">#ff1b9fce</color>
+    <color name="blueteal_6">#1b9fce</color>
     <color name="blueteal_7">#ff188db7</color>
     <color name="blueteal_8">#ff147b9f</color>
     <color name="blueteal_9">#ff126a89</color>
     <color name="blur_mask_tint_color">#66f1f1f1</color>
-    <color name="body_text">#ff999999</color>
+    <color name="body_text">#999999</color>
     <color name="border_color">#ffcccccc</color>
     <color name="bottomsheet_background_dimmer_color">@color/black_50_transparent</color>
     <color name="browser_alternative_subtitle_color">#ff8a9ccd</color>
@@ -297,5 +297,6 @@
     <color name= "duck_beak">#EFB742</color>
     <color name="sea_blue">#4999da</color>
     <color name="sea_blue_light">#73aad7</color>
+    <color name="background">#F4F7F8</color>
 </resources>
 
