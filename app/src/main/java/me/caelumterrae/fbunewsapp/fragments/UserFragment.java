@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -33,10 +34,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -113,6 +116,7 @@ public class UserFragment extends Fragment {
     public String photoFileName;
     private String imagePath = null;
     File photoFile;
+    DecimalFormat df = new DecimalFormat("#.#");
 
     public UserFragment(){
 
@@ -196,7 +200,6 @@ public class UserFragment extends Fragment {
         numCommented.setText(String.valueOf(numComments));
 
         // Rounds politicalAff to two decimal places
-        DecimalFormat df = new DecimalFormat("#.#");
         df.setRoundingMode(RoundingMode.CEILING);
         double politicalRounded = Double.parseDouble(df.format(politicalAff));
 
@@ -328,9 +331,11 @@ public class UserFragment extends Fragment {
         BetaDis betaDis = new BetaDis(politicalRounded);
         LineChart betachart = view.findViewById(R.id.betachart);
         Description desc = new Description();
-        desc.setText("Beta Distribution: Alpha: " + Integer.toString((int)betaDis.getAlpha())
-                + ", Beta: " + Integer.toString((int)betaDis.getBeta()));
+        desc.setText("Beta Distribution: Alpha: " + df.format(betaDis.getAlpha())
+                + ", Beta: " + df.format(betaDis.getBeta()));
         betachart.setDescription(desc);
+        betachart.setPinchZoom(false);
+
         XAxis x = betachart.getXAxis();
         x.setDrawGridLines(false);
         x.setLabelCount(10, false);
@@ -349,10 +354,10 @@ public class UserFragment extends Fragment {
         beta_dataSet.setDrawCircles(false);
         beta_dataSet.setLineWidth(1.8f);
         beta_dataSet.setCircleRadius(4f);
-        beta_dataSet.setCircleColor(Color.BLACK);
-        beta_dataSet.setHighLightColor(Color.rgb(244, 117, 117));
-        beta_dataSet.setColor(Color.BLACK);
-        beta_dataSet.setFillColor(Color.BLACK);
+        beta_dataSet.setCircleColor(Color.rgb(73,153,218));
+        beta_dataSet.setHighLightColor(Color.rgb(239,183,66));
+        beta_dataSet.setColor(Color.rgb(73,153,218));
+        beta_dataSet.setFillColor(Color.rgb(73,153,218));
         beta_dataSet.setFillAlpha(100);
         beta_dataSet.setDrawHorizontalHighlightIndicator(false);
         beta_dataSet.setFillFormatter(new IFillFormatter() {
@@ -375,6 +380,8 @@ public class UserFragment extends Fragment {
         SparseIntArray values = new SparseIntArray(5);
         ArrayList<RadarEntry> radarEntries = new ArrayList<>();
         ArrayList<IRadarDataSet> radarDataSets = new ArrayList<>();
+        radarChart.getDescription().setEnabled(false);
+        radarChart.setWebAlpha(100);
 
 
         affiliation.append(1, R.string.left);
@@ -399,6 +406,17 @@ public class UserFragment extends Fragment {
 
         });
 
+
+        Legend l = radarChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+        l.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.opensans));
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(5f);
+        l.setTextColor(Color.BLACK);
+
         YAxis yAxis = radarChart.getYAxis();
         yAxis.setDrawLabels(false);
 
@@ -416,9 +434,14 @@ public class UserFragment extends Fragment {
             radarEntries.add(new RadarEntry(values.get(i)));
         }
         RadarDataSet dataSet2 = new RadarDataSet(radarEntries, "# of posts you upvoted across the political spectrum");
+        dataSet2.setColor(Color.rgb(73,153,218));
+        dataSet2.setFillColor(Color.rgb(73,153,218));
         dataSet2.setDrawFilled(true);
         radarDataSets.add(dataSet2);
+
         RadarData data = new RadarData(radarDataSets);
+        data.setValueTypeface(ResourcesCompat.getFont(getActivity(), R.font.opensans));
+        data.setValueTextSize(9f);
         radarChart.setData(data);
         radarChart.invalidate();
     }
