@@ -112,6 +112,9 @@ public class CommentActivity extends AppCompatActivity {
                 c.setUserUrl(CurrentUser.getUser().getProfileUrl());
                 comments.add(0, c);
                 commentAdapter.notifyItemInserted(0);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) rvComments
+                        .getLayoutManager();
+                layoutManager.scrollToPositionWithOffset(0, 0);
 
                 try {
                     parseNewsClient.postComment(c.getUid(), c.getComment(), url, new
