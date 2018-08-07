@@ -132,7 +132,6 @@ public class UserFragment extends Fragment {
         adapter.addFragment(new PoliticalAffiliationFragment(), "Pol. Affiliation");
         adapter.addFragment(new UpvotedFragment(), "Upvoted");
         adapter.addFragment(new CommentFragment(), "Comments");
-
         viewPager.setAdapter(adapter);
     }
 
@@ -232,7 +231,7 @@ public class UserFragment extends Fragment {
         // If permission for camera not given, make permissions request
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(),
+            requestPermissions(
                     new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSIONS_REQUEST_CAMERA);
         } else {
@@ -242,43 +241,21 @@ public class UserFragment extends Fragment {
 
     }
 
-
     // Takes in the result of permission requests
     // Creates error/Toast message or allows camera intent to begin
-    @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+        Log.e("OnRequestResult", "Accessed");
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CAMERA: {
                 // Empty if request is canceled
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Checks to see if permission was granted
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.e("Camera", "Permission Granted");
-                    // If permission has not been granted for storage, make a permissions request
-                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(getActivity(),
-                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                MY_PERMISSIONS_REQUEST_STORAGE);
-                    } else {
-                        // Create intent to start camera
-                        createCameraIntent();
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Cannot take picture", Toast.LENGTH_SHORT).show();
-                    Log.e("Camera", "Permission Denied");
-                }
-                return;
-            }
-
-            case MY_PERMISSIONS_REQUEST_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("Storage", "Permission Granted");
                     createCameraIntent();
                 } else {
-                    Toast.makeText(getContext(), "Cannot take picture", Toast.LENGTH_SHORT).show();
-                    Log.e("Storage", "Permission Denied");
+                    Toast.makeText(getContext(), "Cannot take picture", Toast.LENGTH_LONG).show();
+                    Log.e("Camera", "Permission Denied");
                 }
                 return;
             }
