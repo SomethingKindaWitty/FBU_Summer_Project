@@ -22,6 +22,7 @@ import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.hexagon.SpecificRelatedHandler;
+import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 
 @Parcel
@@ -275,6 +276,6 @@ public class Post {
             }
         }
         //after getting the keywords from the posts, generate a post using a new endpoint that I have to create shoot.
-        client.getSpecificRelated(keywords, new SpecificRelatedHandler(postmap, client.sourceBias, parseclient, client, x, y));
+        client.getSpecificRelated(keywords, new SpecificRelatedHandler(postmap, BiasHashMap.getSourceBias(), parseclient, client, x, y));
     }
 }

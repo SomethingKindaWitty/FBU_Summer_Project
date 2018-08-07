@@ -10,11 +10,8 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
-import me.caelumterrae.fbunewsapp.utility.Timeline;
 
 public class TopNewsClient extends AppCompatActivity {
     public final static String MEDIA_BIAS_URL = "https://raw.githubusercontent.com/drmikecrowe/mbfcext/master/docs/sources.json";
@@ -46,7 +43,6 @@ public class TopNewsClient extends AppCompatActivity {
 
     public TopNewsClient() {
         client = new AsyncHttpClient(); // TODO: close
-        sourceBias = Timeline.populateBiasHashMap(client);
     }
 
     // Retrieves ArrayList of posts of top news from newsapi.org APi

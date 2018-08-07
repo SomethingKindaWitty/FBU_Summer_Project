@@ -17,6 +17,7 @@ import javax.microedition.khronos.opengles.GL10;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.hexagon.InitialHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
+import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.utility.Format;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
@@ -78,7 +79,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             generated.add(boolRow);
         }
 
-        client.getTopNews(new InitialHandler(postMap, client.sourceBias, context));
+        client.getTopNews(new InitialHandler(postMap, BiasHashMap.getSourceBias(), context));
 
     }
 
