@@ -9,6 +9,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
@@ -43,6 +44,11 @@ public class TopNewsClient extends AppCompatActivity {
         context = c;
     }
 
+    public TopNewsClient() {
+        client = new AsyncHttpClient(); // TODO: close
+        sourceBias = Timeline.populateBiasHashMap(client);
+    }
+
     // Retrieves ArrayList of posts of top news from newsapi.org APi
     // Pass in feedAdapter and this function will populate it with top news articles
     public void getTopNews(JsonHttpResponseHandler jsonHttpResponseHandler) {
@@ -68,6 +74,21 @@ public class TopNewsClient extends AppCompatActivity {
         params.put(FROM_PARAM, date);
         params.put(API_KEY_PARAM, API_KEY);
         params.put(KEYWORD_KEY_PARAM, category);
+        client.get(url, params, jsonHttpResponseHandler);
+    }
+
+
+    public void getSpecificRelated(ArrayList<String> keywords, JsonHttpResponseHandler jsonHttpResponseHandler){
+        String url = API_BASE_URL + "/everything";
+        String date = DateFunctions.getPreviousDate(DAYS_BACK);
+        RequestParams params = new RequestParams();
+        params.put(LANGUAGE_PARAM, LANGUAGE);
+        params.put(SOURCES_PARAM, SOURCES);
+        params.put(FROM_PARAM, date);
+        params.put(API_KEY_PARAM, API_KEY);
+        for(int i = 0; i < keywords.size(); i++){
+            params.put(KEYWORD_KEY_PARAM, keywords.get(i));
+        }
         client.get(url, params, jsonHttpResponseHandler);
     }
 

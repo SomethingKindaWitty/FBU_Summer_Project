@@ -14,12 +14,16 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import me.caelumterrae.fbunewsapp.client.TopNewsClient;
+import me.caelumterrae.fbunewsapp.handlers.hexagon.InitialHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.utility.Format;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
     private ArrayList<Hexagon> hexagons;
     private ArrayList<ArrayList<Hexagon>> hexagonMap;
+    private ArrayList<ArrayList<Post>> postMap;
+    private ArrayList<ArrayList<Boolean>> generated;
     private HashMap<String, String> sourceBias;
 
 
@@ -33,27 +37,23 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private float X_OFF = 0.5f;//0th row
     private float Y_OFF = 0.45f;//multiply by difference to offset the y
     private float ODD_X_OFF = 0.25f; //add this to all x offsets if they are odd.
-
+    private TopNewsClient client;
+    Context context;
     public MyGLRenderer() {
     }
 
-    public MyGLRenderer(HashMap<String, String> sourceBias) {
-        this.sourceBias = sourceBias;
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    public MyGLRenderer(HashMap<String, String> sourceBias, Context context) {
+        this.context = context;
+        this.sourceBias = sourceBias;
+        client = new TopNewsClient();
 
-        hexagons = new ArrayList<>();
-        //x and then y
-        hexagonMap = new ArrayList<ArrayList<Hexagon>>();
-
-
+        postMap = new ArrayList<ArrayList<Post>>();
+        generated = new ArrayList<ArrayList<Boolean>>();
 
         for(int x = 0; x <=10; x++){
-            ArrayList<Hexagon> row = new ArrayList<>();
+            ArrayList<Post> row = new ArrayList<>();
+            ArrayList<Boolean> boolRow = new ArrayList<>();
             for(int y = 0; y <= 14;y++){
                 Post post = new Post();
                 post.setTitle(Integer.toString(x) + " " + Integer.toString(y));
@@ -66,6 +66,43 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 //TESTING
                 int randomNum = ThreadLocalRandom.current().nextInt(0, 6);
                 post.setPoliticalBias(randomNum*25);
+                if(Math.abs(y) % 2==0){
+                    //EVEN ROW
+                    row.add(post);
+                }else{
+                    row.add(post);
+                }
+                boolRow.add(false);
+            }
+            postMap.add(row);
+            generated.add(boolRow);
+        }
+
+        client.getTopNews(new InitialHandler(postMap, client.sourceBias, context));
+
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//        client = new TopNewsClient();
+        //x and then y
+        hexagonMap = new ArrayList<ArrayList<Hexagon>>();
+
+        for(int x = 0; x <=10; x++){
+            ArrayList<Hexagon> row = new ArrayList<>();
+            for(int y = 0; y <= 14;y++){
+                Post post = new Post();
+                post.setTitle(Integer.toString(x) + " " + Integer.toString(y));
+                post.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
+                post.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
+                post.setBody("test");
+                String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
+                post.setPoliticalBias(Format.biasToNum(bias));
+
+
                 if(Math.abs(y) % 2==0){
                     //EVEN ROW
                     row.add(new Hexagon(0.5f,x*X_OFF - (5*X_OFF),y*Y_OFF - (7*Y_OFF), post));
@@ -103,18 +140,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Draw shape
 
+
         for(int x = 0; x < hexagonMap.size(); x++){
             for(int y = 0; y < hexagonMap.get(0).size(); y++){
-                hexagonMap.get(x).get(y).draw(scratch);
+                hexagonMap.get(x).get(y).draw(scratch, postMap.get(x).get(y).getPoliticalBias());
             }
         }
 
-
-//        for (int i = 0; i < hexagons.size(); i++){
-//            //hexagons.get(i).translate(mDistanceX, mDistanceY);
-//            Log.i("abc", "translation");
-//            hexagons.get(i).draw(scratch);
-//        }
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
@@ -156,9 +188,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void translate(float distanceX, float distanceY){
-//        for (int i = 0; i < hexagons.size(); i++){
-//            hexagons.get(i).translate(distanceX, distanceY);
-//        }
 
         for(int x = 0; x < hexagonMap.size(); x++){
             for(int y = 0; y < hexagonMap.get(0).size(); y++){
@@ -183,9 +212,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void openHexagon(float x, float y, Context context, int userID){
-        for (int i = 0; i < hexagons.size(); i++){
-            if(hexagons.get(i).inHexagon(x,y)){
-                hexagons.get(i).open(context, userID);
+        for(int i = 0; i < hexagonMap.size(); i++){
+            for(int j = 0; j < hexagonMap.get(0).size(); j++){
+                if(hexagonMap.get(i).get(j).inHexagon(x,y)) {
+                    postMap.get(i).get(j).open(context, userID);
+                }
             }
         }
     }

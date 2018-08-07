@@ -1,10 +1,13 @@
 package me.caelumterrae.fbunewsapp.fragments;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +27,7 @@ public class GraphicsFragment extends Fragment {
 
 
     private GLSurfaceView mGLView;
+    private MyGLRenderer renderer;
     private User user;
     private int userID;
     TopNewsClient client;
@@ -37,6 +41,8 @@ public class GraphicsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,16 +68,23 @@ public class GraphicsFragment extends Fragment {
         private float mPreviousX;
         private float mPreviousY;
 
-        private final MyGLRenderer mRenderer;
 
+        public final MyGLRenderer mRenderer;
+
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         public MyGLSurfaceView(Context context) {
             super(context);
             setEGLContextClientVersion(2);
             // Set the Renderer for drawing on the GLSurfaceView
-            mRenderer = new MyGLRenderer(BiasHashMap.getSourceBias());
+            mRenderer = new MyGLRenderer(client.sourceBias, context);
+            renderer = mRenderer;
             setRenderer(mRenderer);
 
+
             setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+
+
         }
 
         @Override
@@ -84,19 +97,6 @@ public class GraphicsFragment extends Fragment {
 
                     float dx = x - mPreviousX;
                     float dy = y - mPreviousY;
-
-    //                    // reverse direction of rotation above the mid-line
-    //                    if (y > getHeight() / 2) {
-    //                        dx = dx * -1 ;
-    //                    }
-    //
-    //                    // reverse direction of rotation to left of the mid-line
-    //                    if (x < getWidth() / 2) {
-    //                        dy = dy * -1 ;
-    //                    }
-    //                    mRenderer.setAngle(
-    //                            mRenderer.getAngle() +
-    //                                    ((dx + dy) * TOUCH_SCALE_FACTOR));
 
                     mRenderer.setMove( mRenderer.getX() + dx* TOUCH_SCALE_FACTOR*0.002f, mRenderer.getY() - dy * TOUCH_SCALE_FACTOR*0.002f);
                     requestRender();
@@ -121,6 +121,10 @@ public class GraphicsFragment extends Fragment {
             mPreviousX = x;
             mPreviousY = y;
             return true;
+        }
+
+        public int getTwo(){
+            return 2;
         }
     }
 
