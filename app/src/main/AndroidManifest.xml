@@ -48,7 +48,7 @@
 
         </provider>
         <activity android:name=".activities.CreateActivity" />
-        <activity android:name=".activities.CommentActivity"></activity>
+        <activity android:name=".activities.CommentActivity"/>
     </application>
 
 </manifest>

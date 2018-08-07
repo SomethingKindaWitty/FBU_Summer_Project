@@ -4,6 +4,7 @@ package me.caelumterrae.fbunewsapp.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // generates the source bias hashmap which will be used throughout
         BiasHashMap.generateSourceBias();
+        Log.e("LoginActivity", "entered");
 
 
         // checks to see if username/password combination already exists in database
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                Log.e("Login", "entered");
 
 
                 final String username = usernameInput.getText().toString();
@@ -75,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("Sign in", "entered");
 
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
