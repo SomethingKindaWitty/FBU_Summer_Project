@@ -15,6 +15,12 @@ public class DateFunctions {
         return dateFormat.format(cal.getTime());
     }
 
+    public static String getTodaysTimeAndDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        return dateFormat.format(cal.getTime());
+    }
+
     public static Date getCurrentDate()  {
         return new Date();
     }
