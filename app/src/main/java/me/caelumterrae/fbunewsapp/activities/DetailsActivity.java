@@ -54,7 +54,6 @@ public class DetailsActivity extends AppCompatActivity {
     ProgressBar pb;
     int userID;
     ParseNewsClient parseNewsClient;
-    Semaphore semaphore;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -115,7 +114,6 @@ public class DetailsActivity extends AppCompatActivity {
                 .apply(fitCenter)
                 .into(ivMedia);
 
-        semaphore = new Semaphore(1);
         upVote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,13 +161,6 @@ public class DetailsActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_TEXT, post.getUrl());
         intent.setType("text/plain");
         startActivity(Intent.createChooser(intent, "Share Article URL"));
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent i = new Intent(this, SwipeActivity.class);
-        startActivity(i);
-        finish();
     }
 
 }
