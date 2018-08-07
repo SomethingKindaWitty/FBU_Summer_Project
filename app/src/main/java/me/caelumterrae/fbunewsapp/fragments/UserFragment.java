@@ -175,6 +175,8 @@ public class UserFragment extends Fragment {
                     getNumComments();
                     createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl(), num.get(0));
                     Log.e("url", user.getProfileUrl());
+                    // Refreshes tabbed fragments
+                    setupViewPager(viewPager);
                     swipeContainer.setRefreshing(false);
                 }
             });
