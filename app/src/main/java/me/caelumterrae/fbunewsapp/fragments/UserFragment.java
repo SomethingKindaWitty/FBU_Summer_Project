@@ -1,7 +1,9 @@
 package me.caelumterrae.fbunewsapp.fragments;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,9 +17,11 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
@@ -101,6 +105,7 @@ public class UserFragment extends Fragment {
     private User user;
     private  ArrayList<Integer> num = new ArrayList<>(Arrays.asList(0));
     private ParseNewsClient parseNewsClient;
+    DecimalFormat df = new DecimalFormat("#.#");
 
     // For taking/storing profile image upon Camera intent
     public final String APP_TAG = "NewsApp";
@@ -108,7 +113,8 @@ public class UserFragment extends Fragment {
     public String photoFileName;
     private String imagePath = null;
     File photoFile;
-    DecimalFormat df = new DecimalFormat("#.#");
+    final int MY_PERMISSIONS_REQUEST_CAMERA = 220;
+    final int MY_PERMISSIONS_REQUEST_STORAGE = 221;
 
     public UserFragment(){
 
@@ -121,9 +127,6 @@ public class UserFragment extends Fragment {
     }
 
 
-
-
-
     private void setupViewPager(ViewPager viewPager) {
         UserTabsAdapter adapter = new UserTabsAdapter(getChildFragmentManager());
         adapter.addFragment(new PoliticalAffiliationFragment(), "Pol. Affiliation");
@@ -131,8 +134,6 @@ public class UserFragment extends Fragment {
         adapter.addFragment(new CommentFragment(), "Comments");
 
         viewPager.setAdapter(adapter);
-
-
     }
 
     @Override
@@ -226,11 +227,68 @@ public class UserFragment extends Fragment {
 
     }
 
+    // Checks to see if necessary permissions exist to take picture
+    public void onLaunchCamera() {
+        // If permission for camera not given, make permissions request
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_CAMERA);
+        } else {
+            // Create intent to start camera
+            createCameraIntent();
+        }
+
+    }
+
+
+    // Takes in the result of permission requests
+    // Creates error/Toast message or allows camera intent to begin
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CAMERA: {
+                // Empty if request is canceled
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("Camera", "Permission Granted");
+                    // If permission has not been granted for storage, make a permissions request
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_STORAGE);
+                    } else {
+                        // Create intent to start camera
+                        createCameraIntent();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Cannot take picture", Toast.LENGTH_SHORT).show();
+                    Log.e("Camera", "Permission Denied");
+                }
+                return;
+            }
+
+            case MY_PERMISSIONS_REQUEST_STORAGE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("Storage", "Permission Granted");
+                    createCameraIntent();
+                } else {
+                    Toast.makeText(getContext(), "Cannot take picture", Toast.LENGTH_SHORT).show();
+                    Log.e("Storage", "Permission Denied");
+                }
+                return;
+            }
+        }
+    }
+
     // Creates the intent to the camera object of the phone and
     // creates a file path to be utilized later, storing it
     // and starting the intent
-    public void onLaunchCamera() {
-        // create Intent to take a picture and return control to the calling application
+    public void createCameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference to access to future access
         photoFile = getPhotoFileUri(photoFileName);
