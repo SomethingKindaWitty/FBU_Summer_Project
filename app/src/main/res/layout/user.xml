@@ -42,7 +42,7 @@
                         android:layout_height="match_parent"
                         app:tabIndicatorColor="@color/duck_beak"
                         app:tabIndicatorHeight="4dp"
-                        app:tabPaddingTop="13dp"
+                        app:tabPaddingTop="15dp"
                         app:tabTextAppearance="@style/tab_text">
 
                         <android.support.design.widget.TabItem
@@ -82,10 +82,10 @@
 
                         <TextView
                             android:id="@+id/politicalNum"
-                            android:layout_width="87dp"
+                            android:layout_width="54dp"
                             android:layout_height="wrap_content"
                             android:layout_above="@+id/affiliationScoreLabel"
-                            android:layout_alignParentEnd="true"
+                            android:layout_alignStart="@+id/commentsLabel"
                             android:fontFamily="@font/opensans_light"
                             android:text="23.8"
                             android:textAlignment="center"
@@ -126,10 +126,10 @@
 
                         <TextView
                             android:id="@+id/numComments"
-                            android:layout_width="59dp"
+                            android:layout_width="92dp"
                             android:layout_height="wrap_content"
-                            android:layout_above="@+id/commentsLabel"
-                            android:layout_alignStart="@+id/commentsLabel"
+                            android:layout_above="@+id/affiliationScoreLabel"
+                            android:layout_alignStart="@+id/affiliationScoreLabel"
                             android:fontFamily="@font/opensans_light"
                             android:text="94"
                             android:textAlignment="center"
