@@ -87,7 +87,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(0.95f, 0.964f, 0.9687f, 1.0f);
 //        client = new TopNewsClient();
         //x and then y
         hexagonMap = new ArrayList<ArrayList<Hexagon>>();
