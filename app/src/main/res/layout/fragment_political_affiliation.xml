@@ -1,229 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.UserFragmentTabs.PoliticalAffiliationFragment">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/secondcard"
-        android:layout_width="match_parent"
-        android:layout_height="275dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/topcard"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        app:cardElevation="7dp">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="38dp"-->
+        <!--android:scrollbars="vertical">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
 
-            <RelativeLayout
-                android:id="@+id/heading_layout"
+            <android.support.v7.widget.CardView
+                android:id="@+id/secondcard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#F4F7F8"
-                android:orientation="vertical"
-                android:padding="18dp">
+                android:layout_height="275dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                app:cardElevation="7dp">
 
-
-                <TextView
-                    android:id="@+id/politicalAffLabel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/opensans_light"
-                    android:text="Political Affiliation"
-                    android:textAllCaps="false"
-                    android:textSize="24sp" />
+                    android:orientation="vertical">
 
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="30dp"
-                android:paddingTop="10dp">
-
-
-                <TextView
-                    android:id="@+id/affiliationScore2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="50dp"
-                    android:fontFamily="@font/opensans_light"
-                    android:text="23.81"
-                    android:textSize="36sp" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressDrawable="@drawable/circular" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="30dp">
-                    <TextView
-                        android:id="@+id/liberalToConservative"
-                        android:layout_width="140dp"
+                    <RelativeLayout
+                        android:id="@+id/heading_layout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="15dp"
-                        android:fontFamily="@font/opensans"
-                        android:lines="3"
-                        android:text="Liberal: 0\nModerate: 50\nConservative: 100"
-                        android:textSize="12sp" />
+                        android:background="#F4F7F8"
+                        android:orientation="vertical"
+                        android:padding="18dp">
 
-                    <TextView
-                        android:id="@+id/politicalAffDesc"
-                        android:layout_width="140dp"
+
+                        <TextView
+                            android:id="@+id/politicalAffLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/opensans_light"
+                            android:text="Political Affiliation"
+                            android:textAllCaps="false"
+                            android:textSize="24sp" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_above="@id/liberalToConservative"
-                        android:layout_alignStart="@id/liberalToConservative"
-                        android:fontFamily="@font/opensans_light"
-                        android:text="Moderately Conservative"
-                        android:textAlignment="textStart"
-                        android:textSize="24sp" />
-                </RelativeLayout>
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="30dp"
+                        android:paddingTop="10dp">
 
 
+                        <TextView
+                            android:id="@+id/affiliationScore2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="50dp"
+                            android:fontFamily="@font/opensans_light"
+                            android:text="23.81"
+                            android:textSize="36sp" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="180dp"
+                            android:layout_height="180dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:max="100"
+                            android:progress="0"
+                            android:progressDrawable="@drawable/circular" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="30dp">
+
+                            <TextView
+                                android:id="@+id/liberalToConservative"
+                                android:layout_width="140dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="15dp"
+                                android:fontFamily="@font/opensans"
+                                android:lines="3"
+                                android:text="Liberal: 0\nModerate: 50\nConservative: 100"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/politicalAffDesc"
+                                android:layout_width="140dp"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@id/liberalToConservative"
+                                android:layout_alignStart="@id/liberalToConservative"
+                                android:fontFamily="@font/opensans_light"
+                                android:text="Moderately Conservative"
+                                android:textAlignment="textStart"
+                                android:textSize="24sp" />
+                        </RelativeLayout>
 
 
+                    </RelativeLayout>
 
-            </RelativeLayout>
-
-        </LinearLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/thirdcard"
-        android:layout_width="match_parent"
-        android:layout_height="275dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/secondcard"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        app:cardElevation="7dp">
+                </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            </android.support.v7.widget.CardView>
 
-            <RelativeLayout
-                android:id="@+id/heading_layout_thirdcard"
+            <android.support.v7.widget.CardView
+                android:id="@+id/thirdcard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#F4F7F8"
-                android:orientation="vertical"
-                android:padding="18dp">
+                android:layout_height="275dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/secondcard"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                app:cardElevation="7dp">
 
-                <TextView
-                    android:id="@+id/distribution"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/opensans_light"
-                    android:text="Your News Distribution"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textSize="24sp" />
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/heading_layout_thirdcard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F4F7F8"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <TextView
+                            android:id="@+id/distribution"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/opensans_light"
+                            android:text="Your News Distribution"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textSize="24sp" />
 
 
-            </RelativeLayout>
+                    </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="30dp"
-                android:paddingTop="10dp">
-
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/betachart"
-                    android:layout_width="380dp"
-                    android:layout_height="380dp"
-                    android:layout_centerInParent="true">
-
-                </com.github.mikephil.charting.charts.LineChart>
-            </RelativeLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/fourthcard"
-        android:layout_width="match_parent"
-        android:layout_height="475dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/thirdcard"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        app:cardElevation="7dp">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="30dp"
+                        android:paddingTop="10dp">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/betachart"
+                            android:layout_width="380dp"
+                            android:layout_height="380dp"
+                            android:layout_centerInParent="true">
 
-            <RelativeLayout
-                android:id="@+id/heading_layout_fourthcard"
+                        </com.github.mikephil.charting.charts.LineChart>
+                    </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/fourthcard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#F4F7F8"
-                android:orientation="vertical"
-                android:padding="18dp">
+                android:layout_height="475dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/thirdcard"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                app:cardElevation="7dp">
 
-                <TextView
-                    android:id="@+id/postsliked"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/opensans_light"
-                    android:text="Posts Liked"
-                    android:textAlignment="center"
-                    android:textSize="24sp" />
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/heading_layout_fourthcard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F4F7F8"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <TextView
+                            android:id="@+id/postsliked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/opensans_light"
+                            android:text="Posts Liked"
+                            android:textAlignment="center"
+                            android:textSize="24sp" />
 
 
-            </RelativeLayout>
+                    </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
 
-                <com.github.mikephil.charting.charts.RadarChart
-                    android:id="@+id/radarchart"
-                    android:layout_width="380dp"
-                    android:layout_height="380dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="30dp" />
-            </RelativeLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+                        <com.github.mikephil.charting.charts.RadarChart
+                            android:id="@+id/radarchart"
+                            android:layout_width="380dp"
+                            android:layout_height="380dp"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="30dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
+        <!--</RelativeLayout>-->
+
+    <!--</ScrollView>-->
 </RelativeLayout>

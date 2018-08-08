@@ -61,6 +61,8 @@ public class PoliticalAffiliationFragment extends Fragment {
     private ArrayList<Integer> biasNums;
     private HashMap <String, String> sourcebias;
     DecimalFormat df = new DecimalFormat("#.#");
+    private View view;
+    private double politicalRounded;
 
     public PoliticalAffiliationFragment(){
 
@@ -76,6 +78,8 @@ public class PoliticalAffiliationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        this.view = view;
+
         user = CurrentUser.getUser();
         // This ArrayList will later hold the respective number of articles liked per bias category
         biasNums = new ArrayList<Integer>(Arrays.asList(0,0,0,0,0));
@@ -84,7 +88,7 @@ public class PoliticalAffiliationFragment extends Fragment {
         TextView otherPoliticalAffiliation = view.findViewById(R.id.affiliationScore2);
         TextView politicalAffiliationWord = view.findViewById(R.id.politicalAffDesc);
         df.setRoundingMode(RoundingMode.CEILING);
-        double politicalRounded = Double.parseDouble(df.format(user.getPoliticalPreference()));
+        this.politicalRounded = Double.parseDouble(df.format(user.getPoliticalPreference()));
         otherPoliticalAffiliation.setText(String.valueOf(politicalRounded));
         // Set descriptive string
         if (politicalRounded <= 12.50) {
@@ -240,5 +244,17 @@ public class PoliticalAffiliationFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void refresh() {
+        // Sets up beta distribution graph
+        setBetaDistribution(view, politicalRounded);
+
+        // Sets ArrayList containing number of articles in each bias category
+        // for the radar chart graph
+        getNumData(biasNums, sourcebias);
+
+        // Sets up radar chart graph
+        setRadarChart(view, biasNums);
     }
 }

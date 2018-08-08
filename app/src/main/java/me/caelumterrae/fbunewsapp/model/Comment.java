@@ -26,6 +26,8 @@ public class Comment {
     private Date date;
 
     private String username;
+    private String mediaImage;
+    private String articleTitle;
 
     private String userUrl;
 
@@ -37,11 +39,35 @@ public class Comment {
         comment.setUsername(jsonObject.getString("username"));
         comment.setUid(jsonObject.getInt("uid"));
         comment.setUserUrl(jsonObject.getString("profileImage"));
+        if(jsonObject.has("mediaImage")){
+            comment.setMediaImage(jsonObject.getString("mediaImage"));
+        }
+
+        if(jsonObject.has("articleTitle")){
+            comment.setArticleTitle(jsonObject.getString("articleTitle"));
+        }
+
         return comment;
     }
 
     public Comment(){
         //For Parcel
+    }
+
+    public String getMediaImage() {
+        return mediaImage;
+    }
+
+    public void setMediaImage(String mediaImage) {
+        this.mediaImage = mediaImage;
+    }
+
+    public String getArticleTitle() {
+        return articleTitle;
+    }
+
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
     }
 
     public int getUid() {
