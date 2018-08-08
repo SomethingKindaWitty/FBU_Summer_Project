@@ -95,4 +95,8 @@ public class UpvotedFragment extends Fragment {
             likes.add(0,like);
         }
     }
+
+    public void refresh() {
+        loadRealLikes(likes, likesAdapter, rvLikes);
+    }
 }

@@ -116,6 +116,11 @@ public class UserFragment extends Fragment {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 220;
     final int MY_PERMISSIONS_REQUEST_STORAGE = 221;
 
+    // All of the fragments that belong ot this fragment
+    public PoliticalAffiliationFragment politicalAffiliationFragment;
+    public UpvotedFragment upvotedFragment;
+    public CommentFragment commentFragment;
+
     public UserFragment(){
 
     }
@@ -127,11 +132,11 @@ public class UserFragment extends Fragment {
     }
 
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(ViewPager viewPager, PoliticalAffiliationFragment p, UpvotedFragment u, CommentFragment c ) {
         UserTabsAdapter adapter = new UserTabsAdapter(getChildFragmentManager());
-        adapter.addFragment(new PoliticalAffiliationFragment(), "Pol. Affiliation");
-        adapter.addFragment(new UpvotedFragment(), "Upvoted");
-        adapter.addFragment(new CommentFragment(), "Comments");
+        adapter.addFragment(p, "Pol. Affiliation");
+        adapter.addFragment(u, "Upvoted");
+        adapter.addFragment(c, "Comments");
         viewPager.setAdapter(adapter);
     }
 
@@ -139,9 +144,14 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Add the fragments to the list
+        politicalAffiliationFragment = new PoliticalAffiliationFragment();
+        upvotedFragment = new UpvotedFragment();
+        commentFragment = new CommentFragment();
+
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
-        setupViewPager(viewPager);
+        setupViewPager(viewPager, politicalAffiliationFragment,upvotedFragment,commentFragment);
         tabLayout.setupWithViewPager(viewPager);
 
 
@@ -175,8 +185,12 @@ public class UserFragment extends Fragment {
                     getNumComments();
                     createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl(), num.get(0));
                     Log.e("url", user.getProfileUrl());
+
                     // Refreshes tabbed fragments
-                    setupViewPager(viewPager);
+                    politicalAffiliationFragment.refresh();
+                    upvotedFragment.refresh();
+                    commentFragment.refresh();
+
                     swipeContainer.setRefreshing(false);
                 }
             });

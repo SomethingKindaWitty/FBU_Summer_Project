@@ -94,4 +94,8 @@ public class CommentFragment extends Fragment {
             }
         });
     }
+
+    public void refresh() {
+
+    }
 }
