@@ -73,6 +73,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
+import me.caelumterrae.fbunewsapp.activities.LoginActivity;
 import me.caelumterrae.fbunewsapp.adapters.UserTabsAdapter;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.fragments.UserFragmentTabs.CommentFragment;
@@ -99,6 +100,8 @@ public class UserFragment extends Fragment {
     public TextView numUpvoted;
     public TextView numCommented;
     public ImageButton takePicture;
+    public ImageButton logout;
+
     private SwipeRefreshLayout swipeContainer;
     MediaPlayer mediaPlayer;
 
@@ -157,6 +160,7 @@ public class UserFragment extends Fragment {
 
         swipeContainer = view.findViewById(R.id.swipeContainer);
         takePicture = view.findViewById(R.id.camera);
+        logout = view.findViewById(R.id.logout);
 
         user = CurrentUser.getUser();
 
@@ -175,6 +179,13 @@ public class UserFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     onLaunchCamera();
+                }
+            });
+
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onLogout();
                 }
             });
 
@@ -361,6 +372,12 @@ public class UserFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void onLogout(){
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
 
     }
 
