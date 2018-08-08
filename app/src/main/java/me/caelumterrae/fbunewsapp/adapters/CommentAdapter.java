@@ -1,29 +1,26 @@
 package me.caelumterrae.fbunewsapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.json.JSONException;
+import org.parceler.Parcels;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
-import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
-import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
+import me.caelumterrae.fbunewsapp.activities.OtherUserActivity;
+import me.caelumterrae.fbunewsapp.activities.UserActivity;
 import me.caelumterrae.fbunewsapp.model.Comment;
-import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
@@ -97,11 +94,24 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             tvComment = (TextView) itemView.findViewById(R.id.tvComment);
             tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
             tvDate = (TextView) itemView.findViewById(R.id.tvDate);
+
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            // For now, do nothing
+            int position = getAdapterPosition();
+            Comment comment = mComments.get(position);
+            Intent i;
+            if (comment.getUid() != CurrentUser.getUser().getUid()) {
+                i = new Intent(context, OtherUserActivity.class);
+                i.putExtra(Comment.class.getSimpleName(), Parcels.wrap(comment));
+                context.startActivity(i);
+            } else {
+                i = new Intent(context, UserActivity.class);
+                context.startActivity(i);
+                // if you click on yourself, start intent to the user fragment
+            }
         }
     }
 }

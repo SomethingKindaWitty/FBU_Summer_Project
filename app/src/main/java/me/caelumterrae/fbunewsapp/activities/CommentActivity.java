@@ -63,11 +63,11 @@ public class CommentActivity extends AppCompatActivity {
         ibSend = findViewById(R.id.ibSend);
         profileImage = findViewById(R.id.tvProfileImage);
         etComment = findViewById(R.id.etComment);
+        // add title to toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Comments");
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setTitleTextAppearance(this, R.style.OpenSansLight);
-
         setSupportActionBar(toolbar);
 
         // add back arrow to toolbar
@@ -102,6 +102,7 @@ public class CommentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Manually add comment to feed and then post it to server
                 // and reset EditText
+                quack_sound.start();
                 Comment c = new Comment();
                 c.setComment(etComment.getText().toString());
                 etComment.setText("");
