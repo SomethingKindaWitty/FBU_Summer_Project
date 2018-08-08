@@ -152,14 +152,28 @@
                     android:padding="7dp"
                     app:srcCompat="@drawable/duckie" />
 
-                <ImageView
-                    android:id="@+id/middlepanel"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1124dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="235dp"
-                    android:background="#F4F7F8" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/topcard"
+                    android:layout_marginTop="-38dp">
 
+                    <ImageView
+                        android:id="@+id/middlepanel"
+                        android:layout_width="match_parent"
+                        android:layout_height="1200dp"
+                        android:layout_alignParentStart="true"
+                        android:background="@color/background" />
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="1200dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="38dp" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/name"
@@ -199,13 +213,6 @@
                     android:scaleType="centerCrop"
                     android:tint="@color/white"
                     app:srcCompat="@drawable/camera" />
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="1200dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/topcard" />
 
 
             </RelativeLayout>
