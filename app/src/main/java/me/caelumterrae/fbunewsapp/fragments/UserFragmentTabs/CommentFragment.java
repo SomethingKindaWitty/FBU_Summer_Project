@@ -28,4 +28,8 @@ public class CommentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
     }
+
+    public void refresh() {
+
+    }
 }
