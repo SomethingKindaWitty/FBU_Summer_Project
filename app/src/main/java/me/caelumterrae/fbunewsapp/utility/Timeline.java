@@ -4,20 +4,15 @@ package me.caelumterrae.fbunewsapp.utility;
 import android.content.Context;
 import android.util.Log;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
 import org.json.JSONException;
-import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
-import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
-import me.caelumterrae.fbunewsapp.client.TopNewsClient;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
+import me.caelumterrae.fbunewsapp.handlers.BackgroundPostHandler;
 import me.caelumterrae.fbunewsapp.math.BetaDis;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
@@ -41,6 +36,27 @@ public class Timeline {
             posts.add(p);
             feedAdapter.notifyItemInserted(posts.size()-1);
         }
+
+    }
+
+    public static void populateTimeline(ArrayList<Post> rawPosts, ParseNewsClient client,
+                                        final ArrayList<Post> posts, FeedAdapter feedAdapter) throws UnsupportedEncodingException, JSONException {
+        // Creates Beta distribution based on on users affiliation number.
+        double affiliation = CurrentUser.getUser().getPoliticalPreference();
+        BetaDis betaDis = new BetaDis(affiliation);
+        int size = rawPosts.size();
+        Log.i("Handler", "Affiliation: " + affiliation);
+        for (int i = 0; i < size; i++) {
+            int category = betaDis.getCategory();
+            Post p = findPostWithCategory(rawPosts, category);
+            posts.add(p);
+            feedAdapter.notifyItemInserted(posts.size()-1);
+        }
+
+        for (int i = 0; i < 10; i++){
+            client.getData(posts.get(i).getUrl(), new BackgroundPostHandler(posts, i));
+        }
+
     }
 
     // for related adapter
