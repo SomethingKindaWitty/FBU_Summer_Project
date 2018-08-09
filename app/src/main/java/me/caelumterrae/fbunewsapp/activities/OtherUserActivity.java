@@ -39,12 +39,10 @@ import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 public class OtherUserActivity extends AppCompatActivity {
 
     // All of the fragments that belong ot this fragment
-    public PoliticalAffiliationFragment politicalAffiliationFragment;
     public UpvotedFragment upvotedFragment;
     public CommentFragment commentFragment;
     public TextView username;
     public ImageView profileImage;
-    public TextView politicalAffiliation;
     public TextView numUpvoted;
     public TextView numCommented;
     private TabLayout tabLayout;
@@ -54,7 +52,6 @@ public class OtherUserActivity extends AppCompatActivity {
     private User user;
     private ArrayList<Integer> num = new ArrayList<>(Arrays.asList(0));
     private ParseNewsClient parseNewsClient;
-    DecimalFormat df = new DecimalFormat("#.#");
 
 
     @Override
@@ -62,12 +59,11 @@ public class OtherUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_user);
         // Add the fragments to the list
-        politicalAffiliationFragment = new PoliticalAffiliationFragment();
         upvotedFragment = new UpvotedFragment();
         commentFragment = new CommentFragment();
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
-        setupViewPager(viewPager, politicalAffiliationFragment,upvotedFragment,commentFragment);
+        setupViewPager(viewPager, upvotedFragment, commentFragment);
         tabLayout.setupWithViewPager(viewPager);
 
         swipeContainer = findViewById(R.id.swipeContainer);
@@ -91,7 +87,6 @@ public class OtherUserActivity extends AppCompatActivity {
                     Log.e("url", user.getProfileUrl());
 
                     // Refreshes tabbed fragments
-                    politicalAffiliationFragment.refresh();
                     upvotedFragment.refresh();
                     commentFragment.refresh();
 
@@ -107,7 +102,7 @@ public class OtherUserActivity extends AppCompatActivity {
     }
 
 
-    private void setupViewPager(ViewPager viewPager, PoliticalAffiliationFragment p, UpvotedFragment u, CommentFragment c ) {
+    private void setupViewPager(ViewPager viewPager, UpvotedFragment u, CommentFragment c ) {
         UserTabsAdapter adapter = new UserTabsAdapter(getSupportFragmentManager());
         adapter.addFragment(u, "Upvoted");
         adapter.addFragment(c, "Comments");
