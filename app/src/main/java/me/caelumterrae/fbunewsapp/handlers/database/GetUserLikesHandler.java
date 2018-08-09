@@ -43,7 +43,7 @@ public class GetUserLikesHandler extends JsonHttpResponseHandler {
                 Log.e("Title", like.getArticleTitle());
                 likes.add(0, like);
                 adapter.notifyItemInserted(0);
-                rv.stopScroll();
+//                rv.stopScroll();
 
             } catch (JSONException e) {
                 e.printStackTrace();

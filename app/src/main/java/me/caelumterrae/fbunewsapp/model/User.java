@@ -33,7 +33,6 @@ public class User {
     }
 
     // Populates everything from JSON except categories
-    // Categories and url are flipped temporarily TODO- edit backend to change flip
     public static void fromJSON(User user, JSONObject jsonObject) throws JSONException {
         user.setUid(jsonObject.getInt("UID"));
         user.setUsername(jsonObject.getString("username"));

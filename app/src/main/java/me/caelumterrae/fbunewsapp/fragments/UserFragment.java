@@ -119,7 +119,7 @@ public class UserFragment extends Fragment {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 220;
     final int MY_PERMISSIONS_REQUEST_STORAGE = 221;
 
-    // All of the fragments that belong ot this fragment
+    // All of the fragments that belong to this fragment
     public PoliticalAffiliationFragment politicalAffiliationFragment;
     public UpvotedFragment upvotedFragment;
     public CommentFragment commentFragment;
@@ -156,6 +156,7 @@ public class UserFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
         setupViewPager(viewPager, politicalAffiliationFragment,upvotedFragment,commentFragment);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(2);
 
 
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -378,7 +379,6 @@ public class UserFragment extends Fragment {
     public void onLogout(){
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
-
     }
 
 
