@@ -156,11 +156,11 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        DetailsActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        DetailsActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+//    }
 
     private void onUpvoteClick() {
         try {
@@ -191,6 +191,7 @@ public class DetailsActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Share Article URL"));
     }
 
+    // Detects left or right swipe
     private boolean onSwipe(MotionEvent motionEvent) {
         switch(motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -207,6 +208,7 @@ public class DetailsActivity extends AppCompatActivity {
                 if (Math.abs(delta) >= 150 && Math.abs(deltaY) <= 50) {
                     if (delta >= 0 ) {
                         //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                        // Copy back button functionality
                         DetailsActivity.super.onBackPressed();
                     } else {
                         //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();

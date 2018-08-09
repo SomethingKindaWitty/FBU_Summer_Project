@@ -92,7 +92,7 @@ public class SwipeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SwipeActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+//        SwipeActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         CurrentUser.refreshUser();
     }
 

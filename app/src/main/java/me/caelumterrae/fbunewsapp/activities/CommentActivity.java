@@ -154,7 +154,7 @@ public class CommentActivity extends AppCompatActivity {
                 R.color.sea_blue, R.color.yellow_duck,
                 R.color.sea_blue_light);
 
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
+        swipeContainer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 return onSwipe(motionEvent);
@@ -174,6 +174,7 @@ public class CommentActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Detects left or right swipe
     private boolean onSwipe(MotionEvent motionEvent) {
         switch(motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -187,6 +188,7 @@ public class CommentActivity extends AppCompatActivity {
                 if (Math.abs(delta) >= 150) {
                     if (delta >= 0 ) {
                         //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                        // Copy back button functionality
                         CommentActivity.super.onBackPressed();
                     } else {
                         //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();
@@ -197,9 +199,9 @@ public class CommentActivity extends AppCompatActivity {
         return false;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        CommentActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        CommentActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+//    }
 }
