@@ -96,8 +96,9 @@ public class LoginHandler extends JsonHttpResponseHandler {
         AnimationSet animation = new AnimationSet(true);
         animation.addAnimation(new AlphaAnimation(0.0F, 1.0F));
         animation.addAnimation(new ScaleAnimation(0.8f, 1, 0.8f, 1)); // Change args as desired
-        animation.setDuration(300);
+        animation.setDuration(100);
         splash.startAnimation(animation);
         splash.setVisibility(View.VISIBLE);
+        splash.bringToFront();
     }
 }
