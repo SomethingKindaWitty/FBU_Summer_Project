@@ -9,14 +9,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
+import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 import me.caelumterrae.fbunewsapp.singleton.BiasHashMap;
 import me.caelumterrae.fbunewsapp.utility.Format;
 import me.caelumterrae.fbunewsapp.utility.Timeline;
@@ -25,12 +26,19 @@ public class TimelineHandler extends JsonHttpResponseHandler{
     ArrayList<Post> posts;
     FeedAdapter feedAdapter;
     Context context;
+    ParseNewsClient client;
     public final static String TAG = "TimelineHandler";
 
     public TimelineHandler(ArrayList<Post> posts, FeedAdapter feedAdapter, Context context) {
         this.posts = posts;
         this.feedAdapter = feedAdapter;
         this.context = context;
+    }
+
+    public TimelineHandler(ArrayList<Post> posts, FeedAdapter feedAdapter, ParseNewsClient client) {
+        this.posts = posts;
+        this.feedAdapter = feedAdapter;
+        this.client = client;
     }
 
 
@@ -53,11 +61,13 @@ public class TimelineHandler extends JsonHttpResponseHandler{
                 // Add to rawPosts. afterwards, populate timeline based on affiliation
                 rawPosts.add(post);
             }
-            Timeline.populateTimeline(rawPosts, context, posts, feedAdapter);
+            Timeline.populateTimeline(rawPosts, client, posts, feedAdapter);
             Log.i(TAG, String.format("Loaded %s posts", results.length()));
         } catch (JSONException e) {
             Log.e(TAG, "Failed to parse top posts", e);
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
