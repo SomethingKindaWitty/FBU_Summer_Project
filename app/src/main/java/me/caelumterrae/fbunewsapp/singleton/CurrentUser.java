@@ -23,6 +23,7 @@ public class CurrentUser {
     private static ParseNewsClient parseNewsClient;
     private static int myUid;
     private static Context myContext;
+    private static User storedMyUser;
 
     // Creates and populates a user given a UID. When done, will bring you to nextClass
     // Implementation fixes concurrency issues where you try to get the user before it's created
@@ -69,7 +70,6 @@ public class CurrentUser {
     }
 
 
-
     public static void refreshUser() {
         // network call to refresh user
         synchronized (lock) {
@@ -81,6 +81,20 @@ public class CurrentUser {
                 e.printStackTrace();
             }
         }
+    }
+
+    // Used in CommentAdapter to store current user when we visit the OtherUserActivity (view other
+    // people's profile).
+    public static void storeCurrentUser() {
+        Log.e("CurrentUser", "Stored User");
+        storedMyUser = myUser;
+
+    }
+
+    // Used in OnBackPressed in OtherUserActivity to restore the current user
+    public static void restoreCurrentUser() {
+        Log.e("CurrentUser", "Restored User");
+        myUser = storedMyUser;
     }
 
 }
