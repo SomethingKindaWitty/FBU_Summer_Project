@@ -30,9 +30,7 @@
                 android:layout_alignParentTop="true"
                 android:background="@color/sea_blue"
                 android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme">
-
-            </android.support.v7.widget.Toolbar>
+                app:theme="@style/ToolbarStyle"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvComments"
