@@ -1,5 +1,6 @@
 package me.caelumterrae.fbunewsapp.fragments.UserFragmentTabs;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -12,6 +13,8 @@ import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -112,6 +115,17 @@ public class PoliticalAffiliationFragment extends Fragment {
 
         // Sets up radar chart graph
         setRadarChart(view, biasNums);
+
+        setProgressBar();
+    }
+
+    public void setProgressBar() {
+        int pol_num = (int) user.getPoliticalPreference();
+        ProgressBar progressBar = view.findViewById(R.id.progressBar);
+        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, pol_num); // see this max value coming back here, we animate towards that value
+        animation.setDuration(5000); // in milliseconds
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();
     }
 
     public void setBetaDistribution(View view, double politicalRounded) {

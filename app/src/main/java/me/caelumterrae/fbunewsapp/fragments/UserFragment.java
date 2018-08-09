@@ -216,14 +216,6 @@ public class UserFragment extends Fragment {
 
     public void createUser(View view, String name, double politicalAff, int numVotes, String profileUrl, int numComments) {
 
-        int pol_num = (int) politicalAff;
-
-        // Sets progress circle
-        ProgressBar progressBar = view.findViewById(R.id.progressBar);
-        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, pol_num); // see this max value coming back here, we animate towards that value
-        animation.setDuration(5000); // in milliseconds
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
 
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
