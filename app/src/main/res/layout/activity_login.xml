@@ -7,6 +7,38 @@
     android:background="@drawable/gradient_blue_to_gold"
     tools:context=".activities.LoginActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/transparent"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Quack"
+            android:textColor="@color/white_90_transparent"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/feets"
+            android:layout_width="42dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/menu_duckie" />
+
+    </android.support.v7.widget.Toolbar>
+
 
     <EditText
         android:id="@+id/username"
@@ -67,37 +99,6 @@
         android:textColor="@color/white_90_transparent"
         android:textSize="14sp" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/transparent"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="120dp"
-            android:fontFamily="@font/opensans_bold"
-            android:text="Quack"
-            android:textColor="@color/white_90_transparent"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/feets"
-            android:layout_width="42dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/menu_duckie" />
-
-    </android.support.v7.widget.Toolbar>
 
     <ImageView
         android:id="@+id/usernameBackground"
@@ -122,6 +123,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:background="@color/white"
         android:visibility="invisible"
         app:srcCompat="@drawable/splash" />
 
