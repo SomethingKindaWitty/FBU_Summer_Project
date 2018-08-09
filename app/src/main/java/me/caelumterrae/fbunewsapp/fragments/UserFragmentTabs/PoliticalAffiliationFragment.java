@@ -61,7 +61,7 @@ public class PoliticalAffiliationFragment extends Fragment {
     private ArrayList<Integer> biasNums;
     private HashMap <String, String> sourcebias;
     DecimalFormat df = new DecimalFormat("#.#");
-    private View view;
+    private static View view;
     private double politicalRounded;
 
     public PoliticalAffiliationFragment(){
