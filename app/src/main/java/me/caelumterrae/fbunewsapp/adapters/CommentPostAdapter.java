@@ -3,6 +3,7 @@ package me.caelumterrae.fbunewsapp.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,25 +46,28 @@ public class CommentPostAdapter extends RecyclerView.Adapter<CommentPostAdapter.
     @Override
     public void onBindViewHolder(@NonNull final CommentPostAdapter.ViewHolder viewHolder, int i) {
         Comment comment = mComments.get(i);
-
 //        viewHolder.body.setText(user.getUsername() + " said: " + comment.getComment());
         viewHolder.title.setText(comment.getArticleTitle());
         viewHolder.timestamp.setText(comment.getRelativeTime());
+        if (comment.getMediaImage().equals("")) {
+            Log.e("comment image", "empty");
+        } else {
+            Picasso.with(context)
+                    .load(comment.getMediaImage())
+                    .fit().centerCrop()
+                    .into(viewHolder.image, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            viewHolder.pb.setVisibility(View.GONE);
+                        }
 
-        Picasso.with(context)
-                .load(comment.getMediaImage())
-                .fit().centerCrop()
-                .into(viewHolder.image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        viewHolder.pb.setVisibility(View.GONE);
-                    }
+                        @Override
+                        public void onError() {
+                            viewHolder.pb.setVisibility(View.GONE);
+                        }
+                    });
+        }
 
-                    @Override
-                    public void onError() {
-                        viewHolder.pb.setVisibility(View.GONE);
-                    }
-                });
     }
 
     @Override

@@ -8,10 +8,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -52,6 +54,11 @@ public class OtherUserActivity extends AppCompatActivity {
     private User user;
     private ArrayList<Integer> num = new ArrayList<>(Arrays.asList(0));
     private ParseNewsClient parseNewsClient;
+    ScrollView scrollView;
+
+    // For swipe event
+    double downX;
+    double upX;
 
 
     @Override
@@ -67,6 +74,7 @@ public class OtherUserActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         swipeContainer = findViewById(R.id.swipeContainer);
+        scrollView = findViewById(R.id.scrollView);
 
         user = CurrentUser.getUser();
 
@@ -97,6 +105,13 @@ public class OtherUserActivity extends AppCompatActivity {
             swipeContainer.setColorSchemeResources(R.color.duck_beak,
                     R.color.sea_blue, R.color.yellow_duck,
                     R.color.sea_blue_light);
+
+            scrollView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return onSwipe(motionEvent);
+                }
+            });
         }
 
     }
@@ -150,6 +165,28 @@ public class OtherUserActivity extends AppCompatActivity {
 
     }
 
+    private boolean onSwipe(MotionEvent motionEvent) {
+        switch(motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = motionEvent.getX();
+                return true;
+            case MotionEvent.ACTION_UP:
+                upX = motionEvent.getX();
+                double delta = upX - downX;
+
+                if (Math.abs(delta) >= 150) {
+                    if (delta >= 0 ) {
+                        //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                        OtherUserActivity.super.onBackPressed();
+                        CurrentUser.restoreCurrentUser();
+                    } else {
+                        //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return true;
+        }
+        return false;
+    }
 
     // Restores "CurrentUser" To the actual user!
     @Override

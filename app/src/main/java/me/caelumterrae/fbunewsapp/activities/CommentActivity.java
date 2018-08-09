@@ -10,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -47,6 +49,11 @@ public class CommentActivity extends AppCompatActivity {
     ImageView profileImage;
     private SwipeRefreshLayout swipeContainer;
     MediaPlayer mediaPlayer;
+    ScrollView scrollView;
+
+    // For swipe event
+    double downX;
+    double upX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,8 @@ public class CommentActivity extends AppCompatActivity {
         ibSend = findViewById(R.id.ibSend);
         profileImage = findViewById(R.id.tvProfileImage);
         etComment = findViewById(R.id.etComment);
+        scrollView = findViewById(R.id.scrollView);
+
         // add title to toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Comments");
@@ -145,6 +154,13 @@ public class CommentActivity extends AppCompatActivity {
                 R.color.sea_blue, R.color.yellow_duck,
                 R.color.sea_blue_light);
 
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return onSwipe(motionEvent);
+            }
+        });
+
     }
 
 
@@ -156,5 +172,34 @@ public class CommentActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean onSwipe(MotionEvent motionEvent) {
+        switch(motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = motionEvent.getX();
+                return true;
+            case MotionEvent.ACTION_UP:
+                upX = motionEvent.getX();
+
+                double delta = upX - downX;
+
+                if (Math.abs(delta) >= 150) {
+                    if (delta >= 0 ) {
+                        //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                        CommentActivity.super.onBackPressed();
+                    } else {
+                        //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CommentActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 }

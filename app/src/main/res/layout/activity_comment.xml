@@ -8,7 +8,7 @@
     tools:context=".activities.CommentActivity">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,7 +30,7 @@
                 android:layout_alignParentTop="true"
                 android:background="@color/sea_blue"
                 android:minHeight="?attr/actionBarSize"
-                app:theme="@style/ToolbarStyle"/>
+                app:theme="@style/ToolbarStyle" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvComments"
@@ -74,9 +74,9 @@
                     <RelativeLayout
                         android:layout_width="75dp"
                         android:layout_height="match_parent"
-                        android:background="@color/sea_blue"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true">
+                        android:layout_alignParentTop="true"
+                        android:background="@color/sea_blue">
 
 
                         <ImageButton
@@ -95,8 +95,6 @@
                     </RelativeLayout>
 
 
-
-
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
@@ -106,5 +104,15 @@
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignParentStart="true">
+
+    </ScrollView>
+
 </RelativeLayout>
 

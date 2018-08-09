@@ -41,6 +41,7 @@ public class SwipeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_swipe);
 
         // Create the placeholder fragments to be passed to the ViewPager
@@ -91,6 +92,7 @@ public class SwipeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        SwipeActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         CurrentUser.refreshUser();
     }
 

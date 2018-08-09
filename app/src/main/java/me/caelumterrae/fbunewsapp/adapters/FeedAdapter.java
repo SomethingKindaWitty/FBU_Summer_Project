@@ -69,7 +69,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         } else {
             Picasso.with(context)
                     .load(post.getImageUrl())
-                    .fit().centerCrop()
+                    .fit().centerCrop().placeholder(R.color.background)
                     .into(viewHolder.ivImage, new Callback() {
                         @Override
                         public void onSuccess() {
