@@ -31,17 +31,18 @@ public class GetUserCommentsHandler extends JsonHttpResponseHandler {
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
         Log.i("MADE IT HERE", "MADEITHERE");
-        comments = new ArrayList<>();
+        comments.clear();
         for(int i = 0; i < response.length(); i++){
             try {
-                comments.add(Comment.fromJSON(response.getJSONObject(i)));
-                commentAdapter.notifyItemInserted(comments.size()-1);
+                comments.add(0, Comment.fromJSON(response.getJSONObject(i)));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
+        commentAdapter.notifyDataSetChanged();
         super.onSuccess(statusCode, headers, response);
     }
 

@@ -36,9 +36,13 @@ public class Comment {
         comment.setDate(DateFunctions.getRelativeDateComment(jsonObject.getString("createdAt")));
         comment.setUrl(jsonObject.getString("articleUrl"));
         comment.setComment(jsonObject.getString("body"));
-        comment.setUsername(jsonObject.getString("username"));
+        if (jsonObject.has("username")) {
+            comment.setUsername(jsonObject.getString("username"));
+        }
         comment.setUid(jsonObject.getInt("uid"));
-        comment.setUserUrl(jsonObject.getString("profileImage"));
+        if(jsonObject.has("profileImage")) {
+            comment.setUserUrl(jsonObject.getString("profileImage"));
+        }
         if(jsonObject.has("mediaImage")){
             comment.setMediaImage(jsonObject.getString("mediaImage"));
         }
