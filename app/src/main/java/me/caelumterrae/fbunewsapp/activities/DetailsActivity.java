@@ -31,7 +31,6 @@ import org.parceler.Parcels;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
@@ -40,9 +39,7 @@ import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.NewsDataHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.AddRemoveLikeHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.GetLikeHandler;
-import me.caelumterrae.fbunewsapp.model.Comment;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -117,6 +114,10 @@ public class DetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+
+        if(post.getBody() != null){
+            pb.setVisibility(View.INVISIBLE);
         }
 
         // Puts image, body, and title into post

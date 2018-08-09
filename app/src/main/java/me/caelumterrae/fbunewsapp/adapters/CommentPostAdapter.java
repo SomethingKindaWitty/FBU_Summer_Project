@@ -46,7 +46,8 @@ public class CommentPostAdapter extends RecyclerView.Adapter<CommentPostAdapter.
     @Override
     public void onBindViewHolder(@NonNull final CommentPostAdapter.ViewHolder viewHolder, int i) {
         Comment comment = mComments.get(i);
-//        viewHolder.body.setText(user.getUsername() + " said: " + comment.getComment());
+      
+        viewHolder.body.setText(user.getUsername() + " said: " + comment.getComment());
         viewHolder.title.setText(comment.getArticleTitle());
         viewHolder.timestamp.setText(comment.getRelativeTime());
         if (comment.getMediaImage().equals("")) {

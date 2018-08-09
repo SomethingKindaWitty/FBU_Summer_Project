@@ -13,17 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
+import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.client.TopNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class FeedFragment extends Fragment{
@@ -79,7 +76,7 @@ public class FeedFragment extends Fragment{
                 quack_sound.start();
                 feedAdapter.clear();
                 posts.clear();
-                client.getTopNews(new TimelineHandler( posts, feedAdapter, getContext()));
+                client.getTopNews(new TimelineHandler( posts, feedAdapter, new ParseNewsClient(getContext())));
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -88,7 +85,7 @@ public class FeedFragment extends Fragment{
                 R.color.sea_blue, R.color.yellow_duck,
                 R.color.sea_blue_light);
 
-        client.getTopNews(new TimelineHandler(posts, feedAdapter, getContext()));
+        client.getTopNews(new TimelineHandler(posts, feedAdapter, new ParseNewsClient(getContext())));
     }
 
 }
