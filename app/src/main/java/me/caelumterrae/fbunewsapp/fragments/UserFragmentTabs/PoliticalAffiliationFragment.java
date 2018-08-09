@@ -261,14 +261,17 @@ public class PoliticalAffiliationFragment extends Fragment {
     }
 
     public void refresh() {
-        // Sets up beta distribution graph
-        setBetaDistribution(view, politicalRounded);
 
-        // Sets ArrayList containing number of articles in each bias category
-        // for the radar chart graph
-        getNumData(biasNums, sourcebias);
+        if (user != null) {
+            // Sets up beta distribution graph
+            setBetaDistribution(view, politicalRounded);
 
-        // Sets up radar chart graph
-        setRadarChart(view, biasNums);
+            // Sets ArrayList containing number of articles in each bias category
+            // for the radar chart graph
+            getNumData(biasNums, sourcebias);
+
+            // Sets up radar chart graph
+            setRadarChart(view, biasNums);
+        }
     }
 }

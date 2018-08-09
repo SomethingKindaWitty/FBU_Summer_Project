@@ -52,6 +52,8 @@ public class CommentFragment extends Fragment {
     }
 
     public void refresh() {
-        client.getCommentsById(user.getUid(), new GetUserCommentsHandler(getContext(), comments, commentAdapter));
+        if (user != null) {
+            client.getCommentsById(user.getUid(), new GetUserCommentsHandler(getContext(), comments, commentAdapter));
+        }
     }
 }
