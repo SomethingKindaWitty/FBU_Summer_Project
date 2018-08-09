@@ -49,8 +49,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Comment comment = mComments.get(i);
-        User newUser = new User();
-
         viewHolder.tvComment.setText(comment.getComment());
         viewHolder.tvUsername.setText(comment.getUsername());
         viewHolder.tvDate.setText(comment.getRelativeTime());
@@ -104,13 +102,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             Comment comment = mComments.get(position);
             Intent i;
             if (comment.getUid() != CurrentUser.getUser().getUid()) {
-                i = new Intent(context, OtherUserActivity.class);
-                i.putExtra(Comment.class.getSimpleName(), Parcels.wrap(comment));
-                context.startActivity(i);
+                // if you click on someone else, set current user to that someone else and brings
+                // you to OtherUserActivity. [on back press, sets current user back to yourself]
+                CurrentUser.storeCurrentUser();
+                CurrentUser.createUser(comment.getUid(), context, OtherUserActivity.class);
             } else {
                 i = new Intent(context, UserActivity.class);
                 context.startActivity(i);
-                // if you click on yourself, start intent to the user fragment
+                // if you click on yourself, start intent to activity that holds UserFragment
             }
         }
     }
