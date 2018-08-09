@@ -3,6 +3,7 @@ package me.caelumterrae.fbunewsapp.activities;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -10,12 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -39,6 +45,7 @@ import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 public class DetailsActivity extends AppCompatActivity {
 
     RecyclerView rvRelated;
+    ScrollView scrollView;
     TextView tvTitle;
     TextView tvBody;
     ImageView ivMedia;
@@ -46,11 +53,15 @@ public class DetailsActivity extends AppCompatActivity {
     ImageButton share;
     Button commentButton;
     Post post;
-    Drawable main;
-    Drawable liked;
     ProgressBar pb;
     int userID;
     ParseNewsClient parseNewsClient;
+
+    // For swipe event
+    double downX;
+    double upX;
+    double downY;
+    double upY;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -66,6 +77,8 @@ public class DetailsActivity extends AppCompatActivity {
         userID = CurrentUser.getUid();
         Log.e("DetailsUid", Integer.toString(userID));
 
+        scrollView = findViewById(R.id.scrollView);
+
         upVote = findViewById(R.id.btnLike);
         tvTitle = findViewById(R.id.tvTitle);
         rvRelated = findViewById(R.id.rvRelated);
@@ -76,6 +89,7 @@ public class DetailsActivity extends AppCompatActivity {
         commentButton = findViewById(R.id.commentButton);
         share = findViewById(R.id.btnShare);
         upVote.setVisibility(View.INVISIBLE); // Hide button until it loads in Getlikehandler
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         ArrayList<Post> posts = post.getRelatedPosts();
@@ -133,6 +147,19 @@ public class DetailsActivity extends AppCompatActivity {
                 onShareClick();
             }
         });
+
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return onSwipe(motionEvent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DetailsActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 
     private void onUpvoteClick() {
@@ -162,6 +189,32 @@ public class DetailsActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_TEXT, post.getUrl());
         intent.setType("text/plain");
         startActivity(Intent.createChooser(intent, "Share Article URL"));
+    }
+
+    private boolean onSwipe(MotionEvent motionEvent) {
+        switch(motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = motionEvent.getX();
+                downY = motionEvent.getY();
+                return true;
+            case MotionEvent.ACTION_UP:
+                upX = motionEvent.getX();
+                upY = motionEvent.getY();
+
+                double delta = upX - downX;
+                double deltaY = upY - downY;
+
+                if (Math.abs(delta) >= 150 && Math.abs(deltaY) <= 50) {
+                    if (delta >= 0 ) {
+                        //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                        DetailsActivity.super.onBackPressed();
+                    } else {
+                        //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return true;
+        }
+        return false;
     }
 
 }
