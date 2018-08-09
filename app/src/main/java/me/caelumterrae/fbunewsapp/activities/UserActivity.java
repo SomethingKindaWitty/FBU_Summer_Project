@@ -47,6 +47,7 @@ public class UserActivity extends AppCompatActivity {
         });
     }
 
+    // Detects left or right swipe
     private boolean onSwipe(MotionEvent motionEvent) {
         switch(motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -59,6 +60,7 @@ public class UserActivity extends AppCompatActivity {
                 if (Math.abs(delta) >= 150) {
                     if (delta >= 0 ) {
                         //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                        // Copy back button functionality
                         UserActivity.super.onBackPressed();
                     } else {
                         //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();
