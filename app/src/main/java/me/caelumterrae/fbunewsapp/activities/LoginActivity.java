@@ -56,14 +56,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.e("Login", "entered");
 
-
+                loginButton.setClickable(false);
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
                 try {
                     parseNewsClient.login(username, password, new LoginHandler(true, username, password, getApplicationContext(), LoginActivity.this,
-                            splash));
+                            splash, loginButton, signUpButton));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -79,12 +79,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.e("Sign in", "entered");
-
+                signUpButton.setClickable(false);
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
                 try {
-                    parseNewsClient.login(username, password, new LoginHandler(false, username, password, getApplicationContext(), LoginActivity.this, splash));
+                    parseNewsClient.login(username, password, new LoginHandler(false, username, password, getApplicationContext(), LoginActivity.this, splash,
+                            loginButton, signUpButton));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -94,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {

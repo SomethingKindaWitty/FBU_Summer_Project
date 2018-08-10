@@ -54,6 +54,11 @@ public class InitialHandler extends JsonHttpResponseHandler{
             postMap.get(5).set(6, rawPosts.get(1));
             postMap.get(5).set(8, rawPosts.get(2));
             postMap.get(4).set(7, rawPosts.get(3));
+            postMap.get(4).set(6, rawPosts.get(4));
+            postMap.get(4).set(8, rawPosts.get(5));
+            postMap.get(6).set(7, rawPosts.get(6));
+            postMap.get(6).set(8, rawPosts.get(7));
+            postMap.get(6).set(6, rawPosts.get(8));
 //            //get the keywords for these four and then after generating keywords attempt to populate surrounding.
 //            postMap.get(5).get(7).getKeywords(client, topNewsClient, postMap, 5, 7);
 //            postMap.get(5).get(6).getKeywords(client, topNewsClient, postMap, 5, 6);

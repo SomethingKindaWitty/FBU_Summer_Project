@@ -65,7 +65,6 @@
                         android:layout_alignParentTop="true"
                         android:background="@color/sea_blue">
 
-
                         <ImageButton
                             android:id="@+id/ibSend"
                             android:layout_width="match_parent"
