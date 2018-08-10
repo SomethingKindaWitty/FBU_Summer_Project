@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 try {
                     parseNewsClient.login(username, password, new LoginHandler(true, username, password, getApplicationContext(), LoginActivity.this,
-                            splash));
+                            splash, loginButton, signUpButton));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -84,7 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                 final String password = passwordInput.getText().toString();
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
                 try {
-                    parseNewsClient.login(username, password, new LoginHandler(false, username, password, getApplicationContext(), LoginActivity.this, splash));
+                    parseNewsClient.login(username, password, new LoginHandler(false, username, password, getApplicationContext(), LoginActivity.this, splash,
+                            loginButton, signUpButton));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -95,13 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loginButton.setClickable(true);
-        signUpButton.setClickable(true);
-
-    }
 
     @Override
     public void onBackPressed() {
