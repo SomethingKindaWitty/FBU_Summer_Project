@@ -68,7 +68,6 @@ public class LoginHandler extends JsonHttpResponseHandler {
                 }
                 else {
                     // Create the master user and start next intent to PoliticalActivity
-                    showSplashScreen();
                     Intent i = new Intent(context, PoliticalActivity.class);
                     i.putExtra("username", username);
                     i.putExtra("password", password);
