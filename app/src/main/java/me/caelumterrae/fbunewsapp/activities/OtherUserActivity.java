@@ -117,7 +117,6 @@ public class OtherUserActivity extends AppCompatActivity {
 
     }
 
-
     private void setupViewPager(ViewPager viewPager, UpvotedFragment u, CommentFragment c ) {
         UserTabsAdapter adapter = new UserTabsAdapter(getSupportFragmentManager());
         adapter.addFragment(u, "Upvoted");

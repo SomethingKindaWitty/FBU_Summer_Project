@@ -41,6 +41,7 @@ import me.caelumterrae.fbunewsapp.model.Comment;
 import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
+import me.caelumterrae.fbunewsapp.utility.Keyboard;
 
 public class CommentActivity extends AppCompatActivity {
 
@@ -121,6 +122,7 @@ public class CommentActivity extends AppCompatActivity {
                 // Manually add comment to feed and then post it to server
                 // and reset EditText
                 quack_sound.start();
+                Keyboard.hideSoftKeyboard(CommentActivity.this);
                 Comment c = new Comment();
                 c.setComment(etComment.getText().toString());
                 etComment.setText("");
@@ -161,9 +163,9 @@ public class CommentActivity extends AppCompatActivity {
                 R.color.sea_blue_light);
     }
 
+    // Used to override touch events for the whole activity
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        //relativeLayout.dispatchTouchEvent(ev);
         return onSwipe(ev);
     }
 
@@ -173,7 +175,6 @@ public class CommentActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -194,7 +195,6 @@ public class CommentActivity extends AppCompatActivity {
 
                 if (Math.abs(delta) >= 50 && Math.abs(deltaY) <= 1400) {
                     if (delta >= 0 ) {
-                        Toast.makeText(getApplicationContext(), "Left to Right " + Integer.toString((int) Math.round(delta)) + " Y  delta " +  Integer.toString((int) Math.round(deltaY)), Toast.LENGTH_SHORT).show();
                         // Left to right swipe
                         // Copy back button functionality
                         CommentActivity.super.onBackPressed();

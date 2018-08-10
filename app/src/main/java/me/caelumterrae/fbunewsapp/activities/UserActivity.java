@@ -22,7 +22,6 @@ public class UserActivity extends AppCompatActivity {
 
     private FragmentTransaction mFragmentTransaction;
     private FragmentManager mFragmentManager;
-//    ScrollView scrollView;
     FrameLayout frameLayout;
 
     // For swipe event
@@ -35,7 +34,6 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-//        scrollView = findViewById(R.id.scrollView);
         frameLayout = findViewById(R.id.frameLayout);
 
         mFragmentManager = getSupportFragmentManager();
@@ -43,12 +41,13 @@ public class UserActivity extends AppCompatActivity {
         mFragmentTransaction.replace(R.id.frameLayout, new UserFragment());
         mFragmentTransaction.commit();
 
-        frameLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return onSwipe(motionEvent);
-            }
-        });
+    }
+
+    // Used to override touch events for the whole activity
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        super.dispatchTouchEvent(ev);
+        return onSwipe(ev);
     }
 
     // Detects left or right swipe
@@ -60,15 +59,11 @@ public class UserActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP:
                 upX = motionEvent.getX();
                 double delta = upX - downX;
-                Toast.makeText(getApplicationContext(), "deltaX " + Integer.toString((int) Math.round(delta)), Toast.LENGTH_SHORT).show();
 
                 if (Math.abs(delta) >= 150) {
-                    if (delta >= 0 ) {
-                        //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                    if (delta >= 0 ) { // Left to right swipe
                         // Copy back button functionality
                         UserActivity.super.onBackPressed();
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();
                     }
                 }
                 return frameLayout.onTouchEvent(motionEvent);
