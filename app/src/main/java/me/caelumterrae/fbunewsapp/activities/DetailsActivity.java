@@ -148,19 +148,15 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+
         scrollView.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 return onSwipe(motionEvent);
             }
         });
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        DetailsActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-//    }
 
     private void onUpvoteClick() {
         try {
@@ -197,7 +193,7 @@ public class DetailsActivity extends AppCompatActivity {
             case MotionEvent.ACTION_DOWN:
                 downX = motionEvent.getX();
                 downY = motionEvent.getY();
-                return true;
+                return scrollView.onTouchEvent(motionEvent);
             case MotionEvent.ACTION_UP:
                 upX = motionEvent.getX();
                 upY = motionEvent.getY();
@@ -207,16 +203,15 @@ public class DetailsActivity extends AppCompatActivity {
 
                 if (Math.abs(delta) >= 150 && Math.abs(deltaY) <= 50) {
                     if (delta >= 0 ) {
-                        //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                        // Left to right swipe
                         // Copy back button functionality
                         DetailsActivity.super.onBackPressed();
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();
                     }
                 }
-                return true;
+                return scrollView.onTouchEvent(motionEvent);
         }
-        return false;
+        // Always go to default scroll view if not left to right swipe
+        return scrollView.onTouchEvent(motionEvent);
     }
 
 }
