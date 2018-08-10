@@ -57,7 +57,10 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:padding="3dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp"
                 app:cardElevation="7dp">
 
                 <RelativeLayout
