@@ -1,15 +1,11 @@
 package me.caelumterrae.fbunewsapp.fragments.UserFragmentTabs;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;
-import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 import me.caelumterrae.fbunewsapp.adapters.LikesAdapter;
-import me.caelumterrae.fbunewsapp.adapters.UserTabsAdapter;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
-import me.caelumterrae.fbunewsapp.handlers.TimelineHandler;
-import me.caelumterrae.fbunewsapp.handlers.database.GetLikeHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.GetUserLikesHandler;
 import me.caelumterrae.fbunewsapp.model.Like;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
@@ -72,7 +64,9 @@ public class UpvotedFragment extends Fragment {
 
     public void loadRealLikes(ArrayList<Like> likes, LikesAdapter adapter, RecyclerView rv) {
         try {
-            client.getLikesById(CurrentUser.getUid(), new GetUserLikesHandler(getContext(), likes, adapter, rv));
+            if(client != null) {
+                client.getLikesById(CurrentUser.getUid(), new GetUserLikesHandler(getContext(), likes, adapter, rv));
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {
