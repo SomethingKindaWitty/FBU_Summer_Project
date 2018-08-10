@@ -18,7 +18,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp">
 
 
             <android.support.v7.widget.RecyclerView
@@ -57,14 +58,16 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:padding="3dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp"
                 app:cardElevation="7dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="-5dp">
+                    android:layout_marginBottom="5dp"
+                    android:paddingBottom="5dp">
 
                     <TextView
                         android:id="@+id/tvBody"
@@ -82,24 +85,30 @@
 
                     <ImageButton
                         android:id="@+id/btnLike"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="34dp"
+                        android:layout_height="40dp"
                         android:layout_below="@+id/tvBody"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
                         android:background="@color/transparent"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/upvote_button" />
 
 
                     <Button
                         android:id="@+id/commentButton"
-                        android:layout_width="145dp"
-                        android:layout_height="23dp"
+                        android:layout_width="121dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
                         android:layout_toEndOf="@+id/btnLike"
                         android:background="@color/transparent"
                         android:fontFamily="@font/opensans_light"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
                         android:text="View Comments"
                         android:textAllCaps="false"
                         android:textColor="@color/sea_blue"
@@ -108,10 +117,12 @@
                     <ImageButton
                         android:id="@+id/btnShare"
                         android:layout_width="44dp"
-                        android:layout_height="25dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentEnd="true"
                         android:background="@color/transparent"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="4dp"
                         android:scaleType="fitCenter"
                         android:tint="@color/sea_blue"
                         app:srcCompat="@drawable/share" />

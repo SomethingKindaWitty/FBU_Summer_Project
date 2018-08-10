@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,7 +27,7 @@ import me.caelumterrae.fbunewsapp.utility.Keyboard;
 
 // This handler gets called in: LoginActivity login button on click listener and signup button on click listener
 // This handler: Creates Current User & moves user to timeline intent with UID packaged inside OR moves to political
-// activity with username and password
+// activity with username and password. Also disables people from double clicking login
 public class LoginHandler extends JsonHttpResponseHandler {
 
     private Context context;
@@ -35,14 +36,18 @@ public class LoginHandler extends JsonHttpResponseHandler {
     private Boolean bool;
     private String username;
     private String password;
+    private Button loginButton;
+    private Button signupButton;
 
-    public LoginHandler(Boolean bool,String username, String password, Context context, Activity activity, ImageView splash) {
+    public LoginHandler(Boolean bool,String username, String password, Context context, Activity activity, ImageView splash, Button loginButton, Button signupButton) {
         this.context = context;
         this.activity = activity;
         this.splash = splash;
         this.bool = bool;
         this.username = username;
         this.password = password;
+        this.loginButton = loginButton;
+        this.signupButton = signupButton;
     }
 
     @Override
@@ -60,15 +65,16 @@ public class LoginHandler extends JsonHttpResponseHandler {
                 }
                 else {
                     Toast.makeText(context, "Invalid Login", Toast.LENGTH_LONG).show();
+                    loginButton.setClickable(true);
                 }
             // If from signup button
             } else {
                 if (UID != -1) {
                     Toast.makeText(context, "User already exists", Toast.LENGTH_LONG).show();
+                    signupButton.setClickable(true);
                 }
                 else {
                     // Create the master user and start next intent to PoliticalActivity
-                    showSplashScreen();
                     Intent i = new Intent(context, PoliticalActivity.class);
                     i.putExtra("username", username);
                     i.putExtra("password", password);

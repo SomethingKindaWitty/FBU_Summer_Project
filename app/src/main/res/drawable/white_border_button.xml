@@ -3,12 +3,12 @@
     <item
         android:state_focused="true"
         android:state_pressed="true"
-        android:drawable="@drawable/blue_border_button" />
+        android:drawable="@drawable/blue_border_button_drawing" />
 
     <item
         android:state_focused="false"
         android:state_pressed="true"
-        android:drawable="@drawable/blue_border_button" />
+        android:drawable="@drawable/blue_border_button_drawing" />
 
     <item android:drawable="@drawable/login_background" />
 </selector>
