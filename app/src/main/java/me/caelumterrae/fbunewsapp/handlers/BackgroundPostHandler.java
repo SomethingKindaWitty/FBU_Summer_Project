@@ -27,7 +27,9 @@ public class BackgroundPostHandler extends JsonHttpResponseHandler{
 
         try {JSONArray keywords = null;
             String text = response.getString("text");
-            posts.get(position).setBody(text);
+            if(posts.size()-1 >= position) {
+                posts.get(position).setBody(text);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
