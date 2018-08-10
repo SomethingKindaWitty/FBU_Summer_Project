@@ -152,6 +152,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 return onSwipe(motionEvent);
+
             }
         });
     }
@@ -216,6 +217,7 @@ public class DetailsActivity extends AppCompatActivity {
                 }
                 return true;
         }
+        DetailsActivity.super.onTouchEvent(motionEvent);
         return false;
     }
 
