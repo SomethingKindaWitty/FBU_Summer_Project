@@ -1,6 +1,5 @@
 package me.caelumterrae.fbunewsapp.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,16 +11,11 @@ import java.io.UnsupportedEncodingException;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
-import me.caelumterrae.fbunewsapp.handlers.database.PoliticalAffHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.SignupHandler;
-import me.caelumterrae.fbunewsapp.model.User;
-
-import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class PoliticalActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
-    private int uid;
     private String username;
     private String password;
 

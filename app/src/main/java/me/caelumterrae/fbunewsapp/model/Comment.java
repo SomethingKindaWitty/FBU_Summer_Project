@@ -1,9 +1,5 @@
 package me.caelumterrae.fbunewsapp.model;
 
-//import android.arch.persistence.room.ColumnInfo;
-//import android.arch.persistence.room.Entity;
-//import android.arch.persistence.room.PrimaryKey;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.ocpsoft.prettytime.PrettyTime;

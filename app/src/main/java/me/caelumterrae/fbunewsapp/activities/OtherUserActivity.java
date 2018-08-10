@@ -1,7 +1,5 @@
 package me.caelumterrae.fbunewsapp.activities;
 
-import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.media.MediaPlayer;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,9 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -23,8 +19,6 @@ import com.bumptech.glide.request.RequestOptions;
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -32,12 +26,10 @@ import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.adapters.UserTabsAdapter;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.fragments.UserFragmentTabs.CommentFragment;
-import me.caelumterrae.fbunewsapp.fragments.UserFragmentTabs.PoliticalAffiliationFragment;
 import me.caelumterrae.fbunewsapp.fragments.UserFragmentTabs.UpvotedFragment;
 import me.caelumterrae.fbunewsapp.handlers.database.comments.GetNumCommentsHandler;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
-import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 
 public class OtherUserActivity extends AppCompatActivity {
 

@@ -8,7 +8,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -16,8 +15,9 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.adapters.LikesAdapter;
 import me.caelumterrae.fbunewsapp.model.Like;
-import me.caelumterrae.fbunewsapp.model.User;
 
+// This handler gets called in UserFragment's Upvoted fragment
+// This handler: puts the likes of a user into the list and notifies the adapter
 public class GetUserLikesHandler extends JsonHttpResponseHandler {
 
     Context context;
@@ -43,7 +43,6 @@ public class GetUserLikesHandler extends JsonHttpResponseHandler {
                 Log.e("Title", like.getArticleTitle());
                 likes.add(0, like);
                 adapter.notifyItemInserted(0);
-//                rv.stopScroll();
 
             } catch (JSONException e) {
                 e.printStackTrace();

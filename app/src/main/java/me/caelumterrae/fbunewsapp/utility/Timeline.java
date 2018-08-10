@@ -20,7 +20,6 @@ import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 // All functions relating to populating the timeline
 public class Timeline {
 
-
     // Orders posts based on user's political affiliation. Takes in rawPosts (list of all raw posts)
     // and context. Updates post & adapter with the curated posts
     public static void populateTimeline(ArrayList<Post> rawPosts, Context context,

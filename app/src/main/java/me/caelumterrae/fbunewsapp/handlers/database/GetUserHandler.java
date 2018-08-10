@@ -19,8 +19,8 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
 import me.caelumterrae.fbunewsapp.model.User;
 
-// TODO write this
-
+// This handler gets called in CurrentUser in both the create and refresh user methods
+// This handler: refreshes the user object and may or may not move to next class afterwards
 public class GetUserHandler extends JsonHttpResponseHandler {
 
 
@@ -48,7 +48,6 @@ public class GetUserHandler extends JsonHttpResponseHandler {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

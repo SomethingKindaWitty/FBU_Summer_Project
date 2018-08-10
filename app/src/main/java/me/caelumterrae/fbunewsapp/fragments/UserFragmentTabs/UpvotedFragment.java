@@ -30,7 +30,6 @@ public class UpvotedFragment extends Fragment {
     RecyclerView rvLikes;
     LikesAdapter likesAdapter;
     ParseNewsClient client;
-//    private SwipeRefreshLayout swipeContainer;
 
     public UpvotedFragment(){
 
@@ -50,11 +49,8 @@ public class UpvotedFragment extends Fragment {
         rvLikes = (RecyclerView) view.findViewById(R.id.rvLikes);
         likes = new ArrayList<>();
 
-        // construct adapter from data source
         likesAdapter = new LikesAdapter(likes);
-        // RecyclerView setup (layout manager, use adapter)
         rvLikes.setLayoutManager(new LinearLayoutManager(getContext()));
-        // set adapter
         rvLikes.setAdapter(likesAdapter);
 
         loadRealLikes(likes, likesAdapter, rvLikes);
@@ -71,22 +67,6 @@ public class UpvotedFragment extends Fragment {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void loadFakeLikes(List<Like> likes) {
-        likes.clear();
-
-        String url = "https://www.independent.co.uk/news/education/education-news/lse-students-homeless-benches-library-london-school-economics-rough-sleepers-a8481506.html";
-        String image = "https://static.independent.co.uk/s3fs-public/thumbnails/image/2018/08/07/17/bench-cropped.jpg";
-        String title = "Students call on London School of Economics to remove ‘anti-homeless’ benches from campus";
-
-        for (int i = 0; i < 12; i++) {
-            Like like = new Like();
-            like.setImageUrl(image);
-            like.setArticleUrl(url);
-            like.setArticleTitle(title);
-            likes.add(0,like);
         }
     }
 

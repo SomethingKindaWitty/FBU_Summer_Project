@@ -16,6 +16,9 @@ import cz.msebera.android.httpclient.Header;
 import me.caelumterrae.fbunewsapp.adapters.CommentPostAdapter;
 import me.caelumterrae.fbunewsapp.model.Comment;
 
+
+// This handler gets called in User Fragment's CommentFragment
+// This handler: puts the number of comments posted by a user into the list and notifies the adapter
 public class GetUserCommentsHandler extends JsonHttpResponseHandler {
 
     Context context;

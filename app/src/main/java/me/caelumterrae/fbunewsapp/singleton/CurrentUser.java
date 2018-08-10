@@ -19,6 +19,7 @@ public class CurrentUser {
 
     private static User myUser;
     private static Object lock = new Object();
+
     // lock prevents us from accessing and modifying the user object at the same time
     private static ParseNewsClient parseNewsClient;
     private static int myUid;

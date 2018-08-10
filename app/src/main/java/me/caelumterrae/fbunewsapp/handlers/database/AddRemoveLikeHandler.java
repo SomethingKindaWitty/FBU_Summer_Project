@@ -1,25 +1,16 @@
 package me.caelumterrae.fbunewsapp.handlers.database;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcels;
 
 import java.util.concurrent.Semaphore;
 
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
-import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.model.User;
 
 // This handler gets called in: DetailsActivity in button handler
 // This handler: will adjust the upvote button to be selected

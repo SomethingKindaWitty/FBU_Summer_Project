@@ -5,8 +5,6 @@ import android.util.Log;
 
 import org.apache.commons.math3.distribution.BetaDistribution;
 
-import java.util.ArrayList;
-
 public class BetaDis {
 
     /* Takes in the user's political affiliation number to gives us the political category we should

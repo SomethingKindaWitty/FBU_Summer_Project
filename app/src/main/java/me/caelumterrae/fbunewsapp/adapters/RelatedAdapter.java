@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.model.User;
 
 public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHolder>{
 
@@ -52,10 +50,9 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
         Post post = relatedPosts.get(position);
 
         RequestOptions cropOptions = new RequestOptions().centerCrop();
-        RequestOptions roundedEdges = new RequestOptions().transform(new RoundedCornersTransformation(10,10));
 
-        // Initialize the fields of all the required parts
         holder.tvTitle.setText(post.getTitle(40));
+
         Glide.with(context)
                 .load(post.getImageUrl())
                 .apply(cropOptions)
@@ -78,6 +75,7 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedAdapter.ViewHold
             itemView.setOnClickListener(this);
         }
 
+        // When clicked, move to Details Activity
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();

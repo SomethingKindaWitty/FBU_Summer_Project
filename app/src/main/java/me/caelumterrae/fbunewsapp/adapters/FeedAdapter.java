@@ -22,7 +22,6 @@ import java.util.List;
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.activities.DetailsActivity;
 import me.caelumterrae.fbunewsapp.model.Post;
-import me.caelumterrae.fbunewsapp.model.User;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
 
@@ -130,20 +129,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
             itemView.setOnClickListener(this);
         }
 
+        // When clicked, send to Details Activity
         @Override
         public void onClick(View view) {
-            //item position
             int position = getAdapterPosition();
-            //make sure position exists in view
+            // Make sure position exists in view
             if (position != RecyclerView.NO_POSITION){
-                //get post
                 Post post = mPosts.get(position);
-                //create intent
                 Intent intent = new Intent(context, DetailsActivity.class);
-                // serialize the post using parceler, use its short name as a key
                 intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
                 Log.e("FeedAdapter" ,"post put into intent");
-                // show the activity
                 context.startActivity(intent);
             }
         }

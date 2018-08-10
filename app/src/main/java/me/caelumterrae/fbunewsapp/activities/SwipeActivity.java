@@ -1,25 +1,15 @@
 package me.caelumterrae.fbunewsapp.activities;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
-import org.json.JSONException;
-import org.parceler.Parcels;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Semaphore;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.adapters.FragmentAdapter;
@@ -27,15 +17,12 @@ import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.fragments.FeedFragment;
 import me.caelumterrae.fbunewsapp.fragments.GraphicsFragment;
 import me.caelumterrae.fbunewsapp.fragments.UserFragment;
-import me.caelumterrae.fbunewsapp.handlers.database.GetUserHandler;
-import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class SwipeActivity extends AppCompatActivity {
     private final List<Fragment> fragments = new ArrayList<>();
     private ViewPager viewPager;
     private FragmentAdapter adapter;
-    ParseNewsClient parseNewsClient;
     private BottomNavigationView bottomNavigationView;
 
     @Override
@@ -45,9 +32,10 @@ public class SwipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_swipe);
 
         // Create the placeholder fragments to be passed to the ViewPager
+        fragments.add(new UserFragment());
         fragments.add(new FeedFragment());
         fragments.add(new GraphicsFragment());
-        fragments.add(new UserFragment());
+
 
         // Grab reference to bottom navigation view and call create function
         bottomNavigationView = findViewById(R.id.bottomNavigation);
@@ -92,7 +80,6 @@ public class SwipeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        SwipeActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         CurrentUser.refreshUser();
     }
 
@@ -100,7 +87,7 @@ public class SwipeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        // Nothing happens if back button is pressed
     }
 
     // Sets the bottom navigation view's OnItemSelectedListener, which changes the page view based on
