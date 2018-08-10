@@ -46,33 +46,28 @@ public class FeedFragment extends Fragment{
         userID = CurrentUser.getUid();
 
 
-       Log.e("Feedfragment", Integer.toString(userID));
+       Log.e("Feed fragment", Integer.toString(userID));
 
 
-        // set client
         client = new TopNewsClient(getContext());
-        // find the RecyclerView
+
         rvPosts = (RecyclerView) view.findViewById(R.id.rvPost);
-        // init the ArrayList (data source)
         posts = new ArrayList<>();
-        // construct adapter from data source
         feedAdapter = new FeedAdapter(posts, userID);
-        // RecyclerView setup (layout manager, use adapter)
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-        // set adapter
         rvPosts.setAdapter(feedAdapter);
-        // Lookup the swipe container view
+
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-        //create our quacking refresh sound
+
+        // Create our quacking refresh sound
         mediaPlayer = MediaPlayer.create(getContext(),R.raw.quack);
         final MediaPlayer quack_sound = mediaPlayer;
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
+                // Make quack sound and clear posts/adapter
+                // Then make the client call to update posts
                 quack_sound.start();
                 feedAdapter.clear();
                 posts.clear();
@@ -80,6 +75,7 @@ public class FeedFragment extends Fragment{
                 swipeContainer.setRefreshing(false);
             }
         });
+
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(R.color.duck_beak,
                 R.color.sea_blue, R.color.yellow_duck,

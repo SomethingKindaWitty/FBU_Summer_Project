@@ -2,7 +2,6 @@ package me.caelumterrae.fbunewsapp.handlers.database.comments;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 

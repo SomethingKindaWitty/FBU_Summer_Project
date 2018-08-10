@@ -1,7 +1,5 @@
 package me.caelumterrae.fbunewsapp.activities;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,35 +8,28 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONException;
-import org.parceler.Parcels;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.adapters.CommentAdapter;
-import me.caelumterrae.fbunewsapp.adapters.FeedAdapter;
 import me.caelumterrae.fbunewsapp.client.ParseNewsClient;
 import me.caelumterrae.fbunewsapp.handlers.database.comments.GetCommentsHandler;
 import me.caelumterrae.fbunewsapp.handlers.database.comments.PostCommentHandler;
 import me.caelumterrae.fbunewsapp.model.Comment;
-import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 import me.caelumterrae.fbunewsapp.utility.DateFunctions;
 import me.caelumterrae.fbunewsapp.utility.Keyboard;

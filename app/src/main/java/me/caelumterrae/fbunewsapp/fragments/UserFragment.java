@@ -83,7 +83,6 @@ public class UserFragment extends Fragment {
     private String imagePath = null;
     File photoFile;
     final int MY_PERMISSIONS_REQUEST_CAMERA = 220;
-    final int MY_PERMISSIONS_REQUEST_STORAGE = 221;
 
     // All of the fragments that belong to this fragment
     public PoliticalAffiliationFragment politicalAffiliationFragment;
@@ -137,9 +136,10 @@ public class UserFragment extends Fragment {
             Log.e("url", user.getProfileUrl());
             photoFileName = user.getUsername() + DateFunctions.getTodaysTimeAndDate() + "photo.jpg";
             createUser(view, user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl(), num.get(0));
-            //create our quacking refresh sound
+
+            // Final view to pass for refresh
             final View view1 = view;
-            //create our quacking refresh sound
+            // Create our quacking refresh sound
             mediaPlayer = MediaPlayer.create(getContext(),R.raw.quack);
             final MediaPlayer quack_sound = mediaPlayer;
 
@@ -160,6 +160,7 @@ public class UserFragment extends Fragment {
             swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+
                     quack_sound.start();
                     getNumComments();
                     createUser(view1 ,user.getUsername(), user.getPoliticalPreference(), user.getNumUpvoted(), user.getProfileUrl(), num.get(0));
@@ -173,6 +174,7 @@ public class UserFragment extends Fragment {
                     swipeContainer.setRefreshing(false);
                 }
             });
+
             // Configure the refreshing colors
             swipeContainer.setColorSchemeResources(R.color.duck_beak,
                     R.color.sea_blue, R.color.yellow_duck,
@@ -182,7 +184,6 @@ public class UserFragment extends Fragment {
     }
 
     public void createUser(View view, String name, double politicalAff, int numVotes, String profileUrl, int numComments) {
-
 
         username = view.findViewById(R.id.name);
         profileImage = view.findViewById(R.id.profImage);
@@ -305,6 +306,7 @@ public class UserFragment extends Fragment {
 
                 // Make call to database to update user
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getContext());
+
                 try {
                     parseNewsClient.setProfileImage(user.getUid(), user.getProfileUrl(), new UserProfileImageHandler(getContext()));
                     Log.e("new url", user.getProfileUrl());

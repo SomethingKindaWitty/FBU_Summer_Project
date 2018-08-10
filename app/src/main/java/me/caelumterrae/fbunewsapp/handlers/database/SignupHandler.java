@@ -1,7 +1,6 @@
 package me.caelumterrae.fbunewsapp.handlers.database;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -9,19 +8,9 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcels;
-
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
-import me.caelumterrae.fbunewsapp.activities.PoliticalActivity;
 import me.caelumterrae.fbunewsapp.activities.SwipeActivity;
-import me.caelumterrae.fbunewsapp.adapters.RelatedAdapter;
-import me.caelumterrae.fbunewsapp.client.TopNewsClient;
-import me.caelumterrae.fbunewsapp.handlers.RelatedHandler;
-import me.caelumterrae.fbunewsapp.model.Post;
 import me.caelumterrae.fbunewsapp.model.User;
 import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 

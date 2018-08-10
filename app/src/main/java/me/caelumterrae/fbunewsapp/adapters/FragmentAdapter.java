@@ -11,17 +11,12 @@ public class FragmentAdapter extends FragmentStatePagerAdapter {
 
     public FragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
-
         this.fragments = fragments;
     }
 
     @Override
     public Fragment getItem(int position) {
-        if (position != 0) {
-            return fragments.get(position - 1);
-        }else{
-            return fragments.get(fragments.size()-1);
-        }
+        return fragments.get(position);
     }
 
     @Override

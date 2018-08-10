@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.parceler.Parcels;
-
 import java.util.List;
 
 import me.caelumterrae.fbunewsapp.R;

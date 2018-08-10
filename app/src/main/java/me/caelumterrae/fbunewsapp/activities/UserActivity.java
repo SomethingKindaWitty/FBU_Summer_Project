@@ -5,14 +5,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ScrollView;
-import android.widget.Toast;
-
 import me.caelumterrae.fbunewsapp.R;
 import me.caelumterrae.fbunewsapp.fragments.UserFragment;
-import me.caelumterrae.fbunewsapp.singleton.CurrentUser;
 
 public class UserActivity extends AppCompatActivity {
 
