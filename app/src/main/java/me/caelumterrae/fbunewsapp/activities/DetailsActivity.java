@@ -201,6 +201,8 @@ public class DetailsActivity extends AppCompatActivity {
                 double delta = upX - downX;
                 double deltaY = upY - downY;
 
+                Toast.makeText(getApplicationContext(), "deltaX " + Integer.toString((int) Math.round(delta)), Toast.LENGTH_SHORT).show();
+
                 if (Math.abs(delta) >= 150 && Math.abs(deltaY) <= 50) {
                     if (delta >= 0 ) {
                         // Left to right swipe

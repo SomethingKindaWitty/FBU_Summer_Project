@@ -1,6 +1,7 @@
 package me.caelumterrae.fbunewsapp.activities;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.media.MediaPlayer;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -124,8 +125,6 @@ public class OtherUserActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-
-
     public void createUser(String name, int numVotes, String profileUrl, int numComments) {
 
         username = findViewById(R.id.name);
@@ -173,20 +172,20 @@ public class OtherUserActivity extends AppCompatActivity {
                 return true;
             case MotionEvent.ACTION_UP:
                 upX = motionEvent.getX();
+
                 double delta = upX - downX;
 
                 if (Math.abs(delta) >= 150) {
                     if (delta >= 0 ) {
-                        //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                        // Left to right swipe
                         // Copy back button functionality
                         OtherUserActivity.super.onBackPressed();
                         CurrentUser.restoreCurrentUser();
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();
                     }
                 }
                 return true;
         }
+
         return false;
     }
 

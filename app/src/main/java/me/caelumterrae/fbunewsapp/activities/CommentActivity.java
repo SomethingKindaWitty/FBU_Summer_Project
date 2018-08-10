@@ -1,5 +1,7 @@
 package me.caelumterrae.fbunewsapp.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,10 +14,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -49,11 +54,12 @@ public class CommentActivity extends AppCompatActivity {
     ImageView profileImage;
     private SwipeRefreshLayout swipeContainer;
     MediaPlayer mediaPlayer;
-    ScrollView scrollView;
+    RelativeLayout relativeLayout;
+    RelativeLayout innerRelativeLayout;
 
     // For swipe event
-    double downX;
-    double upX;
+    double downX, downY;
+    double upX, upY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +76,9 @@ public class CommentActivity extends AppCompatActivity {
         ibSend = findViewById(R.id.ibSend);
         profileImage = findViewById(R.id.tvProfileImage);
         etComment = findViewById(R.id.etComment);
-        scrollView = findViewById(R.id.scrollView);
+
+        relativeLayout = findViewById(R.id.relativeLayout);
+        innerRelativeLayout = findViewById(R.id.innerRelativeLayout);
 
         // add title to toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -106,6 +114,7 @@ public class CommentActivity extends AppCompatActivity {
         parseNewsClient.getComments(url, new GetCommentsHandler(getApplicationContext(), commentAdapter,
                 comments));
 
+
         ibSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,9 +149,6 @@ public class CommentActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
                 quack_sound.start();
                 parseNewsClient.getComments(url, new GetCommentsHandler(getApplicationContext(), commentAdapter,
                         comments));
@@ -153,16 +159,13 @@ public class CommentActivity extends AppCompatActivity {
         swipeContainer.setColorSchemeResources(R.color.duck_beak,
                 R.color.sea_blue, R.color.yellow_duck,
                 R.color.sea_blue_light);
-
-        swipeContainer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return onSwipe(motionEvent);
-            }
-        });
-
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        //relativeLayout.dispatchTouchEvent(ev);
+        return onSwipe(ev);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -179,29 +182,27 @@ public class CommentActivity extends AppCompatActivity {
         switch(motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 downX = motionEvent.getX();
-                return true;
+                downY = motionEvent.getY();
+                return super.dispatchTouchEvent(motionEvent);
+
             case MotionEvent.ACTION_UP:
                 upX = motionEvent.getX();
+                upY = motionEvent.getY();
 
                 double delta = upX - downX;
+                double deltaY = upY - downY;
 
-                if (Math.abs(delta) >= 150) {
+                if (Math.abs(delta) >= 50 && Math.abs(deltaY) <= 1400) {
                     if (delta >= 0 ) {
-                        //Toast.makeText(getApplicationContext(), "LEFT TO RIGHT", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Left to Right " + Integer.toString((int) Math.round(delta)) + " Y  delta " +  Integer.toString((int) Math.round(deltaY)), Toast.LENGTH_SHORT).show();
+                        // Left to right swipe
                         // Copy back button functionality
                         CommentActivity.super.onBackPressed();
-                    } else {
-                        //Toast.makeText(getApplicationContext(), "RIGHT TO LEFT", Toast.LENGTH_SHORT).show();
                     }
                 }
-                return true;
+                return super.dispatchTouchEvent(motionEvent);
         }
-        return false;
+        // Always go to default touch event
+        return super.dispatchTouchEvent(motionEvent);
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        CommentActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-//    }
 }
