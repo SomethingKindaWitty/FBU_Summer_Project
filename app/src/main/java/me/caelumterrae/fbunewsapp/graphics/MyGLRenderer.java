@@ -57,10 +57,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             ArrayList<Boolean> boolRow = new ArrayList<>();
             for(int y = 0; y <= 14;y++){
                 Post post = new Post();
-                post.setTitle(Integer.toString(x) + " " + Integer.toString(y));
-                post.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
-                post.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
-                post.setBody("test");
+                post.setTitle("Trump’s approval hits 50 percent — in a doctored poll graphic shared by his son");
+                post.setUrl("https://www.washingtonpost.com/news/the-fix/wp/2018/08/10/trumps-approval-hits-50-percent-in-a-doctored-poll-graphic-shared-by-his-son/?utm_term=.a3b9e81a9c58");
+                post.setImageUrl("https://www.washingtonpost.com/resizer/72rOUJIDDRxsgJAMi366qQmlutI=/429x0/arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/OE4UF5P4XE5FLIIB5IPBCRSHJY.jpg");
                 String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
                 post.setPoliticalBias(Format.biasToNum(bias));
 
@@ -96,10 +95,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             ArrayList<Hexagon> row = new ArrayList<>();
             for(int y = 0; y <= 14;y++){
                 Post post = new Post();
-                post.setTitle(Integer.toString(x) + " " + Integer.toString(y));
                 post.setUrl("https://www.reuters.com/article/us-facebook-fang/facebooks-disappointing-report-hits-rest-of-fang-idUSKBN1KF2X1");
                 post.setImageUrl("https://s3.reutersmedia.net/resources/r/?m=02&d=20180725&t=2&i=1287042306&r=LYNXMPEE6O20K&w=1280");
-                post.setBody("test");
                 String bias = sourceBias.get(Format.trimUrl(post.getUrl()));
                 post.setPoliticalBias(Format.biasToNum(bias));
 
