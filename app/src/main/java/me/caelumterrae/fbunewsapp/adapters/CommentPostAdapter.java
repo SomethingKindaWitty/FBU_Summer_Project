@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -46,10 +48,21 @@ public class CommentPostAdapter extends RecyclerView.Adapter<CommentPostAdapter.
     @Override
     public void onBindViewHolder(@NonNull final CommentPostAdapter.ViewHolder viewHolder, int i) {
         Comment comment = mComments.get(i);
-      
-        viewHolder.body.setText(user.getUsername() + " said: " + comment.getComment());
+
+        viewHolder.username.setText(user.getUsername());
+        viewHolder.body.setText(comment.getComment());
         viewHolder.title.setText(comment.getArticleTitle());
         viewHolder.timestamp.setText(comment.getRelativeTime());
+
+        if (user.getProfileUrl().equals("") || user.getProfileUrl().equals("null")) {
+            Log.e("profile image", "empty");
+        } else {
+            Glide.with(context)
+                    .load(user.getProfileUrl())
+                    .apply(new RequestOptions().circleCrop())
+                    .into(viewHolder.profileImage);
+        }
+
         if (comment.getMediaImage().equals("")) {
             Log.e("comment image", "empty");
         } else {
@@ -92,6 +105,8 @@ public class CommentPostAdapter extends RecyclerView.Adapter<CommentPostAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView image;
+        public ImageView profileImage;
+        public TextView username;
         public TextView title;
         public TextView body;
         public TextView timestamp;
@@ -99,7 +114,9 @@ public class CommentPostAdapter extends RecyclerView.Adapter<CommentPostAdapter.
 
         public ViewHolder(View itemView) {
             super(itemView);
+            username = itemView.findViewById(R.id.username);
             image = itemView.findViewById(R.id.image);
+            profileImage = itemView.findViewById(R.id.profile);
             title = itemView.findViewById(R.id.title);
             body = itemView.findViewById(R.id.body);
             timestamp = itemView.findViewById(R.id.timestamp);
