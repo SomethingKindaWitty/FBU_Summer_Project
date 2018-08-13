@@ -104,6 +104,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_margin="15dp"
                 android:padding="3dp"
+                app:srcCompat="@drawable/duckie"
                 card_view:srcCompat="@drawable/backgroundprofile" />
 
             <TextView
