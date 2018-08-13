@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/body"
-                android:layout_width="158dp"
+                android:layout_width="295dp"
                 android:layout_height="30dp"
                 android:layout_alignBottom="@+id/profile"
                 android:layout_toEndOf="@+id/profile"
