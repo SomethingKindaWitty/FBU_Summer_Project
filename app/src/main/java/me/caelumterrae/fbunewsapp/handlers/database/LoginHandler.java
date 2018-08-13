@@ -66,12 +66,14 @@ public class LoginHandler extends JsonHttpResponseHandler {
                 else {
                     Toast.makeText(context, "Invalid Login", Toast.LENGTH_LONG).show();
                     loginButton.setClickable(true);
+                    loginButton.setSelected(false);
                 }
             // If from signup button
             } else {
                 if (UID != -1) {
                     Toast.makeText(context, "User already exists", Toast.LENGTH_LONG).show();
                     signupButton.setClickable(true);
+                    signupButton.setSelected(false);
                 }
                 else {
                     // Create the master user and start next intent to PoliticalActivity
@@ -99,11 +101,11 @@ public class LoginHandler extends JsonHttpResponseHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        AnimationSet animation = new AnimationSet(true);
-        animation.addAnimation(new AlphaAnimation(0.0F, 1.0F));
-        animation.addAnimation(new ScaleAnimation(0.8f, 1, 0.8f, 1)); // Change args as desired
-        animation.setDuration(100);
-        splash.startAnimation(animation);
+//        AnimationSet animation = new AnimationSet(true);
+//        animation.addAnimation(new AlphaAnimation(0.0F, 1.0F));
+//        animation.addAnimation(new ScaleAnimation(0.8f, 1, 0.8f, 1)); // Change args as desired
+//        animation.setDuration(100);
+//        splash.startAnimation(animation);
         splash.setVisibility(View.VISIBLE);
         splash.bringToFront();
     }

@@ -4,9 +4,9 @@
 
     <item
         android:drawable="@drawable/duckie"
-        android:top="80dp"
+        android:top="40dp"
         android:right="300dp"
-        android:bottom="1050dp"
+        android:bottom="1090dp"
         android:left="300dp">
     <bitmap
         android:src="@drawable/duckie" />

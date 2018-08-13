@@ -30,6 +30,7 @@ public class PoliticalActivity extends AppCompatActivity {
 
     // Submit Button Handler - Saves data from button and brings user to swipe activity
     public void onSubmit(View v) {
+        v.setSelected(true);
         v.setClickable(false);
         ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
 
