@@ -260,7 +260,10 @@ public class PoliticalAffiliationFragment extends Fragment {
 
     public void refresh() {
 
+        user = CurrentUser.getUser();
+
         if (user != null) {
+
             // Sets up beta distribution graph
             setBetaDistribution(view, politicalRounded);
 
