@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("Login", "entered");
 
                 loginButton.setClickable(false);
+                loginButton.setSelected(true);
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
@@ -72,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.e("Sign in", "entered");
                 signUpButton.setClickable(false);
+                signUpButton.setSelected(true);
                 final String username = usernameInput.getText().toString();
                 final String password = passwordInput.getText().toString();
                 ParseNewsClient parseNewsClient = new ParseNewsClient(getApplicationContext());
