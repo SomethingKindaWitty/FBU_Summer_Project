@@ -112,7 +112,7 @@ public class CommentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Manually add comment to feed and then post it to server
                 // and reset EditText
-                quack_sound.start();
+                //quack_sound.start();
                 Keyboard.hideSoftKeyboard(CommentActivity.this);
                 Comment c = new Comment();
                 c.setComment(etComment.getText().toString());
